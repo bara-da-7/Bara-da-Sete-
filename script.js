@@ -1,30 +1,20 @@
 const CONFIG={
  sheetCSV:"https://docs.google.com/spreadsheets/d/e/2PACX-1vTomkc32pfiuh9ocLv-N5nNlBLdEtdtvlKYWy-t0o5xX_emP-qLaE1BCChpQVLi0AQg_Jh0V_ZakUHG/pub?gid=0&single=true&output=csv",
- whatsapp:"554996169777"
+ whatsapp:"555496169777"
 };
 
 let lista=[];
 let carrinho={};
 let categoriaAtual="Todos";
 
-function skeleton(){
- const el=document.getElementById('produtos');
- el.innerHTML='';
- for(let i=0;i<6;i++){
-  el.innerHTML+=`<div class="skeleton"></div>`;
- }
-}
-
 async function carregar(){
- skeleton();
-
  const res=await fetch(CONFIG.sheetCSV);
  const txt=await res.text();
  const linhas=txt.split('\n').slice(1).filter(l=>l.trim());
 
  lista=linhas.map(l=>{
   const [nome,preco,categoria,estoque,descricao,ativo,promocao,precoPromo,imagem]=l.split(',');
-  return {nome,preco,categoria,estoque:+estoque,descricao,ativo,promocao,precoPromo,imagem}
+  return {nome,preco,categoria,estoque,descricao,ativo,promocao,precoPromo,imagem}
  });
 
  montarCategorias();
@@ -34,7 +24,6 @@ async function carregar(){
 function montarCategorias(){
  const cats=["Todos",...new Set(lista.map(p=>p.categoria))];
  const el=document.getElementById('categorias');
-
  el.innerHTML='';
 
  cats.forEach(c=>{
@@ -42,8 +31,8 @@ function montarCategorias(){
  });
 }
 
-function filtrar(cat){
- categoriaAtual=cat;
+function filtrar(c){
+ categoriaAtual=c;
  montarCategorias();
  render();
 }
@@ -53,24 +42,30 @@ function render(){
  el.innerHTML='';
 
  let dados=lista.filter(p=>p.ativo==='sim');
-
  if(categoriaAtual!=="Todos"){
   dados=dados.filter(p=>p.categoria===categoriaAtual);
  }
 
  dados.forEach((p,i)=>{
  el.innerHTML+=`
-<div class="controle">
+ <div class="card">
+ ${p.promocao==='sim'?'<div class="badge">PROMO</div>':''}
+ <img src="${p.imagem}">
+ <h3>${p.nome}</h3>
+ <p class="preco">${p.promocao==='sim' && p.precoPromo ? 'R$ '+p.precoPromo : 'R$ '+p.preco}</p>
+
+ <div class="controle">
   <button onclick="rem(${i})">-</button>
   <span>${carrinho[i]||0}</span>
   <button onclick="add(${i})">+</button>
-</div>
+ </div>
+
+ </div>`;
  });
 }
 
 function buscar(q){
- const filtrado=lista.filter(p=>p.nome.toLowerCase().includes(q.toLowerCase()));
- render(filtrado);
+ render(lista.filter(p=>p.nome.toLowerCase().includes(q.toLowerCase())));
 }
 
 function add(i){
