@@ -1,26 +1,25 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA--Y...",
+  apiKey: "AIzaSyA--Yx...",
   authDomain: "bara-da-sete.firebaseapp.com",
   projectId: "bara-da-sete"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const auth = getAuth(app);
 
 let produtos=[];
-let carrinho = JSON.parse(localStorage.getItem("carrinho")) || {};
+let carrinho={};
 let categoriaAtual="Todos";
 
-onSnapshot(collection(db,"produtos"), snap=>{
+onSnapshot(collection(db,"produtos"),snap=>{
     produtos=[];
     snap.forEach(d=>produtos.push({id:d.id,...d.data()}));
     render();
     renderFiltros();
+    renderAdmin();
 });
 
 function render(){
@@ -31,6 +30,7 @@ function render(){
     .filter(p=>categoriaAtual==="Todos" || p.categoria===categoriaAtual)
     .sort((a,b)=>{
         if(a.promocao && !b.promocao) return -1;
+        if(!a.promocao && b.promocao) return 1;
         return a.nome.localeCompare(b.nome);
     });
 
@@ -38,45 +38,55 @@ function render(){
     el.innerHTML="";
 
     lista.forEach(p=>{
-        let qtd=carrinho[p.id]||0;
+        let preco = p.promocao ? p.precoPromo : p.preco;
+        let qtd = carrinho[p.id]||0;
 
         el.innerHTML+=`
         <div class="card ${p.promocao?'promo':''}">
             <img src="${p.imagem}">
             <h3>${p.nome}</h3>
+            <p>${p.descricao}</p>
 
-            <p>R$ ${p.promocao?p.precoPromo:p.preco}</p>
+            ${p.promocao ? `<span class="old">R$ ${p.preco}</span>`:""}
+            <div class="price">R$ ${Number(preco).toFixed(2)}</div>
 
-            <div>
+            <div class="actions">
                 <button onclick="menos('${p.id}')">-</button>
-                ${qtd}
+                <span>${qtd}</span>
                 <button onclick="mais('${p.id}')">+</button>
             </div>
         </div>`;
     });
 
-    localStorage.setItem("carrinho",JSON.stringify(carrinho));
+    atualizarCarrinho();
+}
+
+function atualizarCarrinho(){
+    let total=Object.values(carrinho).reduce((a,b)=>a+b,0);
+    document.getElementById("contador").innerText=total+" itens";
 }
 
 window.mais=(id)=>{
-    let p = produtos.find(x=>x.id===id);
-    if((carrinho[id]||0) >= p.estoque) return alert("Sem estoque");
+    let p=produtos.find(x=>x.id===id);
+    if((carrinho[id]||0)>=p.estoque) return alert("Sem estoque");
     carrinho[id]=(carrinho[id]||0)+1;
     render();
 }
 
 window.menos=(id)=>{
+    if(!carrinho[id]) return;
     carrinho[id]--;
     if(carrinho[id]<=0) delete carrinho[id];
     render();
 }
+
+document.getElementById("busca").addEventListener("input",render);
 
 function renderFiltros(){
     let cats=["Todos",...new Set(produtos.map(p=>p.categoria||"Outros"))];
     let el=document.getElementById("filtros");
 
     el.innerHTML="";
-
     cats.forEach(c=>{
         el.innerHTML+=`<button onclick="filtrar('${c}')">${c}</button>`;
     });
@@ -95,4 +105,54 @@ window.finalizar=()=>{
         }
     });
     window.open(`https://wa.me/5554996169777?text=${msg}`);
+}
+
+async function salvarProduto(){
+    let file=document.getElementById("img").files[0];
+    let reader=new FileReader();
+
+    reader.onload=async ()=>{
+        await addDoc(collection(db,"produtos"),{
+            nome:nome.value,
+            categoria:categoria.value,
+            preco:parseFloat(preco.value),
+            estoque:parseInt(estoque.value),
+            descricao:desc.value,
+            imagem:reader.result,
+            promocao:promo.value==="true",
+            precoPromo:parseFloat(precoPromo.value)||0
+        });
+        alert("Salvo");
+    }
+
+    reader.readAsDataURL(file);
+}
+
+function renderAdmin(){
+    let el=document.getElementById("listaAdmin");
+    el.innerHTML="<h3>Produtos</h3>";
+
+    produtos.forEach(p=>{
+        el.innerHTML+=`
+        <div>
+            ${p.nome}
+            <button onclick="excluir('${p.id}')">Excluir</button>
+        </div>`;
+    });
+}
+
+window.excluir=async(id)=>{
+    await deleteDoc(doc(db,"produtos",id));
+}
+
+let clicks=0;
+window.clickLogo=()=>{
+    clicks++;
+    if(clicks>=10){
+        let u=prompt("Usuário");
+        let s=prompt("Senha");
+        if(u==="adm" && s==="99861309"){
+            document.getElementById("admin").style.display="block";
+        }
+    }
 }
