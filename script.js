@@ -8,13 +8,32 @@ let carrinho={};
 let categoriaAtual="Todos";
 
 async function carregar(){
+
+ const el=document.getElementById('produtos');
+
+ // skeleton
+ for(let i=0;i<6;i++){
+  el.innerHTML+=`<div class="skeleton"></div>`;
+ }
+
  const res=await fetch(CONFIG.sheetCSV);
  const txt=await res.text();
+
  const linhas=txt.split('\n').slice(1).filter(l=>l.trim());
 
  lista=linhas.map(l=>{
   const [nome,preco,categoria,estoque,descricao,ativo,promocao,precoPromo,imagem]=l.split(',');
-  return {nome,preco,categoria,estoque,descricao,ativo,promocao,precoPromo,imagem}
+  return {
+    nome,
+    preco:parseFloat(preco),
+    categoria,
+    estoque:parseInt(estoque),
+    descricao,
+    ativo,
+    promocao,
+    precoPromo:parseFloat(precoPromo),
+    imagem
+  }
  });
 
  montarCategorias();
@@ -38,45 +57,89 @@ function filtrar(c){
 }
 
 function render(){
+
  const el=document.getElementById('produtos');
  el.innerHTML='';
 
- let dados=lista.filter(p=>p.ativo==='sim');
+ let dados = lista
+  .filter(p => p.ativo === 'sim')
+  .sort((a,b)=>{
+
+    if(a.promocao==='sim' && b.promocao!=='sim') return -1;
+    if(a.promocao!=='sim' && b.promocao==='sim') return 1;
+
+    return a.nome.localeCompare(b.nome,'pt-BR',{sensitivity:'base'});
+  });
+
  if(categoriaAtual!=="Todos"){
-  dados=dados.filter(p=>p.categoria===categoriaAtual);
+  dados = dados.filter(p=>p.categoria===categoriaAtual);
  }
 
  dados.forEach((p,i)=>{
- el.innerHTML+=`
- <div class="card">
- ${p.promocao==='sim'?'<div class="badge">PROMO</div>':''}
- <img src="${p.imagem}">
- <h3>${p.nome}</h3>
- <p class="preco">${p.promocao==='sim' && p.precoPromo ? 'R$ '+p.precoPromo : 'R$ '+p.preco}</p>
 
- <div class="controle">
-  <button onclick="rem(${i})">-</button>
-  <span>${carrinho[i]||0}</span>
-  <button onclick="add(${i})">+</button>
- </div>
+  let precoHTML='';
+  let descontoHTML='';
 
- </div>`;
+  if(p.promocao==='sim' && p.precoPromo){
+    const desc=Math.round((1-(p.precoPromo/p.preco))*100);
+
+    precoHTML=`
+      <div class="preco-antigo">R$ ${p.preco}</div>
+      <div class="preco-novo">R$ ${p.precoPromo}</div>
+    `;
+
+    descontoHTML=`<div class="desconto">-${desc}%</div>`;
+  }else{
+    precoHTML=`<div class="preco-novo">R$ ${p.preco}</div>`;
+  }
+
+  let perc=(p.estoque/50)*100;
+
+  el.innerHTML+=`
+  <div class="card">
+    ${descontoHTML}
+
+    <img src="${p.imagem || 'https://via.placeholder.com/300x200?text=Produto'}">
+
+    <h3>${p.nome}</h3>
+
+    ${precoHTML}
+
+    <div class="estoque-bar">
+      <div class="estoque-fill" style="width:${perc}%"></div>
+    </div>
+
+    <div class="controle">
+      <button onclick="rem(${i})">-</button>
+      <span id="qtd-${i}">${carrinho[i]||0}</span>
+      <button onclick="add(${i})">+</button>
+    </div>
+
+  </div>`;
  });
 }
 
 function buscar(q){
- render(lista.filter(p=>p.nome.toLowerCase().includes(q.toLowerCase())));
+ render();
 }
 
 function add(i){
  carrinho[i]=(carrinho[i]||0)+1;
- atualizar();render();
+ atualizar();
+ render();
+
+ const el=document.getElementById(`qtd-${i}`);
+ if(el){
+  el.classList.add('add-anim');
+  setTimeout(()=>el.classList.remove('add-anim'),300);
+ }
 }
 
 function rem(i){
  carrinho[i]=(carrinho[i]||0)-1;
  if(carrinho[i]<=0) delete carrinho[i];
- atualizar();render();
+ atualizar();
+ render();
 }
 
 function atualizar(){
