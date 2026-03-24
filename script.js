@@ -1,43 +1,35 @@
 import { db, auth, storage } from "./firebase.js";
-
-import {
-collection, addDoc, onSnapshot
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-import {
-signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-import {
-ref, uploadBytes, getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+import { collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 let produtos = [];
 let carrinho = {};
 let clicks = 0;
 
-function formatar(v){
-    return v.toFixed(2).replace(".", ",");
-}
+function formatar(v){ return v.toFixed(2).replace(".", ","); }
 
 // 🔄 TEMPO REAL
 onSnapshot(collection(db,"produtos"), snap=>{
     produtos = snap.docs.map(d=>({id:d.id,...d.data()}));
     render();
+    renderAdmin();
 });
 
 // 🎨 RENDER
 function render(){
+    let busca = document.getElementById("busca").value?.toLowerCase() || "";
     let el = document.getElementById("produtos");
     el.innerHTML="";
 
-    produtos.sort((a,b)=>{
+    produtos
+    .filter(p=>p.nome.toLowerCase().includes(busca))
+    .sort((a,b)=>{
         if(a.promocao && !b.promocao) return -1;
         if(!a.promocao && b.promocao) return 1;
         return a.nome.localeCompare(b.nome);
-    });
-
-    produtos.forEach(p=>{
+    })
+    .forEach(p=>{
         let qtd = carrinho[p.id] || 0;
         let valor = p.promocao ? p.precoPromo : p.preco;
 
@@ -62,132 +54,99 @@ function render(){
 }
 
 // 🛒
-window.mais = id=>{
-    let p = produtos.find(x=>x.id===id);
-    if((carrinho[id]||0)>=p.estoque) return;
-    carrinho[id]=(carrinho[id]||0)+1;
-    atualizar();
-    render();
+window.mais=id=>{
+ let p=produtos.find(x=>x.id===id);
+ if((carrinho[id]||0)>=p.estoque) return;
+ carrinho[id]=(carrinho[id]||0)+1;
+ atualizar(); render();
 };
 
-window.menos = id=>{
-    carrinho[id]--;
-    if(carrinho[id]<=0) delete carrinho[id];
-    atualizar();
-    render();
+window.menos=id=>{
+ carrinho[id]--;
+ if(carrinho[id]<=0) delete carrinho[id];
+ atualizar(); render();
 };
 
 function atualizar(){
-    contador.innerText = Object.values(carrinho).reduce((a,b)=>a+b,0);
-}
-
-// 🛒 MODAL
-window.abrirCarrinho=()=>{
-    carrinhoModal.style.display="block";
-    renderCarrinho();
-};
-
-function renderCarrinho(){
-    let el = itensCarrinho;
-    el.innerHTML="";
-    let total=0;
-
-    produtos.forEach(p=>{
-        if(carrinho[p.id]){
-            let qtd=carrinho[p.id];
-            let val=p.promocao?p.precoPromo:p.preco;
-
-            total+=qtd*val;
-
-            el.innerHTML+=`${p.nome} x${qtd} - R$ ${formatar(qtd*val)}<br>`;
-        }
-    });
-
-    totalCarrinho.innerText="Total: R$ "+formatar(total);
+ contador.innerText = Object.values(carrinho).reduce((a,b)=>a+b,0);
 }
 
 // 📦 CEP
 tipo.onchange=()=>{
-    cep.style.display=tipo.value==="entrega"?"block":"none";
-    endereco.style.display=tipo.value==="entrega"?"block":"none";
+ cep.style.display=tipo.value==="entrega"?"block":"none";
+ endereco.style.display=tipo.value==="entrega"?"block":"none";
 };
 
 cep.onblur=async()=>{
-    let res=await fetch(`https://viacep.com.br/ws/${cep.value}/json/`);
-    let d=await res.json();
-    endereco.value=`${d.logradouro} - ${d.bairro}`;
+ let r=await fetch(`https://viacep.com.br/ws/${cep.value}/json/`);
+ let d=await r.json();
+ endereco.value=`${d.logradouro} - ${d.bairro}`;
 };
 
 // 📲 WHATS
 window.enviarPedido=()=>{
-    let total=0;
-    let msg="🛒 *Pedido*%0A";
+ let total=0;
+ let msg="🛒 *Pedido Bará da Sete*%0A";
 
-    msg+=`👤 ${cliente.value}%0A`;
-    msg+=`🚚 ${tipo.value}%0A`;
+ produtos.forEach(p=>{
+  if(carrinho[p.id]){
+    let qtd=carrinho[p.id];
+    let val=p.promocao?p.precoPromo:p.preco;
+    total+=qtd*val;
+    msg+=`🔹 ${p.nome} x${qtd}%0A`;
+  }
+ });
 
-    if(tipo.value==="entrega"){
-        msg+=`📍 ${endereco.value}%0A`;
-    }
+ msg+=`💰 Total: R$ ${formatar(total)}`;
 
-    produtos.forEach(p=>{
-        if(carrinho[p.id]){
-            let qtd=carrinho[p.id];
-            let val=p.promocao?p.precoPromo:p.preco;
-
-            total+=qtd*val;
-
-            msg+=`🔹 ${p.nome} x${qtd}%0A`;
-        }
-    });
-
-    msg+=`💰 Total: R$ ${formatar(total)}`;
-
-    window.open(`https://wa.me/5554996169777?text=${msg}`);
+ window.open(`https://wa.me/5554996169777?text=${msg}`);
 };
 
 // 🔐 ADMIN
-window.abrirAdmin=()=>{
-    clicks++;
-    if(clicks>=10) admin.style.display="block";
-};
+window.abrirAdmin=()=>{ clicks++; if(clicks>=10) admin.style.display="block"; };
 
-window.login=async()=>{
-    await signInWithEmailAndPassword(auth,email.value,senha.value);
-    alert("Logado!");
-};
+window.login=()=>signInWithEmailAndPassword(auth,email.value,senha.value);
 
-// 🤖 IA
+// 🤖 IA SIMPLES
 window.gerarDescricao=()=>{
-    desc.value = `Produto ${nome.value} com qualidade superior.`;
+ desc.value = `${nome.value} com excelente qualidade e finalidade espiritual.`;
 };
 
-// 🧠 CATEGORIA
 window.sugerirCategoria=()=>{
-    let n=nome.value.toLowerCase();
-    if(n.includes("vela")) categoria.value="Velas";
-    else if(n.includes("incenso")) categoria.value="Incensos";
-    else categoria.value="Outros";
+ let n=nome.value.toLowerCase();
+ if(n.includes("vela")) categoria.value="Velas";
+ else if(n.includes("incenso")) categoria.value="Incensos";
+ else categoria.value="Outros";
 };
 
 // 💾 SALVAR
 window.salvarProduto=async()=>{
-    let file=img.files[0];
-    let r=ref(storage,"produtos/"+file.name);
+ let file=img.files[0];
+ let r=ref(storage,"produtos/"+file.name);
+ await uploadBytes(r,file);
+ let url=await getDownloadURL(r);
 
-    await uploadBytes(r,file);
-    let url=await getDownloadURL(r);
+ await addDoc(collection(db,"produtos"),{
+  nome:nome.value,
+  preco:parseFloat(preco.value),
+  estoque:parseInt(estoque.value),
+  descricao:desc.value,
+  categoria:categoria.value,
+  imagem:url,
+  promocao:promo.checked,
+  precoPromo:parseFloat(precoPromo.value||0)
+ });
 
-    await addDoc(collection(db,"produtos"),{
-        nome:nome.value,
-        preco:parseFloat(preco.value),
-        estoque:parseInt(estoque.value),
-        descricao:desc.value,
-        categoria:categoria.value,
-        imagem:url,
-        promocao:promo.checked,
-        precoPromo:parseFloat(precoPromo.value||0)
-    });
-
-    alert("Salvo!");
+ alert("Salvo");
 };
+
+// 🧠 ADMIN LISTA
+function renderAdmin(){
+ let el=document.getElementById("adminLista");
+ if(!el) return;
+
+ el.innerHTML="";
+ produtos.forEach(p=>{
+  el.innerHTML+=`<div>${p.nome}</div>`;
+ });
+}
