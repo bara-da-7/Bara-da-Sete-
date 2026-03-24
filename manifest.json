@@ -1,9 +1,9 @@
 {
-  "name": "Bará da Sete",
-  "short_name": "Bará",
+  "name": "Bará da Se7e",
+  "short_name": "Bará da Se7e",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#5a0a0a",
+  "background_color": "#7a0f0f",
   "theme_color": "#D4AF37",
   "icons": [
     {
