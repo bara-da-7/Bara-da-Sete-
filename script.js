@@ -1,149 +1,150 @@
-// 🔗 SUA PLANILHA (CSV PUBLICADO)
-const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTomkc32pfiuh9ocLv-N5nNlBLdEtdtvlKYWy-t0o5xX_emP-qLaE1BCChpQVLi0AQg_Jh0V_ZakUHG/pub?gid=0&single=true&output=csv";
+import { db, auth, storage } from "./firebase.js";
+import {
+  collection, addDoc, onSnapshot, updateDoc, doc, deleteDoc
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+import {
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import {
+  ref, uploadBytes, getDownloadURL
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 let produtos = [];
 let carrinho = {};
 
-// 🔥 CARREGAR PLANILHA
-async function carregarProdutos() {
-    const res = await fetch(URL);
-    const texto = await res.text();
+// 🔥 TEMPO REAL (AQUI É O PULO DO GATO)
+onSnapshot(collection(db, "produtos"), snapshot => {
+  produtos = snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
 
-    const linhas = texto.split("\n").slice(1);
+  render();
+  renderAdmin();
+});
 
-    produtos = linhas.map(l => {
-        const [nome, categoria, preco, estoque, descricao, ativo] = l.split(",");
-
-        return {
-            id: nome,
-            nome,
-            categoria,
-            preco: parseFloat(preco),
-            estoque: parseInt(estoque),
-            descricao,
-            ativo: ativo?.trim() === "TRUE",
-            imagem: null,
-            promocao: false,
-            precoPromo: null
-        };
-    }).filter(p => p.ativo);
-
-    render();
+// 🎨 PREÇO BR
+function formatar(v){
+  return v.toFixed(2).replace(".", ",");
 }
 
-carregarProdutos();
+// 🎨 RENDER
+function render(){
+  let el = document.getElementById("produtos");
+  el.innerHTML = "";
 
+  produtos
+    .sort((a,b)=>{
+      if(a.promocao && !b.promocao) return -1;
+      if(!a.promocao && b.promocao) return 1;
+      return a.nome.localeCompare(b.nome);
+    })
+    .forEach(p=>{
 
-// 🎨 RENDER PRODUTOS
-function render() {
-    let el = document.getElementById("produtos");
-    el.innerHTML = "";
+      let qtd = carrinho[p.id] || 0;
+      let valor = p.promocao ? p.precoPromo : p.preco;
 
-    produtos.forEach(p => {
-        let qtd = carrinho[p.id] || 0;
+      el.innerHTML += `
+      <div class="card">
+        ${p.promocao ? '<div class="ribbon">PROMOÇÃO</div>' : ''}
 
-        el.innerHTML += `
-        <div class="card">
-            ${p.promocao ? '<div class="ribbon">PROMOÇÃO</div>' : ''}
-            <img src="${p.imagem || 'https://via.placeholder.com/300'}">
-            <h3>${p.nome}</h3>
-            <div class="price">R$ ${p.preco.toFixed(2)}</div>
+        <img src="${p.imagem}">
 
-            <div class="controls">
-                <button onclick="menos('${p.id}')">-</button>
-                ${qtd}
-                <button onclick="mais('${p.id}')">+</button>
-            </div>
-        </div>`;
+        <h3>${p.nome}</h3>
+
+        <div class="price">
+          ${p.promocao ? `<span class="old">R$ ${formatar(p.preco)}</span>` : ""}
+          R$ ${formatar(valor)}
+        </div>
+
+        <div class="controls">
+          <button onclick="menos('${p.id}')">-</button>
+          ${qtd}
+          <button onclick="mais('${p.id}')">+</button>
+        </div>
+      </div>`;
     });
 }
 
-
-// 🛒 CARRINHO
-document.querySelector(".cart-float").onclick = () => {
-    carrinhoModal.style.display = "block";
-    renderCarrinho();
-};
-
+// 🛒 CONTROLES
 window.mais = id => {
-    carrinho[id] = (carrinho[id] || 0) + 1;
-    atualizar();
+  let p = produtos.find(x=>x.id===id);
+  if((carrinho[id]||0) >= p.estoque) return;
+
+  carrinho[id] = (carrinho[id]||0)+1;
+  render();
 };
 
 window.menos = id => {
-    carrinho[id]--;
-    if (carrinho[id] <= 0) delete carrinho[id];
-    atualizar();
+  carrinho[id]--;
+  if(carrinho[id]<=0) delete carrinho[id];
+  render();
 };
 
-function atualizar() {
-    contador.innerText = Object.values(carrinho).reduce((a, b) => a + b, 0);
-}
+// 🔐 LOGIN REAL
+window.login = async () => {
+  let email = document.getElementById("email").value;
+  let senha = document.getElementById("senha").value;
 
-function renderCarrinho() {
-    let el = document.getElementById("itensCarrinho");
-    el.innerHTML = "";
-    let total = 0;
+  await signInWithEmailAndPassword(auth, email, senha);
 
-    produtos.forEach(p => {
-        if (carrinho[p.id]) {
-            let qtd = carrinho[p.id];
-            let valor = p.preco;
-
-            total += qtd * valor;
-
-            el.innerHTML += `
-            ${p.nome} x${qtd} - R$ ${(qtd * valor).toFixed(2)}<br>`;
-        }
-    });
-
-    totalCarrinho.innerText = "Total: R$ " + total.toFixed(2);
-}
-
-
-// 📦 CEP AUTOMÁTICO
-tipo.onchange = () => {
-    cep.style.display = tipo.value === "entrega" ? "block" : "none";
-    endereco.style.display = tipo.value === "entrega" ? "block" : "none";
+  document.getElementById("admin").style.display="block";
 };
 
-cep.onblur = async () => {
-    let res = await fetch(`https://viacep.com.br/ws/${cep.value}/json/`);
-    let data = await res.json();
-    endereco.value = `${data.logradouro} - ${data.bairro}`;
+// 🧠 IA REAL (OpenAI)
+window.gerarDescricao = async () => {
+  let nome = document.getElementById("nome").value;
+
+  let res = await fetch("https://api.openai.com/v1/chat/completions", {
+    method:"POST",
+    headers:{
+      "Authorization":"Bearer SUA_API_KEY_AQUI",
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify({
+      model:"gpt-4o-mini",
+      messages:[
+        {role:"system", content:"Crie descrição curta, direta, comercial."},
+        {role:"user", content:nome}
+      ]
+    })
+  });
+
+  let data = await res.json();
+  document.getElementById("desc").value =
+    data.choices[0].message.content;
 };
 
+// 📤 SALVAR PRODUTO COMPLETO
+window.salvarProduto = async () => {
 
-// 📲 WHATSAPP PROFISSIONAL
-window.enviarPedido = () => {
+  let file = document.getElementById("img").files[0];
+  let storageRef = ref(storage, "produtos/"+file.name);
 
-    let total = 0;
+  await uploadBytes(storageRef, file);
+  let url = await getDownloadURL(storageRef);
 
-    let msg = "🛒 *PEDIDO - BARÁ DA SETE*%0A%0A";
-    msg += `👤 Cliente: ${cliente.value}%0A`;
-    msg += `🚚 Tipo: ${tipo.value}%0A`;
+  await addDoc(collection(db,"produtos"),{
+    nome: nome.value,
+    preco: parseFloat(preco.value),
+    estoque: parseInt(estoque.value),
+    descricao: desc.value,
+    categoria: categoria.value,
+    imagem: url,
+    promocao: promo.checked,
+    precoPromo: parseFloat(precoPromo.value || 0)
+  });
 
-    if (tipo.value === "entrega") {
-        msg += `📍 Endereço: ${endereco.value}%0A`;
-    }
+  alert("Salvo!");
+};
 
-    msg += "%0A📦 *Itens:*%0A";
+// 🧠 IA CATEGORIA
+window.sugerirCategoria = () => {
+  let nome = document.getElementById("nome").value.toLowerCase();
 
-    produtos.forEach(p => {
-        if (carrinho[p.id]) {
-            let qtd = carrinho[p.id];
-            let valor = p.preco;
-
-            total += qtd * valor;
-
-            msg += `🔹 ${p.nome}%0A`;
-            msg += `   Quantidade: ${qtd}%0A`;
-            msg += `   Unitário: R$ ${valor.toFixed(2)}%0A`;
-            msg += `   Subtotal: R$ ${(qtd * valor).toFixed(2)}%0A%0A`;
-        }
-    });
-
-    msg += `💰 *Total: R$ ${total.toFixed(2)}*`;
-
-    window.open(`https://wa.me/5554996169777?text=${msg}`);
+  if(nome.includes("vela")) categoria.value="Velas";
+  else if(nome.includes("incenso")) categoria.value="Incensos";
+  else categoria.value="Outros";
 };
