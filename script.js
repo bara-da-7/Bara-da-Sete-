@@ -60,15 +60,11 @@ function render(){
 
  dados.forEach((p,i)=>{
  el.innerHTML+=`
- <div class="card">
- ${p.promocao==='sim'?'<div class="badge">PROMO</div>':''}
- <img src="${p.imagem}">
- <h3>${p.nome}</h3>
- <p>${p.promocao==='sim' && p.precoPromo ? 'R$ '+p.precoPromo : 'R$ '+p.preco}</p>
- <button onclick="add(${i})">+</button>
- <button onclick="rem(${i})">-</button>
- <span>${carrinho[i]||0}</span>
- </div>`;
+<div class="controle">
+  <button onclick="rem(${i})">-</button>
+  <span>${carrinho[i]||0}</span>
+  <button onclick="add(${i})">+</button>
+</div>
  });
 }
 
