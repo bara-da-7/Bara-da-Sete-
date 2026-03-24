@@ -3,52 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Bará da Sete</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
 
-<div class="topo">
-    <img src="logo.png" class="logo" onclick="clickLogo()">
-    <p class="slogan">Caminhos abertos, força e proteção</p>
+<header class="header">
+    <img src="logo.png" class="logo">
+    <h1>Bará da Sete</h1>
+    <p>Artigos Religiosos</p>
+</header>
 
-    <input type="text" id="busca" placeholder="Buscar produtos...">
+<input type="text" id="busca" placeholder="Buscar produto...">
 
-    <div id="filtros"></div>
+<div id="filtros"></div>
+
+<div id="produtos" class="produtos"></div>
+
+<div class="cart-float">🛒 <span id="contador">0</span></div>
+
+<!-- CARRINHO -->
+<div id="carrinhoModal" class="modal">
+<h2>🛒 Seu Pedido</h2>
+
+<input id="cliente" placeholder="Seu nome">
+
+<select id="tipo">
+<option value="retirada">Retirada</option>
+<option value="entrega">Entrega</option>
+</select>
+
+<input id="cep" placeholder="CEP">
+<input id="endereco" placeholder="Endereço">
+
+<div id="itensCarrinho"></div>
+
+<h3 id="totalCarrinho"></h3>
+
+<button onclick="enviarPedido()">Finalizar no WhatsApp</button>
+<button onclick="fecharCarrinho()">Fechar</button>
 </div>
 
-<div class="produtos" id="produtos"></div>
+<!-- ADMIN -->
+<div id="admin" class="admin">
 
-<div class="cart">
-    <span id="contador">0 itens</span>
-    <button onclick="finalizar()">Finalizar</button>
-</div>
+<h2>Painel Inteligente</h2>
 
-<div class="admin" id="admin">
-<h2>Painel Admin</h2>
-
-<input id="nome" placeholder="Nome">
+<input id="nome" placeholder="Nome produto">
 <input id="categoria" placeholder="Categoria">
-<input id="preco" placeholder="Preço (10.50)">
+<input id="preco" placeholder="Preço">
 <input id="estoque" placeholder="Estoque">
 
 <select id="promo">
 <option value="false">Sem promoção</option>
-<option value="true">Em promoção</option>
+<option value="true">Promoção</option>
 </select>
 
-<input id="precoPromo" placeholder="Preço promoção">
+<input id="precoPromo" placeholder="Preço promocional">
 
-<textarea id="desc" placeholder="Descrição"></textarea>
+<textarea id="desc"></textarea>
+
 <input type="file" id="img">
 
+<button onclick="gerarDescricaoIA()">Gerar descrição IA</button>
 <button onclick="salvarProduto()">Salvar</button>
 
 <hr>
 <div id="listaAdmin"></div>
+
+<button onclick="fecharAdmin()">Fechar</button>
 
 </div>
 
