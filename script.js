@@ -100,7 +100,7 @@ window.gerarDescricao = async () => {
   let res = await fetch("https://api.openai.com/v1/chat/completions", {
     method:"POST",
     headers:{
-      "Authorization":"Bearer SUA_API_KEY_AQUI",
+      "Authorization":"Bearer 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",
       "Content-Type":"application/json"
     },
     body:JSON.stringify({
