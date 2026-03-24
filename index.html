@@ -6,52 +6,24 @@
 
 <title>Bará da Sete</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
 
-<div class="topo">
-    <img src="logo.png" class="logo" onclick="clickLogo()">
-    <p class="slogan">Caminhos abertos, força e proteção</p>
+<header>
+    <img src="logo.png" class="logo">
+    <input type="text" id="busca" placeholder="Buscar...">
+</header>
 
-    <input type="text" id="busca" placeholder="🔍 Buscar produtos...">
-</div>
+<div class="filtros" id="filtros"></div>
 
-<div class="produtos" id="produtos"></div>
+<main id="produtos"></main>
 
 <div class="cart">
     <span id="contador">0 itens</span>
     <button onclick="finalizar()">Finalizar</button>
-</div>
-
-<div class="admin" id="admin">
-
-<h2>Painel Admin</h2>
-
-<input id="nome" placeholder="Nome">
-<input id="preco" placeholder="Preço">
-<input id="estoque" placeholder="Estoque">
-
-<select id="promo">
-<option value="false">Sem promoção</option>
-<option value="true">Em promoção</option>
-</select>
-
-<input id="precoPromo" placeholder="Preço promocional">
-
-<textarea id="desc" placeholder="Descrição"></textarea>
-
-<input type="file" id="img">
-
-<button onclick="gerarDesc()">Gerar descrição</button>
-<button onclick="salvarProduto()">Salvar</button>
-
-<hr>
-
-<div id="listaAdmin"></div>
-
 </div>
 
 <script type="module" src="script.js"></script>
