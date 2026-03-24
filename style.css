@@ -1,90 +1,63 @@
 body{
-    margin:0;
     font-family:Poppins;
-    background:#f8f5f2;
+    background:#0B0B0B;
+    color:white;
 }
 
-/* HEADER */
-.header{
+.hero{
     text-align:center;
     padding:20px;
-    background:#8B0000;
-    color:#FFD700;
 }
 
 .logo{
-    width:80px;
+    width:120px;
+    cursor:pointer;
 }
 
-/* BUSCA */
-#busca{
-    width:90%;
-    margin:10px auto;
-    display:block;
-    padding:12px;
-    border-radius:20px;
-    border:none;
+.slogan{
+    color:#ccc;
 }
 
-/* FILTROS */
-#filtros{
-    display:flex;
-    gap:10px;
-    padding:10px;
-    overflow:auto;
-}
-
-#filtros button{
-    background:#eee;
-    border:none;
-    padding:6px 12px;
-    border-radius:20px;
-}
-
-#filtros .ativo{
-    background:#8B0000;
-    color:#FFD700;
-}
-
-/* PRODUTOS */
-.produtos{
+.grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:15px;
+    gap:12px;
     padding:10px;
 }
 
 .card{
-    background:white;
-    border-radius:20px;
+    background:#111;
     padding:10px;
-    border:2px solid #8B0000;
+    border-radius:15px;
     position:relative;
-}
-
-.ribbon{
-    position:absolute;
-    top:10px;
-    right:-30px;
-    transform:rotate(45deg);
-    background:#8B0000;
-    color:#FFD700;
-    padding:5px 40px;
-    font-size:12px;
 }
 
 .card img{
     width:100%;
-    height:130px;
+    height:140px;
     object-fit:cover;
+    border-radius:10px;
 }
 
 .price{
-    color:#8B0000;
-    font-weight:bold;
+    color:#FFD700;
 }
 
-/* CONTROLES */
+.old{
+    text-decoration:line-through;
+    color:#aaa;
+    font-size:12px;
+}
+
+.ribbon{
+    position:absolute;
+    background:red;
+    top:5px;
+    left:5px;
+    padding:4px;
+    font-size:10px;
+}
+
 .controls{
     display:flex;
     justify-content:center;
@@ -92,44 +65,39 @@ body{
 }
 
 .controls button{
-    width:35px;
-    height:35px;
+    width:30px;
+    height:30px;
     border-radius:50%;
     border:none;
-    background:#8B0000;
-    color:#FFD700;
+    background:#D4AF37;
 }
 
-/* CARRINHO */
 .cart-float{
     position:fixed;
     bottom:20px;
     right:20px;
-    background:#8B0000;
-    color:#FFD700;
-    padding:15px;
+    background:#FFD700;
+    padding:10px;
     border-radius:50%;
-    font-size:20px;
 }
 
-/* MODAL */
 .modal{
-    position:fixed;
-    bottom:0;
-    width:100%;
-    background:white;
-    padding:20px;
     display:none;
-    border-radius:20px 20px 0 0;
-}
-
-/* ADMIN */
-.admin{
     position:fixed;
-    top:0;
+    background:black;
     width:100%;
     height:100%;
-    background:white;
-    display:none;
+}
+
+.modal-content{
     padding:20px;
+}
+
+.admin{
+    display:none;
+    background:black;
+    position:fixed;
+    width:100%;
+    height:100%;
+    overflow:auto;
 }
