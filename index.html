@@ -3,55 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Bará da Sete</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<!-- HERO -->
-<header class="hero">
+<div class="topo">
     <div class="logo" onclick="clickLogo()">Bará da Sete</div>
     <p class="slogan">Caminhos abertos, força e proteção</p>
 
-    <div class="social">
-        <a href="https://wa.me/5554996169777">WhatsApp</a>
-        <a href="https://www.instagram.com/baradase7e">Instagram</a>
-    </div>
-</header>
+    <input type="text" id="busca" placeholder="Pesquisar produtos...">
+</div>
 
-<!-- PRODUTOS -->
-<main class="products" id="products"></main>
+<div class="produtos" id="produtos"></div>
 
-<!-- CARRINHO -->
 <div class="cart">
-    <div id="total">Total: R$ 0</div>
     <button onclick="finalizar()">Finalizar no WhatsApp</button>
 </div>
 
-<!-- ADMIN -->
 <div class="admin" id="admin">
-    <h2>Painel Administrativo</h2>
+    <h2>Painel Admin</h2>
 
-    <input id="nome" placeholder="Nome do produto">
-    <input id="preco" placeholder="Preço">
+    <input id="nome" placeholder="Nome">
+    <input id="preco" placeholder="Preço (ex: 10.50)">
     <input id="estoque" placeholder="Estoque">
+
+    <label>Promoção?</label>
+    <select id="promo">
+        <option value="false">Não</option>
+        <option value="true">Sim</option>
+    </select>
+
+    <input id="precoPromo" placeholder="Preço promoção">
 
     <textarea id="desc" placeholder="Descrição"></textarea>
 
-    <div class="upload-area" id="uploadArea">
-        Arraste imagem aqui ou clique
-        <input type="file" id="img">
-    </div>
+    <input type="file" id="img">
 
     <button onclick="gerarDesc()">Gerar descrição</button>
-    <button onclick="salvarProduto()">Salvar produto</button>
+    <button onclick="salvarProduto()">Salvar</button>
+
+    <hr>
+
+    <div id="listaAdmin"></div>
 </div>
 
-<script src="script.js"></script>
+<script type="module" src="script.js"></script>
 
 </body>
 </html>
