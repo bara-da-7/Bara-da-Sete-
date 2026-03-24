@@ -7,82 +7,79 @@
 <title>Bará da Sete</title>
 
 <link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
 
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- HEADER -->
-<div class="hero">
-    <img src="logo.png" class="logo" onclick="abrirAdmin()">
-    <p class="slogan">Caminhos abertos, força e proteção</p>
-</div>
+<header class="topo">
+  <img src="logo.png" class="logo" onclick="abrirAdmin()">
+  <input id="busca" placeholder="Pesquisar produto...">
+</header>
 
-<!-- PRODUTOS -->
 <div id="produtos" class="grid"></div>
 
-<!-- CARRINHO -->
 <div class="cart-float" onclick="abrirCarrinho()">
-    🛒 <span id="contador">0</span>
+🛒 <span id="contador">0</span>
 </div>
 
-<!-- MODAL CARRINHO -->
+<!-- CARRINHO -->
 <div id="carrinhoModal" class="modal">
-    <div class="modal-content">
+<div class="modal-content">
 
-        <h2>Seu Pedido</h2>
+<h2>Finalizar Pedido</h2>
 
-        <input id="cliente" placeholder="Seu nome">
+<input id="cliente" placeholder="Seu nome">
 
-        <select id="tipo">
-            <option value="retirada">Retirada</option>
-            <option value="entrega">Entrega</option>
-        </select>
+<select id="tipo">
+<option value="retirada">Retirada</option>
+<option value="entrega">Entrega</option>
+</select>
 
-        <input id="cep" placeholder="CEP" style="display:none;">
-        <input id="endereco" placeholder="Endereço" style="display:none;">
+<input id="cep" placeholder="CEP" style="display:none;">
+<input id="endereco" placeholder="Endereço" style="display:none;">
 
-        <div id="itensCarrinho"></div>
-        <h3 id="totalCarrinho"></h3>
+<div id="itensCarrinho"></div>
+<h3 id="totalCarrinho"></h3>
 
-        <button onclick="enviarPedido()">Finalizar</button>
-    </div>
+<button onclick="enviarPedido()">Enviar Pedido</button>
+
+</div>
 </div>
 
 <!-- ADMIN -->
 <div id="admin" class="admin">
-    <h2>Painel Admin</h2>
 
-    <input id="email" placeholder="Email">
-    <input id="senha" type="password" placeholder="Senha">
-    <button onclick="login()">Entrar</button>
+<h2>Painel Admin</h2>
 
-    <hr>
+<input id="email" placeholder="Email">
+<input id="senha" type="password" placeholder="Senha">
+<button onclick="login()">Entrar</button>
 
-    <input id="nome" placeholder="Nome">
-    <input id="preco" placeholder="Preço">
-    <input id="estoque" placeholder="Estoque">
-    <input id="categoria" placeholder="Categoria">
+<hr>
 
-    <button onclick="sugerirCategoria()">Sugerir Categoria</button>
+<input id="nome" placeholder="Nome">
+<input id="preco" placeholder="Preço (12.90)">
+<input id="estoque" placeholder="Estoque">
+<input id="categoria" placeholder="Categoria">
 
-    <textarea id="desc" placeholder="Descrição"></textarea>
+<button onclick="sugerirCategoria()">IA Categoria</button>
 
-    <button onclick="gerarDescricao()">Gerar Descrição IA</button>
+<textarea id="desc"></textarea>
+<button onclick="gerarDescricao()">IA Descrição</button>
 
-    <input type="file" id="img">
+<input type="file" id="img">
 
-    <label>Promoção</label>
-    <input type="checkbox" id="promo">
+<label>Promoção</label>
+<input type="checkbox" id="promo">
+<input id="precoPromo" placeholder="Preço Promo">
 
-    <input id="precoPromo" placeholder="Preço Promo">
+<button onclick="salvarProduto()">Salvar Produto</button>
 
-    <button onclick="salvarProduto()">Salvar Produto</button>
+<div id="adminLista"></div>
 
-    <div id="adminLista"></div>
 </div>
 
 <script type="module" src="firebase.js"></script>
