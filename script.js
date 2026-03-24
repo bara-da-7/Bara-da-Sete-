@@ -1,33 +1,36 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA--Yx-rJnPlRFXzMc0GhDzAqNav5bGOLw",
+  apiKey: "AIzaSyA--Y...",
   authDomain: "bara-da-sete.firebaseapp.com",
   projectId: "bara-da-sete"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
-let produtos = [];
-let carrinho = {};
+let produtos=[];
+let carrinho = JSON.parse(localStorage.getItem("carrinho")) || {};
+let categoriaAtual="Todos";
 
 onSnapshot(collection(db,"produtos"), snap=>{
     produtos=[];
     snap.forEach(d=>produtos.push({id:d.id,...d.data()}));
     render();
-    renderAdmin();
+    renderFiltros();
 });
 
 function render(){
-    let busca = document.getElementById("busca").value.toLowerCase();
+    let busca=document.getElementById("busca").value.toLowerCase();
 
     let lista = produtos
     .filter(p=>p.nome.toLowerCase().includes(busca))
+    .filter(p=>categoriaAtual==="Todos" || p.categoria===categoriaAtual)
     .sort((a,b)=>{
         if(a.promocao && !b.promocao) return -1;
-        if(!a.promocao && b.promocao) return 1;
         return a.nome.localeCompare(b.nome);
     });
 
@@ -35,100 +38,53 @@ function render(){
     el.innerHTML="";
 
     lista.forEach(p=>{
-        let preco = p.promocao ? p.precoPromo : p.preco;
-        let qtd = carrinho[p.id] || 0;
+        let qtd=carrinho[p.id]||0;
 
-        el.innerHTML += `
+        el.innerHTML+=`
         <div class="card ${p.promocao?'promo':''}">
             <img src="${p.imagem}">
             <h3>${p.nome}</h3>
-            <p>${p.descricao}</p>
 
-            ${p.promocao ? `<span class="old">R$ ${p.preco}</span>` : ""}
+            <p>R$ ${p.promocao?p.precoPromo:p.preco}</p>
 
-            <div class="price">R$ ${Number(preco).toFixed(2)}</div>
-
-            <div class="actions">
+            <div>
                 <button onclick="menos('${p.id}')">-</button>
-                <span>${qtd}</span>
+                ${qtd}
                 <button onclick="mais('${p.id}')">+</button>
             </div>
         </div>`;
     });
 
-    atualizarCarrinho();
+    localStorage.setItem("carrinho",JSON.stringify(carrinho));
 }
 
-window.mais = (id)=>{
+window.mais=(id)=>{
+    let p = produtos.find(x=>x.id===id);
+    if((carrinho[id]||0) >= p.estoque) return alert("Sem estoque");
     carrinho[id]=(carrinho[id]||0)+1;
     render();
 }
 
-window.menos = (id)=>{
-    if(!carrinho[id]) return;
+window.menos=(id)=>{
     carrinho[id]--;
+    if(carrinho[id]<=0) delete carrinho[id];
     render();
 }
 
-function atualizarCarrinho(){
-    let total = Object.values(carrinho).reduce((a,b)=>a+b,0);
-    document.getElementById("contador").innerText = total+" itens";
-}
+function renderFiltros(){
+    let cats=["Todos",...new Set(produtos.map(p=>p.categoria||"Outros"))];
+    let el=document.getElementById("filtros");
 
-document.getElementById("busca").addEventListener("input", render);
+    el.innerHTML="";
 
-async function salvarProduto(){
-    let file=document.getElementById("img").files[0];
-    let reader=new FileReader();
-
-    reader.onload=async ()=>{
-        await addDoc(collection(db,"produtos"),{
-            nome:nome.value,
-            preco:parseFloat(preco.value),
-            estoque:parseInt(estoque.value),
-            descricao:desc.value,
-            imagem:reader.result,
-            promocao:promo.value==="true",
-            precoPromo:parseFloat(precoPromo.value)||0
-        });
-        alert("Salvo");
-    }
-    reader.readAsDataURL(file);
-}
-
-function renderAdmin(){
-    let el=document.getElementById("listaAdmin");
-    el.innerHTML="<h3>Produtos</h3>";
-
-    produtos.forEach(p=>{
-        el.innerHTML+=`
-        <div>
-            ${p.nome} - R$ ${p.preco}
-            <button onclick="editar('${p.id}')">Editar</button>
-            <button onclick="excluir('${p.id}')">Excluir</button>
-        </div>`;
+    cats.forEach(c=>{
+        el.innerHTML+=`<button onclick="filtrar('${c}')">${c}</button>`;
     });
 }
 
-window.excluir = async(id)=>{
-    await deleteDoc(doc(db,"produtos",id));
-}
-
-window.editar = async(id)=>{
-    let novoNome = prompt("Novo nome");
-    await updateDoc(doc(db,"produtos",id),{nome:novoNome});
-}
-
-let clicks=0;
-window.clickLogo=()=>{
-    clicks++;
-    if(clicks>=10){
-        let u=prompt("Usuário");
-        let s=prompt("Senha");
-        if(u==="adm" && s==="99861309"){
-            document.getElementById("admin").style.display="block";
-        }
-    }
+window.filtrar=(c)=>{
+    categoriaAtual=c;
+    render();
 }
 
 window.finalizar=()=>{
