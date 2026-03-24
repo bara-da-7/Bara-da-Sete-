@@ -7,91 +7,92 @@ body{
 
 header{
   text-align:center;
-  padding:30px 10px;
+  padding:20px;
 }
 
-h1{
+.logo{
+  width:70px;
+}
+
+h1{color:#D4AF37;margin:5px 0}
+
+.social a{
+  margin:5px;
   color:#D4AF37;
-  font-size:28px;
-}
-
-.topo{
-  text-align:center;
-  opacity:0.8;
+  text-decoration:none;
 }
 
 .search{
   width:90%;
-  margin:15px auto;
-  display:block;
+  margin:10px auto;
   padding:15px;
   border-radius:20px;
   border:none;
   background:#2a1414;
   color:#fff;
+  display:block;
+}
+
+.categorias{
+  display:flex;
+  overflow:auto;
+  padding:10px;
+  gap:10px;
+}
+
+.categorias div{
+  background:#2a1414;
+  padding:8px 15px;
+  border-radius:20px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.categorias .ativo{
+  background:#D4AF37;
+  color:#000;
 }
 
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:15px;
-  padding:15px;
+  padding:10px;
 }
 
 .card{
   background:#1e0f0f;
   border-radius:20px;
-  padding:15px;
-  border:1px solid rgba(212,175,55,0.3);
+  padding:10px;
   box-shadow:0 5px 20px rgba(0,0,0,0.5);
-  position:relative;
-  transition:0.3s;
+  animation:fade 0.4s;
 }
 
-.card:hover{
-  transform:translateY(-5px);
+@keyframes fade{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
 .card img{
   width:100%;
-  height:140px;
+  height:120px;
   object-fit:cover;
   border-radius:15px;
 }
 
 .badge{
   position:absolute;
-  top:10px;
-  right:10px;
   background:red;
-  padding:5px 10px;
+  padding:5px;
   border-radius:10px;
-  font-size:12px;
-}
-
-.card h3{
-  margin:10px 0 5px;
-  font-size:16px;
-}
-
-.card p{
-  margin:5px 0;
-  opacity:0.8;
-  font-size:14px;
-}
-
-.card small{
-  opacity:0.6;
 }
 
 .card button{
   background:#D4AF37;
   border:none;
   border-radius:50%;
-  width:35px;
-  height:35px;
-  font-size:18px;
-  margin:5px;
+  width:30px;
+  height:30px;
 }
 
 .carrinho{
@@ -102,15 +103,25 @@ h1{
   color:#000;
   padding:15px;
   border-radius:50px;
-  box-shadow:0 5px 15px rgba(0,0,0,0.5);
-  font-weight:bold;
 }
 
 .whatsapp{
   position:fixed;
-  bottom:90px;
+  bottom:80px;
   right:20px;
   background:#25D366;
   padding:15px;
   border-radius:50%;
+}
+
+.skeleton{
+  height:200px;
+  background:linear-gradient(90deg,#2a1414,#3a1f1f,#2a1414);
+  animation:load 1.5s infinite;
+  border-radius:20px;
+}
+
+@keyframes load{
+  0%{background-position:-200px}
+  100%{background-position:200px}
 }
