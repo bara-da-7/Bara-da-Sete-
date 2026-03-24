@@ -3,8 +3,8 @@
   "short_name": "Bará da Se7e",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#0B0B0B",
-  "theme_color": "#D4AF37",
+  "background_color": "#000",
+  "theme_color": "#7A0C0C",
   "icons": [
     {
       "src": "logo.png",
