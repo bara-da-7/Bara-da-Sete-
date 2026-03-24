@@ -3,291 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Bará da Sete</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 
-<style>
-
-/* ===== BASE ===== */
-body {
-    margin:0;
-    font-family:'Poppins';
-    background:#0B0B0B;
-    color:white;
-}
-
-/* ===== HERO ===== */
-.hero {
-    text-align:center;
-    padding:40px;
-    background: radial-gradient(circle,#7A0C0C,#000);
-}
-
-.logo {
-    width:90px;
-    cursor:pointer;
-}
-
-h1 {
-    font-family:'Cinzel';
-    color:#FFD700;
-}
-
-.slogan {
-    color:#ccc;
-}
-
-/* ===== BOTÕES ===== */
-.social a, button {
-    background:#D4AF37;
-    color:black;
-    padding:8px 14px;
-    border-radius:20px;
-    text-decoration:none;
-    border:none;
-    cursor:pointer;
-}
-
-/* ===== PRODUTOS ===== */
-.products {
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-    padding:15px;
-}
-
-.card {
-    background:#111;
-    padding:10px;
-    border-radius:15px;
-    border:1px solid #D4AF37;
-}
-
-.card img {
-    width:100%;
-    border-radius:10px;
-}
-
-.price {
-    color:#FFD700;
-}
-
-/* ===== CARRINHO ===== */
-.cart {
-    position:fixed;
-    bottom:0;
-    width:100%;
-    background:#111;
-    padding:10px;
-}
-
-/* ===== ADMIN ===== */
-.admin {
-    display:none;
-    position:fixed;
-    top:0;
-    width:100%;
-    height:100%;
-    background:#000d;
-    justify-content:center;
-    align-items:center;
-}
-
-.admin-box {
-    background:#111;
-    padding:20px;
-    width:300px;
-}
-
-.admin-box input, textarea {
-    width:100%;
-    margin:5px 0;
-    padding:6px;
-}
-
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<!-- ===== HERO ===== -->
-<div class="hero">
+<!-- HERO -->
+<header class="hero">
+    <div class="logo" onclick="clickLogo()">Bará da Sete</div>
+    <p class="slogan">Caminhos abertos, força e proteção</p>
 
-<img src="logo.png" class="logo" onclick="clickLogo()">
+    <div class="social">
+        <a href="https://wa.me/5554996169777">WhatsApp</a>
+        <a href="https://www.instagram.com/baradase7e">Instagram</a>
+    </div>
+</header>
 
-<h1>Bará da Sete</h1>
-<p class="slogan">Caminhos abertos, força e proteção</p>
+<!-- PRODUTOS -->
+<main class="products" id="products"></main>
 
-<br>
-
-<a href="https://wa.me/5554996169777" target="_blank">WhatsApp</a>
-<a href="https://www.instagram.com/baradase7e" target="_blank">Instagram</a>
-
-</div>
-
-<!-- ===== PRODUTOS ===== -->
-<div class="products" id="produtos"></div>
-
-<!-- ===== CARRINHO ===== -->
+<!-- CARRINHO -->
 <div class="cart">
-<ul id="lista"></ul>
-<p id="total">Total: R$ 0</p>
-<button onclick="finalizar()">Finalizar no WhatsApp</button>
+    <div id="total">Total: R$ 0</div>
+    <button onclick="finalizar()">Finalizar no WhatsApp</button>
 </div>
 
-<!-- ===== ADMIN ===== -->
+<!-- ADMIN -->
 <div class="admin" id="admin">
+    <h2>Painel Administrativo</h2>
 
-<div class="admin-box">
+    <input id="nome" placeholder="Nome do produto">
+    <input id="preco" placeholder="Preço">
+    <input id="estoque" placeholder="Estoque">
 
-<h3>Login</h3>
+    <textarea id="desc" placeholder="Descrição"></textarea>
 
-<input id="user" placeholder="Usuário">
-<input id="pass" type="password" placeholder="Senha">
+    <div class="upload-area" id="uploadArea">
+        Arraste imagem aqui ou clique
+        <input type="file" id="img">
+    </div>
 
-<button onclick="login()">Entrar</button>
-
-<div id="painel" style="display:none">
-
-<h3>Novo Produto</h3>
-
-<input id="nome" placeholder="Nome">
-<input id="preco" placeholder="Preço">
-<input id="estoque" placeholder="Estoque">
-<input id="img" placeholder="URL imagem">
-
-<button onclick="gerarDesc()">Gerar descrição</button>
-
-<textarea id="desc"></textarea>
-
-<button onclick="salvar()">Salvar</button>
-
+    <button onclick="gerarDesc()">Gerar descrição</button>
+    <button onclick="salvarProduto()">Salvar produto</button>
 </div>
 
-</div>
-</div>
-
-<script>
-
-/* ===== ADMIN ===== */
-let clicks=0;
-
-function clickLogo(){
-clicks++;
-if(clicks>=10){
-document.getElementById("admin").style.display="flex";
-clicks=0;
-}
-}
-
-function login(){
-if(user.value==="adm" && pass.value==="99861309"){
-painel.style.display="block";
-}
-}
-
-/* ===== IA SIMULADA ===== */
-function gerarDesc(){
-desc.value = `Este ${nome.value} carrega força espiritual, proteção e propósito. Ideal para abrir caminhos com respeito e conexão.`;
-}
-
-/* ===== PRODUTOS ===== */
-function salvar(){
-
-let p={
-nome:nome.value,
-preco:parseFloat(preco.value),
-estoque:parseInt(estoque.value),
-img:img.value,
-desc:desc.value
-};
-
-let lista=JSON.parse(localStorage.getItem("produtos")||"[]");
-lista.push(p);
-
-localStorage.setItem("produtos",JSON.stringify(lista));
-
-render();
-}
-
-/* ===== RENDER ===== */
-function render(){
-
-let lista=JSON.parse(localStorage.getItem("produtos")||"[]");
-produtos.innerHTML="";
-
-lista.forEach((p,i)=>{
-
-produtos.innerHTML+=`
-<div class="card">
-<img src="${p.img}">
-<h3>${p.nome}</h3>
-<p>${p.desc}</p>
-<p class="price">R$ ${p.preco}</p>
-<p>Estoque: ${p.estoque}</p>
-<button onclick="add(${i})">Adicionar</button>
-</div>
-`;
-
-});
-}
-
-/* ===== CARRINHO ===== */
-let carrinho=[];
-let total=0;
-
-function add(i){
-
-let lista=JSON.parse(localStorage.getItem("produtos"));
-
-if(lista[i].estoque<=0){
-alert("Sem estoque");
-return;
-}
-
-lista[i].estoque--;
-
-localStorage.setItem("produtos",JSON.stringify(lista));
-
-carrinho.push(lista[i]);
-total+=lista[i].preco;
-
-render();
-update();
-}
-
-function update(){
-
-lista.innerHTML="";
-
-carrinho.forEach(p=>{
-lista.innerHTML+=`<li>${p.nome}</li>`;
-});
-
-totalEl.innerText="Total: R$ "+total.toFixed(2);
-
-}
-
-/* ===== FINALIZAR ===== */
-function finalizar(){
-
-let msg="Pedido:%0A";
-
-carrinho.forEach(p=>{
-msg+=p.nome+"%0A";
-});
-
-msg+="Total: R$ "+total;
-
-window.open("https://wa.me/5554996169777?text="+msg);
-}
-
-/* ===== INIT ===== */
-render();
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
