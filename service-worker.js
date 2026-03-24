@@ -1,11 +1,13 @@
+const CACHE_NAME = 'bara-v1';
+
 self.addEventListener('install', e=>{
  e.waitUntil(
-  caches.open('v1').then(cache=>{
+  caches.open(CACHE_NAME).then(cache=>{
    return cache.addAll([
-    '/',
-    '/index.html',
-    '/estilo.css',
-    '/script.js'
+    './',
+    './index.html',
+    './estilo.css',
+    './script.js'
    ]);
   })
  );
