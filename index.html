@@ -13,43 +13,45 @@
 <body>
 
 <div class="topo">
-    <div class="logo" onclick="clickLogo()">Bará da Sete</div>
+    <img src="logo.png" class="logo" onclick="clickLogo()">
     <p class="slogan">Caminhos abertos, força e proteção</p>
 
-    <input type="text" id="busca" placeholder="Pesquisar produtos...">
+    <input type="text" id="busca" placeholder="🔍 Buscar produtos...">
 </div>
 
 <div class="produtos" id="produtos"></div>
 
 <div class="cart">
-    <button onclick="finalizar()">Finalizar no WhatsApp</button>
+    <span id="contador">0 itens</span>
+    <button onclick="finalizar()">Finalizar</button>
 </div>
 
 <div class="admin" id="admin">
-    <h2>Painel Admin</h2>
 
-    <input id="nome" placeholder="Nome">
-    <input id="preco" placeholder="Preço (ex: 10.50)">
-    <input id="estoque" placeholder="Estoque">
+<h2>Painel Admin</h2>
 
-    <label>Promoção?</label>
-    <select id="promo">
-        <option value="false">Não</option>
-        <option value="true">Sim</option>
-    </select>
+<input id="nome" placeholder="Nome">
+<input id="preco" placeholder="Preço">
+<input id="estoque" placeholder="Estoque">
 
-    <input id="precoPromo" placeholder="Preço promoção">
+<select id="promo">
+<option value="false">Sem promoção</option>
+<option value="true">Em promoção</option>
+</select>
 
-    <textarea id="desc" placeholder="Descrição"></textarea>
+<input id="precoPromo" placeholder="Preço promocional">
 
-    <input type="file" id="img">
+<textarea id="desc" placeholder="Descrição"></textarea>
 
-    <button onclick="gerarDesc()">Gerar descrição</button>
-    <button onclick="salvarProduto()">Salvar</button>
+<input type="file" id="img">
 
-    <hr>
+<button onclick="gerarDesc()">Gerar descrição</button>
+<button onclick="salvarProduto()">Salvar</button>
 
-    <div id="listaAdmin"></div>
+<hr>
+
+<div id="listaAdmin"></div>
+
 </div>
 
 <script type="module" src="script.js"></script>
