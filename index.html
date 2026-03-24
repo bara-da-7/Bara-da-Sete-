@@ -3,87 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Bará da Sete</title>
 
+<link rel="stylesheet" href="estilo.css">
 <link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css">
 
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<header class="topo">
-  <img src="logo.png" class="logo" onclick="abrirAdmin()">
-  <input id="busca" placeholder="Pesquisar produto...">
+<header>
+  <h1>Bará da Sete</h1>
+  <p>Artigos Religiosos</p>
 </header>
+
+<div class="topo">
+  Produtos: <span id="totalProdutos">0</span> |
+  Pedidos: <span id="totalPedidos">0</span>
+</div>
+
+<input class="search" placeholder="Buscar produto..." oninput="buscar(this.value)">
 
 <div id="produtos" class="grid"></div>
 
-<div class="cart-float" onclick="abrirCarrinho()">
-🛒 <span id="contador">0</span>
+<div class="carrinho" onclick="finalizar()">
+  🛒 <span id="totalItens">0</span>
 </div>
 
-<!-- CARRINHO -->
-<div id="carrinhoModal" class="modal">
-<div class="modal-content">
+<div class="whatsapp" onclick="finalizar()">📲</div>
 
-<h2>Finalizar Pedido</h2>
-
-<input id="cliente" placeholder="Seu nome">
-
-<select id="tipo">
-<option value="retirada">Retirada</option>
-<option value="entrega">Entrega</option>
-</select>
-
-<input id="cep" placeholder="CEP" style="display:none;">
-<input id="endereco" placeholder="Endereço" style="display:none;">
-
-<div id="itensCarrinho"></div>
-<h3 id="totalCarrinho"></h3>
-
-<button onclick="enviarPedido()">Enviar Pedido</button>
-
-</div>
-</div>
-
-<!-- ADMIN -->
-<div id="admin" class="admin">
-
-<h2>Painel Admin</h2>
-
-<input id="email" placeholder="Email">
-<input id="senha" type="password" placeholder="Senha">
-<button onclick="login()">Entrar</button>
-
-<hr>
-
-<input id="nome" placeholder="Nome">
-<input id="preco" placeholder="Preço (12.90)">
-<input id="estoque" placeholder="Estoque">
-<input id="categoria" placeholder="Categoria">
-
-<button onclick="sugerirCategoria()">IA Categoria</button>
-
-<textarea id="desc"></textarea>
-<button onclick="gerarDescricao()">IA Descrição</button>
-
-<input type="file" id="img">
-
-<label>Promoção</label>
-<input type="checkbox" id="promo">
-<input id="precoPromo" placeholder="Preço Promo">
-
-<button onclick="salvarProduto()">Salvar Produto</button>
-
-<div id="adminLista"></div>
-
-</div>
-
-<script type="module" src="firebase.js"></script>
-<script type="module" src="script.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
