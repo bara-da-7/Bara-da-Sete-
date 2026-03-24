@@ -5,56 +5,40 @@ body{
   color:#fff;
 }
 
-/* HEADER PREMIUM */
-header{
-  text-align:center;
-  padding:25px 15px;
-}
+header{text-align:center;padding:20px}
 
-.logo-topo{
-  width:140px;
-  margin-bottom:10px;
-}
+.logo-topo{width:120px}
 
-h1{
-  color:#D4AF37;
-  margin:5px 0;
-  font-weight:600;
-}
+h1{color:#D4AF37}
 
 .social{
   display:flex;
   justify-content:center;
-  gap:15px;
-  margin-top:10px;
+  gap:10px;
 }
 
 .social a{
-  display:flex;
-  align-items:center;
-  gap:6px;
   background:#2a1414;
   padding:8px 12px;
   border-radius:20px;
+  display:flex;
+  align-items:center;
+  gap:5px;
   color:#fff;
   text-decoration:none;
-  font-size:14px;
 }
 
-/* SEARCH */
 .search{
   width:90%;
-  margin:15px auto;
+  margin:10px auto;
   padding:15px;
   border-radius:20px;
   border:none;
   background:#2a1414;
   color:#fff;
   display:block;
-  outline:none;
 }
 
-/* CATEGORIAS */
 .categorias{
   display:flex;
   overflow:auto;
@@ -66,9 +50,6 @@ h1{
   background:#2a1414;
   padding:8px 15px;
   border-radius:20px;
-  white-space:nowrap;
-  cursor:pointer;
-  transition:.3s;
 }
 
 .categorias .ativo{
@@ -76,7 +57,6 @@ h1{
   color:#000;
 }
 
-/* GRID */
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -84,49 +64,34 @@ h1{
   padding:10px;
 }
 
-/* CARD PREMIUM */
 .card{
-  background: linear-gradient(145deg,#1e0f0f,#2a1414);
+  background:#1e0f0f;
   border-radius:20px;
-  padding:12px;
-  box-shadow:0 10px 25px rgba(0,0,0,.6);
-  position:relative;
-  transition:.3s;
-}
-
-.card:hover{
-  transform:translateY(-4px);
+  padding:10px;
+  box-shadow:0 5px 20px rgba(0,0,0,.5);
 }
 
 .card img{
   width:100%;
-  height:130px;
+  height:120px;
   object-fit:cover;
-  border-radius:15px;
+  border-radius:10px;
 }
 
-/* BADGE PROMO */
 .badge{
   position:absolute;
-  top:10px;
-  right:10px;
-  background:#ff2e2e;
-  padding:5px 10px;
+  background:red;
+  padding:5px;
   border-radius:10px;
-  font-size:12px;
 }
 
-/* PREÇO */
 .preco{
   color:#D4AF37;
   font-weight:bold;
-  margin-top:5px;
 }
 
-/* CONTROLE + - */
 .controle{
   display:flex;
-  align-items:center;
   justify-content:center;
   gap:10px;
   margin-top:10px;
@@ -135,25 +100,11 @@ h1{
 .controle button{
   background:#D4AF37;
   border:none;
-  width:32px;
-  height:32px;
+  width:30px;
+  height:30px;
   border-radius:50%;
-  font-size:18px;
-  font-weight:bold;
-  cursor:pointer;
-  transition:.2s;
 }
 
-.controle button:active{
-  transform:scale(.9);
-}
-
-.controle span{
-  min-width:20px;
-  text-align:center;
-}
-
-/* BOTÕES FLUTUANTES */
 .carrinho{
   position:fixed;
   bottom:20px;
@@ -162,28 +113,13 @@ h1{
   color:#000;
   padding:15px;
   border-radius:50px;
-  font-weight:bold;
-  box-shadow:0 5px 20px rgba(0,0,0,.6);
 }
 
 .whatsapp{
   position:fixed;
-  bottom:90px;
+  bottom:80px;
   right:20px;
   background:#25D366;
   padding:15px;
   border-radius:50%;
-}
-
-/* LOADING */
-.skeleton{
-  height:200px;
-  border-radius:20px;
-  background:linear-gradient(90deg,#2a1414,#3a1f1f,#2a1414);
-  animation:load 1.2s infinite;
-}
-
-@keyframes load{
-  0%{background-position:-200px}
-  100%{background-position:200px}
 }
