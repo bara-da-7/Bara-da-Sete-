@@ -1,58 +1,82 @@
-const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTomkc32pfiuh9ocLv-N5nNlBLdEtdtvlKYWy-t0o5xX_emP-qLaE1BCChpQVLi0AQg_Jh0V_ZakUHG/pub?output=csv";
+const API = "https://script.google.com/macros/s/AKfycbzJVNHNmRoMNRtBPusHXL04VyphdycYXSGyWMWTgZN0Jv4rf1HLqn7YHtJlPKq8dml8/exec"
 
-let produtos = [];
-let carrinho = JSON.parse(localStorage.getItem("carrinho")) || {};
+let produtos = []
+let carrinho = JSON.parse(localStorage.getItem("carrinho")) || {}
 
-fetch(URL)
-.then(r=>r.text())
-.then(csv=>{
-const linhas = csv.split("\n").slice(1);
+const produtosDiv = document.getElementById("produtos")
+const contador = document.getElementById("contador")
+const carrinhoDiv = document.getElementById("carrinho")
 
-produtos = linhas.map(l=>{
-const c = l.split(",");
-return {
-nome:c[0],
-preco:parseFloat(c[1]),
-categoria:c[2],
-estoque:parseInt(c[3]),
-promocao:c[6],
-precoPromo:parseFloat(c[7]),
-imagem:c[8]
+document.getElementById("carrinhoBtn").onclick = ()=>{
+    carrinhoDiv.classList.toggle("ativo")
 }
-});
 
-render();
-});
+function carregar(){
+fetch(API)
+.then(r=>r.json())
+.then(data=>{
+produtos = data
+render()
+})
+}
 
 function render(){
-const div = document.getElementById("produtos");
+produtosDiv.innerHTML = ""
 
-div.innerHTML = produtos.map(p=>`
+produtos
+.sort((a,b)=> a.nome.localeCompare(b.nome))
+.forEach(p=>{
+
+if(p.ativo !== "sim") return
+
+let preco = p.promocao === "sim" ? p.precoPromo : p.preco
+
+produtosDiv.innerHTML += `
 <div class="card">
+<img src="${p.imagem}">
+<h3>${p.nome}</h3>
 
-<img src="${p.imagem || 'logo.png'}">
+${p.promocao==="sim" ? `<span class="promo">R$ ${p.preco}</span>` : ""}
 
-<div>${p.nome}</div>
+<p class="preco">R$ ${preco}</p>
 
-<div>${p.promocao==="sim" ? p.precoPromo : p.preco}</div>
-
-<button onclick="add('${p.nome}')">+</button>
-
+<button onclick="add('${p.nome}',${preco})">+</button>
 </div>
-`).join("");
+`
+})
 }
 
-function add(nome){
-carrinho[nome]=(carrinho[nome]||0)+1;
-localStorage.setItem("carrinho",JSON.stringify(carrinho));
-update();
+function add(nome,preco){
+if(!carrinho[nome]) carrinho[nome]=0
+carrinho[nome]++
+
+localStorage.setItem("carrinho",JSON.stringify(carrinho))
+
+updateCart()
 }
 
-function update(){
-document.getElementById("cartCount").innerText =
-Object.values(carrinho).reduce((a,b)=>a+b,0);
+function updateCart(){
+let total=0
+let html=""
+
+for(let i in carrinho){
+html += `<p>${i} x${carrinho[i]}</p>`
 }
 
-document.getElementById("cartIcon").onclick=()=>{
-document.getElementById("drawer").classList.toggle("open");
-};
+document.getElementById("itensCarrinho").innerHTML = html
+
+contador.innerText = Object.values(carrinho).reduce((a,b)=>a+b,0)
+}
+
+function finalizar(){
+let msg = "Pedido:%0A"
+
+for(let i in carrinho){
+msg += `${i} x${carrinho[i]}%0A`
+}
+
+window.open(`https://wa.me/5554996169777?text=${msg}`)
+}
+
+carregar()
+updateCart()
