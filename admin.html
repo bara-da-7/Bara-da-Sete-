@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Painel Admin</title>
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div id="login">
+  <h2>Login</h2>
+  <input id="user" placeholder="Login">
+  <input id="pass" type="password" placeholder="Senha">
+  <button onclick="logar()">Entrar</button>
+</div>
+
+<div id="painel" style="display:none">
+  <h2>Cadastrar Produto</h2>
+
+  <input id="nome" placeholder="Nome">
+  <input id="preco" placeholder="Preço">
+  <input id="categoria" placeholder="Categoria">
+  <input id="estoque" placeholder="Estoque">
+  <input id="descricao" placeholder="Descrição">
+
+  <label>Promoção</label>
+  <select id="promocao">
+    <option value="nao">Não</option>
+    <option value="sim">Sim</option>
+  </select>
+
+  <input id="precoPromo" placeholder="Preço Promocional">
+
+  <input type="file" id="imagem">
+
+  <button onclick="salvar()">SALVAR</button>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>
