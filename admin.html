@@ -1,34 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="admin.css">
-</head>
-<body>
+<input id="senha">
+<button onclick="login()">Entrar</button>
 
-<h2>Painel Admin</h2>
+<div id="painel" style="display:none">
 
-<input id="nome" placeholder="Nome">
-<input id="preco" placeholder="Preço">
-<input id="categoria" placeholder="Categoria">
-<input id="estoque" placeholder="Estoque">
-<input id="precoPromo" placeholder="Preço Promo">
-
-<select id="promocao">
-<option value="não">Não</option>
-<option value="sim">Sim</option>
-</select>
-
-<input type="file" id="img">
+<input id="nome">
+<input id="preco">
+<input id="categoria">
+<input id="estoque">
+<input type="file" id="imagem">
 
 <button onclick="salvar()">Salvar</button>
-<button onclick="editar()">Editar</button>
 
-<hr>
-
-<h3>Produtos</h3>
-<div id="lista"></div>
+</div>
 
 <script src="admin.js"></script>
-
-</body>
-</html>
