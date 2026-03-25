@@ -1,74 +1,124 @@
 body{
  margin:0;
  font-family:sans-serif;
- background:#1a0d0d;
+ background:linear-gradient(180deg,#8B0000,#1a0d0d);
  color:#fff;
 }
 
+/* LOGO */
 .hero{
- height:180px;
+ height:200px;
  display:flex;
  justify-content:center;
  align-items:center;
- background:#7a0f0f;
+ background:radial-gradient(circle,#a00000,#3b0000);
 }
 
 .hero img{
- max-height:150px;
+ max-width:95%;
+ max-height:180px;
+ object-fit:contain;
 }
 
+/* SOCIAL */
 .top-actions{
  display:flex;
  justify-content:center;
- gap:10px;
+ gap:12px;
+ margin:10px;
 }
 
 .btn{
- padding:10px;
+ padding:12px;
  border-radius:50%;
  color:#fff;
  text-decoration:none;
+ font-size:18px;
 }
 
 .whatsapp{background:#25D366;}
-.insta{background:#E1306C;}
+.insta{background:linear-gradient(45deg,#f58529,#dd2a7b,#8134af);}
 
+/* BUSCA */
 .search{
  width:90%;
  margin:10px auto;
- padding:12px;
- border-radius:20px;
+ padding:15px;
+ border-radius:25px;
  border:none;
  background:#2a1414;
  color:#fff;
  display:block;
 }
 
+/* GRID */
 .grid{
  display:grid;
  grid-template-columns:1fr 1fr;
- gap:10px;
- padding:10px;
+ gap:15px;
+ padding:15px;
 }
 
 .card{
- background:#2a1414;
- border-radius:15px;
+ background:#1e0f0f;
+ border-radius:20px;
  padding:10px;
+ position:relative;
+ box-shadow:0 5px 20px rgba(0,0,0,.6);
 }
 
 .card img{
  width:100%;
- height:120px;
+ height:130px;
  object-fit:cover;
+ border-radius:10px;
 }
 
+/* PROMO */
 .badge{
+ position:absolute;
+ top:10px;
+ left:10px;
  background:red;
- padding:4px;
+ padding:5px 10px;
+ border-radius:10px;
  font-size:12px;
 }
 
+/* PREÇO */
+.preco-antigo{
+ text-decoration:line-through;
+ opacity:.5;
+}
+
+.preco-novo{
+ color:#D4AF37;
+ font-weight:bold;
+ font-size:18px;
+}
+
+/* ESTOQUE */
+.ok{color:#00ff88;}
+.bom{color:#ffcc00;}
+.ruim{color:#ff4d4d;}
+
+/* CONTROLE */
+.controle{
+ display:flex;
+ justify-content:center;
+ gap:10px;
+ margin-top:8px;
+}
+
+button{
+ background:#D4AF37;
+ border:none;
+ border-radius:50%;
+ width:34px;
+ height:34px;
+}
+
+/* CARRINHO */
 .cart-btn{
  position:fixed;
  right:20px;
@@ -78,7 +128,6 @@ body{
  border-radius:50%;
 }
 
-/* CARRINHO LATERAL */
 .cart{
  position:fixed;
  right:-100%;
