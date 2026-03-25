@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Bará da Sete</title>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="estilo.css">
 <link rel="manifest" href="manifest.json">
 
 </head>
@@ -14,7 +13,6 @@
 
 <header>
   <img src="logo.png" class="logo-topo">
-
   <h1>Bará da Sete</h1>
   <p>Artigos Religiosos</p>
 
@@ -34,20 +32,16 @@
 <input class="search" placeholder="Buscar produto..." oninput="buscar(this.value)">
 
 <div id="categorias" class="categorias"></div>
-
 <div id="produtos" class="grid"></div>
 
-<div class="carrinho" onclick="finalizar()">
-🛒 <span id="totalItens">0</span>
-</div>
-
+<div class="carrinho" onclick="finalizar()">🛒 <span id="totalItens">0</span></div>
 <div class="whatsapp" onclick="finalizar()">📲</div>
 
 <script src="script.js"></script>
 
 <script>
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js');
+ navigator.serviceWorker.register('service-worker.js');
 }
 </script>
 
