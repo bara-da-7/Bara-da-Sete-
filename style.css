@@ -1,10 +1,7 @@
-/* BASE */
 body{
 margin:0;
 font-family:Arial;
-
-/* 🔥 FUNDO PREMIUM */
-background:linear-gradient(#1a0000,#0b0000);
+background:#0b0000;
 color:#fff;
 }
 
@@ -19,11 +16,6 @@ overflow:hidden;
 width:100%;
 height:100%;
 object-fit:cover;
-display:block;
-}
-
-/* 🔥 visual premium */
-box-shadow:0 10px 40px rgba(0,0,0,0.6);
 }
 
 /* BUSCA */
@@ -36,11 +28,8 @@ width:100%;
 padding:14px;
 border-radius:30px;
 border:none;
-
-/* 🔥 elegante */
-background:#2a0000;
+background:#1a0000;
 color:#fff;
-box-shadow:0 5px 15px rgba(0,0,0,0.5);
 }
 
 /* CATEGORIAS */
@@ -55,8 +44,6 @@ overflow-x:auto;
 border:none;
 padding:8px 15px;
 border-radius:20px;
-
-/* 🔥 tom suave */
 background:#2a0000;
 color:#fff;
 }
@@ -78,9 +65,7 @@ padding:15px;
 background:#1a0000;
 border-radius:20px;
 padding:10px;
-
-/* 🔥 sombra suave */
-box-shadow:0 10px 20px rgba(0,0,0,0.4);
+box-shadow:0 5px 15px rgba(0,0,0,0.5);
 }
 
 .card img{
@@ -90,28 +75,16 @@ object-fit:cover;
 border-radius:10px;
 }
 
-/* TEXTO */
-.card h3{
-color:#fff;
-}
-
-.card p{
-color:#bbb;
-}
-
-/* PREÇO */
 .preco{
 color:#D4AF37;
 font-weight:bold;
 }
 
-/* ESTOQUE */
 .estoque{
 font-size:12px;
-color:#888;
+color:#aaa;
 }
 
-/* BOTÕES */
 .controls{
 display:flex;
 justify-content:space-between;
@@ -124,70 +97,63 @@ width:35px;
 height:35px;
 border-radius:50%;
 border:none;
-
-/* 🔥 cor da marca */
 background:#8b0000;
 color:#fff;
 }
 
-/* CARRINHO */
+/* BOTÃO CARRINHO */
 #carrinhoBtn{
 position:fixed;
 bottom:20px;
 right:20px;
-
-/* 🔥 destaque */
 background:#D4AF37;
 color:#000;
-padding:15px 20px;
-border-radius:30px;
+padding:15px;
+border-radius:50%;
 font-weight:bold;
-
 box-shadow:0 5px 20px rgba(0,0,0,0.5);
 }
 
-/* PAINEL */
+/* CARRINHO */
 #carrinho{
 position:fixed;
-right:-320px;
+right:-350px;
 top:0;
-width:300px;
+width:320px;
 height:100%;
-
-/* 🔥 fundo consistente */
 background:#1a0000;
-color:#fff;
-
 transition:.3s;
-padding:10px;
+padding:15px;
+z-index:999;
 }
 
 #carrinho.ativo{
 right:0;
 }
 
-/* BOTÃO CHECKOUT */
-#carrinho button{
-width:100%;
-padding:12px;
+.topo-carrinho{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.topo-carrinho button{
+background:none;
 border:none;
-border-radius:10px;
-
-background:#D4AF37;
-color:#000;
-font-weight:bold;
+color:#fff;
+font-size:20px;
 }
 
-/* RODAPÉ */
-.rodape{
-text-align:center;
-padding:20px;
-background:#000;
+.item{
+display:flex;
+justify-content:space-between;
+margin:10px 0;
 }
 
-.rodape a{
-color:#D4AF37;
-display:block;
-margin-top:10px;
-text-decoration:none;
+.item button{
+background:#8b0000;
+border:none;
+color:#fff;
+padding:5px;
+border-radius:5px;
 }
