@@ -1,30 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="admin.css">
-</head>
-
 <body>
-
 <div id="login">
-<input type="password" id="senha" placeholder="Senha">
+<input id="user" placeholder="Usuário">
+<input id="senha" placeholder="Senha" type="password">
 <button onclick="logar()">Entrar</button>
 </div>
 
-<div id="painel" style="display:none;">
-<h2>Cadastrar Produto</h2>
-
-<input id="nome" placeholder="Nome">
-<input id="preco" placeholder="Preço">
-<input id="categoria" placeholder="Categoria">
+<div id="painel" style="display:none">
+<input id="nome">
+<input id="preco">
+<input id="categoria">
 <input type="file" id="imagem">
-<label>Promo <input type="checkbox" id="promo"></label>
-<input id="precoPromo" placeholder="Preço Promo">
-
 <button onclick="salvar()">Salvar</button>
-
 </div>
 
-<script src="admin.js"></script>
+<script>
+function logar(){
+ if(user.value==='adm' && senha.value==='99861309'){
+  login.style.display='none'
+  painel.style.display='block'
+ }
+}
+</script>
 </body>
-</html>
