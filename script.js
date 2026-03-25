@@ -19,9 +19,11 @@ function gerarCategorias(){
  let cats = ["Todos", ...new Set(produtos.map(p=>p.categoria))]
  categorias.innerHTML=""
 
- cats.forEach(c=>{
+ cats.forEach((c,i)=>{
   categorias.innerHTML += `
-  <button onclick="filtrar('${c}', this)">${c}</button>`
+  <button class="${i==0?'active':''}" onclick="filtrar('${c}', this)">
+    ${c}
+  </button>`
  })
 }
 
