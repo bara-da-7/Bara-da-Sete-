@@ -7,43 +7,37 @@
 <title>Bará da Sete</title>
 
 <link rel="stylesheet" href="style.css">
-<link rel="manifest" href="manifest.json">
 <link rel="icon" href="logo.png">
-
 </head>
+
 <body>
 
 <header class="hero">
-
   <img src="logo.png" class="hero-img">
 
-  <div class="overlay">
+  <div class="hero-overlay">
     <div class="social">
-      <a href="https://wa.me/555496169777">📲 WhatsApp</a>
-      <a href="https://www.instagram.com/baradase7e">📸 Instagram</a>
+      <a href="https://wa.me/555496169777" class="btn whatsapp">📲 WhatsApp</a>
+      <a href="https://www.instagram.com/baradase7e" class="btn insta">📸 Instagram</a>
     </div>
   </div>
-
 </header>
 
-<input class="search" placeholder="Buscar..." oninput="buscar(this.value)">
+<input 
+  class="search" 
+  placeholder="Buscar produto..." 
+  oninput="buscar(this.value)"
+>
 
 <div id="categorias" class="categorias"></div>
+
 <div id="produtos" class="grid"></div>
 
 <div class="carrinho" onclick="finalizar()">
 🛒 <span id="totalItens">0</span>
 </div>
 
-<div class="whatsapp" onclick="finalizar()">📲</div>
-
 <script src="script.js"></script>
-
-<script>
-if ('serviceWorker' in navigator) {
- navigator.serviceWorker.register('service-worker.js');
-}
-</script>
 
 </body>
 </html>
