@@ -11,15 +11,16 @@ color:#fff;
 /* HERO */
 .hero{
 width:100%;
-display:flex;
-justify-content:center;
-background:#000;
+height:220px;
+overflow:hidden;
 }
 
 .hero-img{
 width:100%;
-max-width:1200px;
+height:100%;
+object-fit:cover;
 display:block;
+}
 
 /* 🔥 visual premium */
 box-shadow:0 10px 40px rgba(0,0,0,0.6);
