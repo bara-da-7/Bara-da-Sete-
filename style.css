@@ -141,3 +141,6 @@ color:#D4AF37;
 margin-top:10px;
 text-decoration:none;
 }
+object-position:center 30%; /* sobe imagem */
+object-position:center 50%; /* central */
+object-position:center 70%; /* desce imagem */
