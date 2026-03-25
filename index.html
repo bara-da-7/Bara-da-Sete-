@@ -1,58 +1,21 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bará da Sete</title>
-
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Bará da Sete</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<!-- HERO -->
-<header class="hero">
-  <img src="banner.jpg.png" class="hero-img">
+<header>
+  <h1>Bará da Sete</h1>
+  <input id="busca" placeholder="Buscar produto...">
 </header>
 
-<!-- BUSCA -->
-<div class="search">
-  <input id="busca" placeholder="Buscar produto...">
-</div>
-
-<!-- CATEGORIAS -->
-<div id="categorias"></div>
-
-<!-- PRODUTOS -->
-<div id="produtos"></div>
-
-<!-- CARRINHO -->
-<div id="carrinhoBtn">
-  🛒 <span id="contador">0</span>
-</div>
-
-<div id="carrinho">
-  <h2>Seu Carrinho</h2>
-  <div id="itensCarrinho"></div>
-
-  <input id="nomeCliente" placeholder="Seu nome">
-  <input id="endereco" placeholder="Endereço">
-
-  <button onclick="checkout()">Finalizar Pedido</button>
-</div>
-
-<!-- RODAPÉ -->
-<footer class="rodape">
-  <a href="https://wa.me/5554996169777" target="_blank">WhatsApp</a>
-  <a href="https://instagram.com" target="_blank">Instagram</a>
-
-  <a target="_blank"
-  href="https://maps.google.com?q=Av.%207%20de%20Setembro,%20462%20-%20Centro,%20Passo%20Fundo%20-%20RS">
-  📍 Ver localização
-  </a>
-</footer>
+<main id="produtos"></main>
 
 <script src="api.js"></script>
+<script src="cart.js"></script>
 <script src="script.js"></script>
 
 </body>
