@@ -1,14 +1,14 @@
 body{
 margin:0;
-font-family:Arial;
 background:#0a0000;
 color:#fff;
+font-family:Arial;
 }
 
 /* HERO */
 .hero{
+height:50vh;
 position:relative;
-height:60vh;
 }
 
 .hero-bg{
@@ -19,45 +19,47 @@ background:url('logo.png') center/cover;
 filter:blur(40px);
 }
 
-.overlay{
-position:absolute;
-width:100%;
-height:100%;
-background:linear-gradient(#000000aa,#000);
-}
-
 .logo{
 position:absolute;
-width:220px;
+width:200px;
 left:50%;
 top:50%;
 transform:translate(-50%,-50%);
 }
 
-/* BOTÕES */
-.hero-buttons{
-position:absolute;
-bottom:20px;
+/* BUSCA */
+.search-box{
+padding:10px;
+}
+
+.search-box input{
 width:100%;
-display:flex;
-justify-content:center;
-gap:10px;
-}
-
-.btn{
-padding:10px 20px;
+padding:12px;
 border-radius:20px;
-font-weight:bold;
+border:none;
 }
 
-.whatsapp{background:#25D366;}
-.instagram{background:#E1306C;}
+/* CATEGORIAS */
+#categorias{
+padding:10px;
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+#categorias button{
+background:#D4AF37;
+border:none;
+padding:8px 12px;
+border-radius:10px;
+cursor:pointer;
+}
 
 /* PRODUTOS */
-.produtos{
+#produtos{
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:12px;
+gap:10px;
 padding:10px;
 }
 
@@ -65,27 +67,18 @@ padding:10px;
 background:#120000;
 border-radius:15px;
 padding:10px;
-transition:.2s;
 }
 
-.card:hover{transform:scale(1.05);}
+.card img{
+width:100%;
+border-radius:10px;
+}
 
-.preco{color:#D4AF37;}
+.preco{
+color:#D4AF37;
+}
 
 /* CARRINHO */
-#carrinho{
-position:fixed;
-right:-350px;
-top:0;
-width:320px;
-height:100%;
-background:#111;
-transition:.3s;
-padding:10px;
-}
-
-#carrinho.ativo{right:0;}
-
 #carrinhoBtn{
 position:fixed;
 bottom:20px;
@@ -94,4 +87,27 @@ background:#D4AF37;
 padding:15px;
 border-radius:50%;
 cursor:pointer;
+}
+
+#carrinho{
+position:fixed;
+right:-320px;
+top:0;
+width:300px;
+height:100%;
+background:#111;
+transition:.3s;
+padding:10px;
+}
+
+#carrinho.ativo{
+right:0;
+}
+
+#carrinho input{
+width:100%;
+padding:10px;
+margin-top:5px;
+border-radius:10px;
+border:none;
 }
