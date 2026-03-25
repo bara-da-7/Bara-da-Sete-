@@ -1,6 +1,6 @@
 {
-  "name": "Bará da Se7e",
-  "short_name": "Bará da Se7e",
+  "name": "Bará da Sete",
+  "short_name": "Bará",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#000",
