@@ -37,3 +37,15 @@ function updateCart(){
  totalEl.innerText = "R$ " + total.toFixed(2)
  contador.innerText = Object.values(carrinho).reduce((a,b)=>a+b,0)
 }
+
+function diminuir(nome){
+ if(!carrinho[nome]) return
+
+ carrinho[nome]--
+
+ if(carrinho[nome] <= 0){
+  delete carrinho[nome]
+ }
+
+ salvar()
+}
