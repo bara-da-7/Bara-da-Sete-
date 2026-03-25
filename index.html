@@ -8,39 +8,33 @@
 <link rel="stylesheet" href="style.css">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="logo.png">
-
 </head>
+
 <body>
 
 <header class="hero">
-    <div class="hero-bg"></div>
-    <div class="overlay"></div>
-    <img src="logo.png" class="logo">
-
-    <div class="hero-buttons">
-        <a href="https://wa.me/5554996169777" class="btn whatsapp">WhatsApp</a>
-        <a href="#" class="btn instagram">Instagram</a>
-    </div>
+  <div class="hero-bg"></div>
+  <img src="logo.png" class="logo">
 </header>
 
 <div class="search-box">
-    <input type="text" id="busca" placeholder="Buscar produto...">
+  <input id="busca" placeholder="Buscar produto...">
 </div>
 
-<div id="categorias" class="categorias"></div>
-<div id="produtos" class="produtos"></div>
+<div id="categorias"></div>
+<div id="produtos"></div>
 
 <div id="carrinhoBtn">🛒 <span id="contador">0</span></div>
 
 <div id="carrinho">
-    <h2>Seu Carrinho</h2>
-    <div id="itensCarrinho"></div>
-    <h3 id="total"></h3>
+  <h2>Seu Carrinho</h2>
+  <div id="itensCarrinho"></div>
+  <h3 id="total"></h3>
 
-    <input id="nomeCliente" placeholder="Seu nome">
-    <input id="endereco" placeholder="Endereço">
+  <input id="nomeCliente" placeholder="Seu nome">
+  <input id="endereco" placeholder="Endereço">
 
-    <button onclick="checkout()">Finalizar Pedido</button>
+  <button onclick="checkout()">Finalizar Pedido</button>
 </div>
 
 <script src="api.js"></script>
@@ -50,7 +44,7 @@
 
 <script>
 if ('serviceWorker' in navigator) {
- navigator.serviceWorker.register('service-worker.js')
+  navigator.serviceWorker.register('service-worker.js')
 }
 </script>
 
