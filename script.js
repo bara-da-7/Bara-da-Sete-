@@ -1,148 +1,95 @@
-const CONFIG={
- CSV:"https://docs.google.com/spreadsheets/d/e/2PACX-1vTomkc32pfiuh9ocLv-N5nNlBLdEtdtvlKYWy-t0o5xX_emP-qLaE1BCChpQVLi0AQg_Jh0V_ZakUHG/pub?gid=0&single=true&output=csv",
- API:"https://script.google.com/macros/s/AKfycbzJVNHNmRoMNRtBPusHXL04VyphdycYXSGyWMWTgZN0Jv4rf1HLqn7YHtJlPKq8dml8/exec",
- WHATS:"555496169777"
-};
+const URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTomkc32pfiuh9ocLv-N5nNlBLdEtdtvlKYWy-t0o5xX_emP-qLaE1BCChpQVLi0AQg_Jh0V_ZakUHG/pub?output=csv";
 
-let lista=[];
-let carrinho={};
-let buscaTxt="";
+let produtos = [];
+let carrinho = {};
+let clicks = 0;
 
-/* LOAD */
-async function carregar(){
+/* ADMIN SECRET */
+document.getElementById("logoClick").addEventListener("click",()=>{
+    clicks++;
+    if(clicks >= 10){
+        window.location.href = "admin.html";
+    }
+});
 
- const res=await fetch(CONFIG.CSV);
- const txt=await res.text();
+/* FETCH */
+fetch(URL)
+.then(r=>r.text())
+.then(csv=>{
+    const linhas = csv.split("\n").slice(1);
 
- const linhas=txt.split("\n").slice(1);
+    produtos = linhas.map(l=>{
+        const c = l.split(",");
+        return {
+            nome:c[0],
+            preco:parseFloat(c[1]),
+            categoria:c[2],
+            estoque:parseInt(c[3]),
+            promo:c[5],
+            precoPromo:parseFloat(c[6])
+        }
+    });
 
- lista=linhas.map(l=>{
-  let c=l.split(",");
-  return{
-   nome:c[0],
-   preco:+c[1],
-   categoria:c[2],
-   estoque:+c[3],
-   ativo:(c[5]||"").toLowerCase(),
-   promocao:(c[6]||"").toLowerCase(),
-   precoPromo:+c[7],
-   imagem:c[8]
-  };
- });
-
- render();
-}
-
-/* BUSCA */
-function buscar(v){
- buscaTxt=v.toLowerCase();
- render();
-}
+    render();
+});
 
 /* RENDER */
 function render(){
+    const div = document.getElementById("produtos");
+    div.innerHTML="";
 
- let el=document.getElementById("produtos");
- el.innerHTML="";
+    produtos.sort((a,b)=>{
+        if(a.promo==="sim") return -1;
+        return a.nome.localeCompare(b.nome);
+    });
 
- let dados=lista
- .filter(p=>p.ativo==="sim")
- .filter(p=>p.nome.toLowerCase().includes(buscaTxt))
- .sort((a,b)=>{
-  if(a.promocao==="sim") return -1;
-  return a.nome.localeCompare(b.nome);
- });
+    produtos.forEach(p=>{
+        let estoqueClass = "ok";
+        if(p.estoque <=15) estoqueClass="ruim";
+        else if(p.estoque <=20) estoqueClass="bom";
 
- dados.forEach((p,i)=>{
+        div.innerHTML+=`
+        <div class="card">
+            <img src="${p.imagem || 'logo.png'}">
+            <div class="nome">${p.nome}</div>
 
-  let preco=p.promocao==="sim"?p.precoPromo:p.preco;
+            ${
+                p.promo==="sim"
+                ? `<div class="old">R$ ${p.preco}</div>
+                   <div class="preco">R$ ${p.precoPromo}</div>`
+                : `<div class="preco">R$ ${p.preco}</div>`
+            }
 
-  el.innerHTML+=`
-  <div class="card">
+            <div class="estoque ${estoqueClass}">
+                Estoque: ${p.estoque}
+            </div>
 
-  ${p.promocao==="sim"?'<div class="badge">PROMO</div>':''}
-
-  <img src="${p.imagem||'https://via.placeholder.com/300'}">
-
-  <h4>${p.nome}</h4>
-
-  ${p.promocao==="sim"?`<div class="preco-antigo">R$ ${p.preco}</div>`:""}
-  <div class="preco-novo">R$ ${preco}</div>
-
-  <div class="${p.estoque>=25?'ok':p.estoque>=20?'bom':'ruim'}">
-   Estoque: ${p.estoque}
-  </div>
-
-  <div class="controle">
-    <button onclick="rem(${i})">-</button>
-    <span>${carrinho[i]||0}</span>
-    <button onclick="add(${i})">+</button>
-  </div>
-
-  </div>`;
- });
+            <div class="controls">
+                <button class="btn-qtd" onclick="menos('${p.nome}')">-</button>
+                <span>${carrinho[p.nome]||0}</span>
+                <button class="btn-qtd" onclick="mais('${p.nome}')">+</button>
+            </div>
+        </div>
+        `;
+    });
 }
 
 /* CARRINHO */
-function add(i){
- carrinho[i]=(carrinho[i]||0)+1;
- atualizar();
- render();
+function mais(nome){
+    carrinho[nome]=(carrinho[nome]||0)+1;
+    updateCart();
 }
 
-function rem(i){
- carrinho[i]--;
- if(carrinho[i]<=0) delete carrinho[i];
- atualizar();
- render();
+function menos(nome){
+    if(carrinho[nome]){
+        carrinho[nome]--;
+    }
+    updateCart();
 }
 
-function atualizar(){
- document.getElementById("count").innerText=Object.values(carrinho).reduce((a,b)=>a+b,0);
-}
-
-/* CARRINHO LATERAL */
-function toggleCart(){
- document.getElementById("cart").classList.toggle("open");
-}
-
-/* FINALIZAR */
-async function finalizar(){
-
- let nome = document.getElementById("nome").value;
- let telefone = document.getElementById("telefone").value;
-
- let itens = [];
-
- Object.keys(carrinho).forEach(i=>{
-   itens.push({
-     nome: produtos[i].nome,
-     qtd: carrinho[i]
-   });
- });
-
- /* ENVIA PARA PLANILHA (BAIXA ESTOQUE) */
- await fetch(CONFIG.API,{
-   method:"POST",
-   body:JSON.stringify({
-     tipo:"pedido",
-     nomeCliente:nome,
-     telefone:telefone,
-     itens:itens
-   })
- });
-
- /* WHATSAPP */
- let msg="🛒 *Novo Pedido - Bará da Sete*%0A%0A";
-
- itens.forEach(i=>{
-   msg+=`• ${i.nome} x${i.qtd}%0A`;
- });
-
- window.open(`https://wa.me/${CONFIG.WHATS}?text=${msg}`);
-
- /* LIMPA CARRINHO */
- carrinho={};
- salvar();
- render();
+function updateCart(){
+    let total=0;
+    Object.values(carrinho).forEach(q=> total+=q);
+    document.getElementById("cartCount").innerText=total;
+    render();
 }
