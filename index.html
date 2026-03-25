@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,28 +7,44 @@
 <title>Bará da Sete</title>
 
 <link rel="stylesheet" href="style.css">
-<link rel="manifest" href="manifest.json">
+
+<link rel="icon" href="logo.png">
 
 </head>
 
 <body>
 
-<!-- HERO -->
-<header class="hero">
-  <div class="hero-bg"></div>
+<!-- HERO PREMIUM -->
+<section class="hero">
 
-  <div class="hero-overlay"></div>
+    <!-- FUNDO EXPANDIDO -->
+    <div class="hero-bg"></div>
 
-  <img src="logo.png" class="hero-logo">
+    <!-- IMAGEM CENTRAL -->
+    <img src="logo.png" class="hero-logo" id="logoClick">
 
-  <div class="hero-buttons">
-    <a href="https://wa.me/5554996169777" class="btn-whatsapp">🟢 WhatsApp</a>
-    <a href="https://www.instagram.com/baradase7e" class="btn-instagram">📸 Instagram</a>
-  </div>
-</header>
+    <!-- OVERLAY -->
+    <div class="hero-overlay"></div>
+
+    <!-- BOTÕES -->
+    <div class="hero-buttons">
+
+        <a href="https://wa.me/5554996169777" class="btn whatsapp">
+            🟢 WhatsApp
+        </a>
+
+        <a href="https://www.instagram.com/baradase7e" class="btn instagram">
+            📸 Instagram
+        </a>
+
+    </div>
+
+</section>
 
 <!-- BUSCA -->
-<input id="busca" placeholder="Buscar produto...">
+<div class="search-box">
+    <input type="text" id="search" placeholder="Buscar produto...">
+</div>
 
 <!-- CATEGORIAS -->
 <div id="categorias"></div>
@@ -37,14 +53,7 @@
 <div id="produtos"></div>
 
 <!-- CARRINHO -->
-<div id="cartDrawer" class="cart">
-  <h2>🛒 Carrinho</h2>
-  <div id="cartItems"></div>
-  <h3 id="total"></h3>
-  <button onclick="irCheckout()">Finalizar</button>
-</div>
-
-<button class="cart-btn" onclick="toggleCart()">🛒 <span id="cartCount">0</span></button>
+<div id="cartIcon">🛒 <span id="cartCount">0</span></div>
 
 <script src="script.js"></script>
 
