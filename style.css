@@ -1,26 +1,39 @@
-body{
+/* RESET */
+*{
 margin:0;
-font-family:Arial;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial, sans-serif;
 background:#f2f2f2;
 color:#222;
 }
 
+/* ========================= */
+/* 🔥 HEADER PREMIUM */
+/* ========================= */
+
 .topo{
 position:relative;
-height:220px;
+height:230px;
 overflow:hidden;
 border-bottom-left-radius:30px;
 border-bottom-right-radius:30px;
 }
 
+/* FUNDO COM LOGO */
 .hero-logo-bg{
 position:absolute;
 width:100%;
 height:100%;
 background:url('logo.png') center/cover no-repeat;
-filter:blur(30px) brightness(0.5);
+filter:blur(35px) brightness(0.4);
+transform:scale(1.2);
 }
 
+/* CONTEÚDO */
 .hero-content{
 position:absolute;
 width:100%;
@@ -34,20 +47,21 @@ color:#fff;
 }
 
 .logo-topo{
-width:100px;
+width:110px;
 margin-bottom:10px;
 }
 
 .hero-content h1{
-margin:0;
 font-size:26px;
+font-weight:bold;
 }
 
 .hero-content p{
-margin:5px 0 10px;
 opacity:0.8;
+margin:5px 0 10px;
 }
 
+/* REDES */
 .social{
 display:flex;
 gap:20px;
@@ -56,7 +70,7 @@ gap:20px;
 .social a{
 display:flex;
 align-items:center;
-gap:5px;
+gap:6px;
 color:#D4AF37;
 text-decoration:none;
 font-weight:bold;
@@ -66,7 +80,10 @@ font-weight:bold;
 width:18px;
 }
 
-/* BUSCA */
+/* ========================= */
+/* 🔍 BUSCA */
+/* ========================= */
+
 .search-box{
 padding:15px;
 }
@@ -76,24 +93,35 @@ width:100%;
 padding:15px;
 border-radius:30px;
 border:none;
+outline:none;
+font-size:14px;
 box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* CATEGORIAS */
+/* ========================= */
+/* 🏷️ CATEGORIAS */
+/* ========================= */
+
 #categorias{
 display:flex;
-overflow:auto;
 gap:10px;
-padding:10px;
+padding:10px 15px;
+overflow-x:auto;
+}
+
+#categorias::-webkit-scrollbar{
+display:none;
 }
 
 #categorias button{
-background:#eee;
 border:none;
+background:#eee;
 padding:8px 15px;
 border-radius:20px;
-white-space:nowrap;
 cursor:pointer;
+white-space:nowrap;
+font-size:13px;
+transition:0.2s;
 }
 
 #categorias button.active{
@@ -101,7 +129,10 @@ background:#D4AF37;
 color:#000;
 }
 
-/* PRODUTOS */
+/* ========================= */
+/* 🛍️ PRODUTOS */
+/* ========================= */
+
 #produtos{
 display:grid;
 grid-template-columns:repeat(2,1fr);
@@ -109,80 +140,84 @@ gap:15px;
 padding:15px;
 }
 
+/* CARD */
 .card{
 background:#fff;
 border-radius:20px;
-padding:10px;
+padding:12px;
 box-shadow:0 10px 20px rgba(0,0,0,0.08);
 display:flex;
 flex-direction:column;
+transition:0.2s;
 }
 
+.card:hover{
+transform:translateY(-3px);
+}
+
+/* IMAGEM */
 .card img{
 width:100%;
-border-radius:15px;
 height:140px;
 object-fit:cover;
+border-radius:15px;
+background:#eee;
 }
 
+/* TEXTO */
 .card h3{
-font-size:16px;
+font-size:15px;
 margin:10px 0 5px;
 }
 
 .card p{
-font-size:13px;
-color:#555;
+font-size:12px;
+color:#666;
 }
 
+/* PREÇO */
 .preco{
-color:#3b0000;
+color:#5a0000;
 font-weight:bold;
-margin:5px 0;
+margin-top:5px;
 }
 
-/* CONTROLE + - */
+/* ========================= */
+/* ➕➖ CONTROLES */
+/* ========================= */
+
 .controls{
 display:flex;
 align-items:center;
 justify-content:space-between;
 margin-top:auto;
+padding-top:10px;
 }
 
 .controls button{
-width:35px;
-height:35px;
-border:none;
+width:40px;
+height:40px;
 border-radius:50%;
-background:#3b0000;
+background:#5a0000;
 color:#fff;
 font-size:18px;
+border:none;
 cursor:pointer;
+transition:0.2s;
+}
+
+.controls button:hover{
+transform:scale(1.1);
 }
 
 .qtd{
+font-size:16px;
 font-weight:bold;
 }
-#categorias{
-display:flex;
-gap:10px;
-padding:10px;
-overflow-x:auto;
-}
 
-#categorias button{
-border:none;
-background:#eee;
-padding:8px 15px;
-border-radius:20px;
-cursor:pointer;
-white-space:nowrap;
-}
-
-#categorias .active{
-background:#D4AF37;
-color:#000;
-}
+/* ========================= */
+/* 🛒 CARRINHO */
+/* ========================= */
 
 #carrinhoBtn{
 position:fixed;
@@ -197,4 +232,73 @@ align-items:center;
 gap:10px;
 font-weight:bold;
 box-shadow:0 5px 20px rgba(0,0,0,0.3);
+z-index:999;
+}
+
+/* PAINEL */
+#carrinho{
+position:fixed;
+right:-350px;
+top:0;
+width:320px;
+height:100%;
+background:#fff;
+transition:0.3s;
+padding:15px;
+overflow:auto;
+box-shadow:-5px 0 20px rgba(0,0,0,0.2);
+z-index:1000;
+}
+
+#carrinho.ativo{
+right:0;
+}
+
+/* ITENS */
+#itensCarrinho p{
+display:flex;
+justify-content:space-between;
+margin:5px 0;
+}
+
+/* TOTAL */
+#total{
+margin-top:10px;
+font-size:18px;
+font-weight:bold;
+}
+
+/* INPUTS */
+#carrinho input{
+width:100%;
+padding:10px;
+margin-top:10px;
+border-radius:10px;
+border:1px solid #ddd;
+}
+
+/* BOTÃO CHECKOUT */
+#carrinho button{
+margin-top:10px;
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#5a0000;
+color:#fff;
+font-weight:bold;
+cursor:pointer;
+}
+
+/* ========================= */
+/* ✨ ANIMAÇÃO */
+/* ========================= */
+
+@keyframes fade{
+from{opacity:0; transform:translateY(10px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+.card{
+animation:fade 0.3s ease;
 }
