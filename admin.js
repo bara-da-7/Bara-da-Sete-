@@ -1,8 +1,5 @@
-async function loadAdmin(){
-  const produtos = await api.getProdutos();
-
-  document.getElementById("admin-list").innerHTML =
-    produtos.map(p=>`<div>${p.nome}</div>`).join('');
-}
-
-loadAdmin();
+(async()=>{
+let p=await api.produtos();
+document.getElementById("admin").innerHTML=
+p.map(x=>`<div>${x.nome}</div>`).join('');
+})();
