@@ -5,66 +5,50 @@ body{
   color:#fff;
 }
 
+/* HEADER */
 .hero{
-  position:relative;
   width:100%;
-  height:220px;
-  overflow:hidden;
+  height:160px;
+  position:relative;
+  background:#7a0f0f;
 }
 
 .hero-img{
   width:100%;
   height:100%;
-  object-fit:contain; /* MOSTRA A LOGO INTEIRA */
-  background:#7a0f0f;
+  object-fit:contain;
 }
 
-.overlay{
+.hero-overlay{
   position:absolute;
   bottom:0;
   width:100%;
-  padding:20px;
-
-  background:linear-gradient(
-    to top,
-    rgba(0,0,0,0.8),
-    rgba(0,0,0,0)
-  );
+  padding:15px;
+  background:linear-gradient(to top,rgba(0,0,0,0.7),transparent);
 }
 
+/* BOTÕES */
 .social{
   display:flex;
   justify-content:center;
   gap:10px;
 }
 
-.social a{
-  background:rgba(0,0,0,0.6);
+.btn{
   padding:10px 15px;
   border-radius:20px;
   color:#fff;
   text-decoration:none;
-  font-size:14px;
-  backdrop-filter:blur(10px);
+  font-weight:bold;
 }
 
-.social{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-}
+.whatsapp{background:#25D366;}
+.insta{background:linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4);}
 
-.social a{
-  background:#2a1414;
-  padding:10px;
-  border-radius:20px;
-  color:#fff;
-  text-decoration:none;
-}
-
+/* BUSCA */
 .search{
   width:90%;
-  margin:20px auto;
+  margin:15px auto;
   padding:15px;
   border-radius:20px;
   border:none;
@@ -72,6 +56,27 @@ body{
   color:#fff;
 }
 
+/* CATEGORIAS */
+.categorias{
+  display:flex;
+  overflow-x:auto;
+  gap:10px;
+  padding:10px;
+}
+
+.categorias div{
+  padding:8px 14px;
+  background:#2a1414;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+.ativo{
+  background:#D4AF37;
+  color:#000;
+}
+
+/* PRODUTOS */
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -83,26 +88,16 @@ body{
   background:#1e0f0f;
   border-radius:20px;
   padding:10px;
-  box-shadow:0 10px 30px rgba(0,0,0,.5);
-  position:relative;
 }
 
 .card img{
   width:100%;
-  height:140px;
+  height:120px;
   object-fit:cover;
   border-radius:10px;
 }
 
-.desconto{
-  position:absolute;
-  top:10px;
-  right:10px;
-  background:red;
-  padding:5px;
-  border-radius:10px;
-}
-
+/* PREÇO */
 .preco-antigo{
   text-decoration:line-through;
   opacity:.5;
@@ -113,21 +108,33 @@ body{
   font-weight:bold;
 }
 
+/* ESTOQUE */
+.estoque{
+  height:6px;
+  border-radius:10px;
+  margin:5px 0;
+}
+
+.ok{background:green;}
+.bom{background:orange;}
+.ruim{background:red;}
+
+/* CONTROLE */
 .controle{
   display:flex;
   justify-content:center;
   gap:10px;
-  margin-top:10px;
 }
 
-.controle button{
+button{
   background:#D4AF37;
   border:none;
+  border-radius:50%;
   width:30px;
   height:30px;
-  border-radius:50%;
 }
 
+/* CARRINHO */
 .carrinho{
   position:fixed;
   bottom:20px;
@@ -135,13 +142,4 @@ body{
   background:#D4AF37;
   padding:15px;
   border-radius:50px;
-}
-
-.whatsapp{
-  position:fixed;
-  bottom:80px;
-  right:20px;
-  background:#25D366;
-  padding:15px;
-  border-radius:50%;
 }
