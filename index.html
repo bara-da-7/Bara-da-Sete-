@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Bará da Sete</title>
 
-<link rel="stylesheet" href="estilo.css">
+<link rel="stylesheet" href="style.css">
 <link rel="manifest" href="manifest.json">
+<link rel="icon" href="logo.png">
 
 </head>
 <body>
@@ -17,24 +19,20 @@
   <p>Artigos Religiosos</p>
 
   <div class="social">
-    <a href="https://wa.me/555496169777">
-      <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" width="16">
-      WhatsApp
-    </a>
-
-    <a href="https://www.instagram.com/baradase7e">
-      <img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" width="16">
-      Instagram
-    </a>
+    <a href="https://wa.me/555496169777">WhatsApp</a>
+    <a href="https://www.instagram.com/baradase7e">Instagram</a>
   </div>
 </header>
 
-<input class="search" placeholder="Buscar produto..." oninput="buscar(this.value)">
+<input class="search" placeholder="Buscar..." oninput="buscar(this.value)">
 
 <div id="categorias" class="categorias"></div>
 <div id="produtos" class="grid"></div>
 
-<div class="carrinho" onclick="finalizar()">🛒 <span id="totalItens">0</span></div>
+<div class="carrinho" onclick="finalizar()">
+🛒 <span id="totalItens">0</span>
+</div>
+
 <div class="whatsapp" onclick="finalizar()">📲</div>
 
 <script src="script.js"></script>
