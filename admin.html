@@ -1,16 +1,30 @@
-<input id="senha">
-<button onclick="login()">Entrar</button>
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="admin.css">
+</head>
 
-<div id="painel" style="display:none">
+<body>
 
-<input id="nome">
-<input id="preco">
-<input id="categoria">
-<input id="estoque">
+<div id="login">
+<input type="password" id="senha" placeholder="Senha">
+<button onclick="logar()">Entrar</button>
+</div>
+
+<div id="painel" style="display:none;">
+<h2>Cadastrar Produto</h2>
+
+<input id="nome" placeholder="Nome">
+<input id="preco" placeholder="Preço">
+<input id="categoria" placeholder="Categoria">
 <input type="file" id="imagem">
+<label>Promo <input type="checkbox" id="promo"></label>
+<input id="precoPromo" placeholder="Preço Promo">
 
 <button onclick="salvar()">Salvar</button>
 
 </div>
 
 <script src="admin.js"></script>
+</body>
+</html>
