@@ -1,28 +1,26 @@
-*{margin:0;padding:0;box-sizing:border-box;}
-
 body{
+margin:0;
 font-family:Arial;
 background:#f2f2f2;
 }
 
-/* TOPO */
-.topo{
+/* HERO */
+.hero{
 position:relative;
-height:220px;
+height:260px;
 overflow:hidden;
-border-bottom-left-radius:30px;
-border-bottom-right-radius:30px;
 }
 
-.bg{
+.hero-bg{
 position:absolute;
 width:100%;
 height:100%;
-background:url('logo.png') center/cover;
-filter:blur(30px) brightness(0.5);
+background:url('logo.png') center/cover no-repeat;
+filter:blur(40px) brightness(0.4);
+transform:scale(1.2);
 }
 
-.conteudo{
+.hero-content{
 position:absolute;
 width:100%;
 height:100%;
@@ -35,28 +33,8 @@ text-align:center;
 }
 
 .logo{
-width:100px;
+width:120px;
 margin-bottom:10px;
-}
-
-/* SOCIAL */
-.social{
-display:flex;
-gap:20px;
-margin-top:10px;
-}
-
-.social a{
-display:flex;
-align-items:center;
-gap:5px;
-color:#D4AF37;
-text-decoration:none;
-font-weight:bold;
-}
-
-.social img{
-width:18px;
 }
 
 /* BUSCA */
@@ -69,7 +47,6 @@ width:100%;
 padding:15px;
 border-radius:30px;
 border:none;
-box-shadow:0 5px 10px rgba(0,0,0,0.1);
 }
 
 /* CATEGORIAS */
@@ -85,7 +62,6 @@ border:none;
 padding:8px 15px;
 border-radius:20px;
 background:#eee;
-cursor:pointer;
 }
 
 #categorias .active{
@@ -104,7 +80,6 @@ padding:15px;
 background:#fff;
 border-radius:20px;
 padding:10px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
 .card img{
@@ -117,7 +92,11 @@ border-radius:10px;
 .preco{
 color:#5a0000;
 font-weight:bold;
-margin-top:5px;
+}
+
+.estoque{
+font-size:12px;
+color:#888;
 }
 
 /* CONTROLES */
@@ -145,6 +124,7 @@ right:20px;
 background:#D4AF37;
 padding:15px;
 border-radius:30px;
+font-weight:bold;
 }
 
 #carrinho{
@@ -160,4 +140,20 @@ padding:10px;
 
 #carrinho.ativo{
 right:0;
+}
+
+/* RODAPÉ */
+.rodape{
+text-align:center;
+padding:20px;
+background:#000;
+color:#fff;
+margin-top:20px;
+}
+
+.rodape a{
+color:#D4AF37;
+display:block;
+margin-top:10px;
+text-decoration:none;
 }
