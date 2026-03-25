@@ -1,175 +1,95 @@
 body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto;
-  background:linear-gradient(180deg,#8B0000,#1a0d0d);
-  color:#fff;
+ margin:0;
+ font-family:sans-serif;
+ background:#1a0d0d;
+ color:#fff;
 }
 
-/* HERO */
 .hero{
-  width:100%;
-  height:200px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:radial-gradient(circle,#a00000,#3b0000);
-  overflow:hidden;
+ height:180px;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ background:#7a0f0f;
 }
 
-.hero-img{
-  max-width:90%;
-  max-height:180px;
-  object-fit:contain;
+.hero img{
+ max-height:150px;
 }
 
-/* BOTÕES */
-.social{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  margin:10px 0;
+.top-actions{
+ display:flex;
+ justify-content:center;
+ gap:10px;
 }
 
 .btn{
-  padding:10px 16px;
-  border-radius:30px;
-  font-weight:bold;
-  text-decoration:none;
-  color:#fff;
-  box-shadow:0 4px 15px rgba(0,0,0,.4);
+ padding:10px;
+ border-radius:50%;
+ color:#fff;
+ text-decoration:none;
 }
 
-.whatsapp{
-  background:#25D366;
-}
+.whatsapp{background:#25D366;}
+.insta{background:#E1306C;}
 
-.insta{
-  background:linear-gradient(45deg,#f58529,#dd2a7b,#8134af);
-}
-
-/* BUSCA */
 .search{
-  width:90%;
-  margin:15px auto;
-  padding:15px;
-  border-radius:30px;
-  border:none;
-  background:#2a1414;
-  color:#fff;
-  font-size:15px;
+ width:90%;
+ margin:10px auto;
+ padding:12px;
+ border-radius:20px;
+ border:none;
+ background:#2a1414;
+ color:#fff;
+ display:block;
 }
 
-/* CATEGORIAS */
-.categorias{
-  display:flex;
-  overflow-x:auto;
-  gap:10px;
-  padding:10px;
-}
-
-.categorias div{
-  padding:8px 16px;
-  background:#2a1414;
-  border-radius:20px;
-  cursor:pointer;
-  white-space:nowrap;
-}
-
-.ativo{
-  background:#D4AF37;
-  color:#000;
-}
-
-/* GRID */
 .grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
-  padding:15px;
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:10px;
+ padding:10px;
 }
 
-/* CARD */
 .card{
-  background:#1e0f0f;
-  border-radius:20px;
-  padding:12px;
-  box-shadow:0 8px 20px rgba(0,0,0,.5);
-  position:relative;
-  transition:.3s;
+ background:#2a1414;
+ border-radius:15px;
+ padding:10px;
 }
 
-.card:hover{
-  transform:scale(1.03);
-}
-
-/* PROMO BADGE */
-.badge{
-  position:absolute;
-  top:10px;
-  left:10px;
-  background:red;
-  padding:5px 10px;
-  border-radius:10px;
-  font-size:12px;
-  font-weight:bold;
-}
-
-/* IMAGEM */
 .card img{
-  width:100%;
-  height:130px;
-  object-fit:cover;
-  border-radius:10px;
+ width:100%;
+ height:120px;
+ object-fit:cover;
 }
 
-/* PREÇO */
-.preco-antigo{
-  text-decoration:line-through;
-  opacity:.5;
-  font-size:13px;
+.badge{
+ background:red;
+ padding:4px;
+ font-size:12px;
 }
 
-.preco-novo{
-  color:#D4AF37;
-  font-size:18px;
-  font-weight:bold;
+.cart-btn{
+ position:fixed;
+ right:20px;
+ bottom:20px;
+ background:#D4AF37;
+ padding:15px;
+ border-radius:50%;
 }
 
-/* ESTOQUE NUMERO */
-.estoque{
-  margin-top:5px;
-  font-size:13px;
+/* CARRINHO LATERAL */
+.cart{
+ position:fixed;
+ right:-100%;
+ top:0;
+ width:300px;
+ height:100%;
+ background:#111;
+ padding:15px;
+ transition:.3s;
 }
 
-.ok{color:#00ff88;}
-.bom{color:#ffcc00;}
-.ruim{color:#ff4d4d;}
-
-/* CONTROLE */
-.controle{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-  margin-top:8px;
-}
-
-button{
-  background:#D4AF37;
-  border:none;
-  border-radius:50%;
-  width:34px;
-  height:34px;
-  font-weight:bold;
-}
-
-/* CARRINHO */
-.carrinho{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#D4AF37;
-  padding:15px;
-  border-radius:50px;
-  font-weight:bold;
-  box-shadow:0 5px 15px rgba(0,0,0,.5);
+.cart.open{
+ right:0;
 }
