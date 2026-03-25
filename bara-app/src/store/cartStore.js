@@ -1,29 +1,21 @@
-const CART_KEY = "bara-da-sete-cart";
+const KEY = "cart";
 
 export const cartStore = {
   get() {
-    try {
-      return JSON.parse(localStorage.getItem(CART_KEY)) || {};
-    } catch {
-      return {};
-    }
+    return JSON.parse(localStorage.getItem(KEY)) || {};
   },
 
   save(data) {
-    localStorage.setItem(CART_KEY, JSON.stringify(data));
+    localStorage.setItem(KEY, JSON.stringify(data));
   },
 
-  add(produto) {
+  add(p) {
     const cart = this.get();
 
-    if (cart[produto.nome]) {
-      if (cart[produto.nome].quantidade >= produto.estoque) return;
-      cart[produto.nome].quantidade++;
+    if (cart[p.nome]) {
+      cart[p.nome].quantidade++;
     } else {
-      cart[produto.nome] = {
-        produto,
-        quantidade: 1
-      };
+      cart[p.nome] = { produto: p, quantidade: 1 };
     }
 
     this.save(cart);
@@ -43,21 +35,9 @@ export const cartStore = {
     this.save(cart);
   },
 
-  remove(nome) {
-    const cart = this.get();
-    delete cart[nome];
-    this.save(cart);
-  },
-
   total() {
-    return Object.values(this.get()).reduce((acc, item) => {
-      return acc + (item.produto.preco * item.quantidade);
-    }, 0);
-  },
-
-  totalQty() {
-    return Object.values(this.get()).reduce((acc, item) => {
-      return acc + item.quantidade;
+    return Object.values(this.get()).reduce((s, i) => {
+      return s + (i.produto.preco * i.quantidade);
     }, 0);
   }
 };
