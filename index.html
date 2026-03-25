@@ -7,54 +7,58 @@
 <title>Bará da Sete</title>
 
 <link rel="stylesheet" href="style.css">
+
+<link rel="manifest" href="manifest.json">
+
 <link rel="icon" href="logo.png">
 
 </head>
+
 <body>
 
 <!-- HERO -->
-<section class="hero">
+<header class="hero" id="hero">
+    <div class="hero-bg"></div>
 
-<div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
 
-<img src="logo.png" class="hero-logo" id="logoClick">
+    <img src="logo.png" class="hero-logo">
+    
+    <div class="hero-buttons">
+        <a href="https://wa.me/5554996169777" class="btn whatsapp">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png">
+            WhatsApp
+        </a>
 
-<div class="hero-overlay"></div>
+        <a href="https://www.instagram.com/baradase7e" class="btn instagram">
+            <img src="https://cdn-icons-png.flaticon.com/512/733/733558.png">
+            Instagram
+        </a>
+    </div>
+</header>
 
-<div class="hero-buttons">
-
-<a href="https://wa.me/5554996169777" class="btn whatsapp">
-<svg viewBox="0 0 32 32"><path fill="white" d="M16 3C9 3 3 9 3 16c0 2.8.9 5.3 2.4 7.4L3 29l5.8-2.3C10.8 28.2 13.3 29 16 29c7 0 13-6 13-13S23 3 16 3z"/></svg>
-WhatsApp
-</a>
-
-<a href="https://www.instagram.com/baradase7e" class="btn instagram">
-<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="6" fill="white"/></svg>
-Instagram
-</a>
-
+<!-- BUSCA -->
+<div class="search-box">
+    <input type="text" id="busca" placeholder="Buscar produto...">
 </div>
 
-</section>
-
-<input type="text" id="search" placeholder="Buscar produto...">
-
+<!-- CATEGORIAS -->
 <div id="categorias"></div>
 
+<!-- PRODUTOS -->
 <div id="produtos"></div>
 
 <!-- CARRINHO -->
-<div id="cartIcon">🛒 <span id="cartCount">0</span></div>
+<div id="carrinhoBtn">🛒 <span id="contador">0</span></div>
 
-<!-- DRAWER -->
-<div id="drawer">
-<div class="drawer-content" id="cartItems"></div>
-<div class="drawer-footer">
-<span id="total"></span>
-<button onclick="irCheckout()">Finalizar</button>
-</div>
+<div id="carrinho">
+    <h2>Seu Carrinho</h2>
+    <div id="itensCarrinho"></div>
+    <h3 id="total"></h3>
+    <button onclick="finalizar()">Finalizar Pedido</button>
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
