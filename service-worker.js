@@ -1,5 +1,5 @@
-self.addEventListener("install", e=>{
- e.waitUntil(
-  caches.open("v1").then(c=>c.addAll(["./"]))
- )
-})
+self.addEventListener("install", e => {
+  self.skipWaiting();
+});
+
+self.addEventListener("fetch", () => {});
