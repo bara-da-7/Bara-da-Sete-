@@ -1,81 +1,66 @@
-const API = "https://script.google.com/macros/s/AKfycbzJVNHNmRoMNRtBPusHXL04VyphdycYXSGyWMWTgZN0Jv4rf1HLqn7YHtJlPKq8dml8/exec"
 
-let produtos = []
-let carrinho = JSON.parse(localStorage.getItem("carrinho")) || {}
-
-const produtosDiv = document.getElementById("produtos")
-const contador = document.getElementById("contador")
-const carrinhoDiv = document.getElementById("carrinho")
-
-document.getElementById("carrinhoBtn").onclick = ()=>{
-    carrinhoDiv.classList.toggle("ativo")
+  produtos=data
+  render()
+  categorias()
+ })
 }
 
-function carregar(){
-fetch(API)
-.then(r=>r.json())
-.then(data=>{
-produtos = data
-render()
-})
+function render(lista=produtos){
+ produtosDiv.innerHTML=''
+ lista.forEach(p=>{
+  if(p.ativo!=='sim')return
+  let preco=p.promocao==='sim'?p.precoPromo:p.preco
+  produtosDiv.innerHTML+=`<div class="card">
+   <img src="${p.imagem}">
+   <h3>${p.nome}</h3>
+   <p class="preco">R$ ${preco}</p>
+   <button onclick="add('${p.nome}',${preco})">+</button>
+  </div>`
+ })
 }
 
-function render(){
-produtosDiv.innerHTML = ""
+function categorias(){
+ let cats=[...new Set(produtos.map(p=>p.categoria))]
+ categoriasDiv.innerHTML=''
+ cats.forEach(c=>{
+  categoriasDiv.innerHTML+=`<button onclick="filtrar('${c}')">${c}</button>`
+ })
+}
 
-produtos
-.sort((a,b)=> a.nome.localeCompare(b.nome))
-.forEach(p=>{
+function filtrar(cat){
+ render(produtos.filter(p=>p.categoria===cat))
+}
 
-if(p.ativo !== "sim") return
-
-let preco = p.promocao === "sim" ? p.precoPromo : p.preco
-
-produtosDiv.innerHTML += `
-<div class="card">
-<img src="${p.imagem}">
-<h3>${p.nome}</h3>
-
-${p.promocao==="sim" ? `<span class="promo">R$ ${p.preco}</span>` : ""}
-
-<p class="preco">R$ ${preco}</p>
-
-<button onclick="add('${p.nome}',${preco})">+</button>
-</div>
-`
-})
+busca.oninput=(e)=>{
+ let t=e.target.value.toLowerCase()
+ render(produtos.filter(p=>p.nome.toLowerCase().includes(t)))
 }
 
 function add(nome,preco){
-if(!carrinho[nome]) carrinho[nome]=0
-carrinho[nome]++
-
-localStorage.setItem("carrinho",JSON.stringify(carrinho))
-
-updateCart()
+ carrinho[nome]=(carrinho[nome]||0)+1
+ localStorage.setItem('carrinho',JSON.stringify(carrinho))
+ updateCart()
 }
 
 function updateCart(){
-let total=0
-let html=""
-
-for(let i in carrinho){
-html += `<p>${i} x${carrinho[i]}</p>`
-}
-
-document.getElementById("itensCarrinho").innerHTML = html
-
-contador.innerText = Object.values(carrinho).reduce((a,b)=>a+b,0)
+ let total=0,html=''
+ for(let i in carrinho){
+  let p=produtos.find(x=>x.nome===i)
+  let preco=p?.preco||0
+  total+=preco*carrinho[i]
+  html+=`<p>${i} x${carrinho[i]}</p>`
+ }
+ itensCarrinho.innerHTML=html
+ totalEl.innerText='Total R$ '+total
+ contador.innerText=Object.values(carrinho).reduce((a,b)=>a+b,0)
 }
 
 function finalizar(){
-let msg = "Pedido:%0A"
-
-for(let i in carrinho){
-msg += `${i} x${carrinho[i]}%0A`
-}
-
-window.open(`https://wa.me/5554996169777?text=${msg}`)
+ let msg='Pedido:%0A'
+ for(let i in carrinho){
+  msg+=`${i} x${carrinho[i]}%0A`
+ }
+ window.open(`https://wa.me/5554996169777?text=${msg}`)
 }
 
 carregar()
