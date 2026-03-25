@@ -2,18 +2,16 @@ let produtos = []
 let carrinho = JSON.parse(localStorage.getItem("carrinho")) || {}
 
 const produtosDiv = document.getElementById("produtos")
-const categoriasDiv = document.getElementById("categorias")
 const contador = document.getElementById("contador")
-const carrinhoDiv = document.getElementById("carrinho")
 
 document.getElementById("carrinhoBtn").onclick = ()=>{
- carrinhoDiv.classList.toggle("ativo")
+ document.getElementById("carrinho").classList.toggle("ativo")
 }
 
 async function init(){
  produtos = await getProdutos()
  render(produtos)
- categorias()
+ gerarCategorias()
  updateCart()
 }
 
@@ -30,23 +28,64 @@ function render(lista){
     <img src="${p.imagem}">
     <h3>${p.nome}</h3>
     <p>${p.descricao||""}</p>
+
     <div class="preco">R$ ${p.preco}</div>
+    <div class="estoque">Estoque: ${p.estoque}</div>
 
     <div class="controls">
       <button onclick="menos('${p.nome}')">-</button>
       <span>${qtd}</span>
-      <button onclick="mais('${p.nome}')">+</button>
+      <button onclick="mais('${p.nome}', ${p.estoque})">+</button>
     </div>
   </div>`
  })
 }
 
-function categorias(){
+/* 🔥 CORREÇÃO DO CONTADOR */
+function updateCart(){
+ let totalItens = 0
+
+ for(let i in carrinho){
+  totalItens += carrinho[i]
+ }
+
+ contador.innerText = totalItens
+}
+
+/* 🔥 CONTROLE COM ESTOQUE */
+function mais(nome, estoque){
+ if((carrinho[nome]||0) >= estoque){
+  alert("Estoque máximo atingido")
+  return
+ }
+
+ carrinho[nome]=(carrinho[nome]||0)+1
+ salvar()
+}
+
+function menos(nome){
+ if(!carrinho[nome]) return
+
+ carrinho[nome]--
+ if(carrinho[nome]<=0) delete carrinho[nome]
+
+ salvar()
+}
+
+function salvar(){
+ localStorage.setItem("carrinho", JSON.stringify(carrinho))
+ updateCart()
+}
+
+/* FILTRO */
+function gerarCategorias(){
  let cats = ["Todos", ...new Set(produtos.map(p=>p.categoria))]
- categoriasDiv.innerHTML=""
+ let div = document.getElementById("categorias")
+
+ div.innerHTML=""
 
  cats.forEach((c,i)=>{
-  categoriasDiv.innerHTML += `
+  div.innerHTML += `
   <button class="${i==0?'active':''}" onclick="filtrar('${c}',this)">
   ${c}
   </button>`
@@ -63,44 +102,16 @@ function filtrar(cat,el){
  el.classList.add("active")
 }
 
+/* BUSCA */
 document.getElementById("busca").oninput = e=>{
  let t = e.target.value.toLowerCase()
  render(produtos.filter(p=>p.nome.toLowerCase().includes(t)))
 }
 
-function mais(nome){
- carrinho[nome]=(carrinho[nome]||0)+1
- salvar()
-}
-
-function menos(nome){
- if(!carrinho[nome]) return
- carrinho[nome]--
- if(carrinho[nome]<=0) delete carrinho[nome]
- salvar()
-}
-
-function salvar(){
- localStorage.setItem("carrinho",JSON.stringify(carrinho))
- updateCart()
-}
-
-function updateCart(){
- let total=0
- let html=""
-
- for(let i in carrinho){
-  html+=`<p>${i} x${carrinho[i]}</p>`
- }
-
- document.getElementById("itensCarrinho").innerHTML = html
- contador.innerText = Object.values(carrinho).reduce((a,b)=>a+b,0)
-}
-
+/* CHECKOUT */
 async function checkout(){
-
- let nome = document.getElementById("nomeCliente").value
- let endereco = document.getElementById("endereco").value
+ let nome = nomeCliente.value
+ let endereco = endereco.value
 
  if(!nome || !endereco){
   alert("Preencha tudo")
