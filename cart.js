@@ -1,24 +1,39 @@
 let carrinho = JSON.parse(localStorage.getItem("carrinho")) || {}
 
-function add(nome, preco){
+function add(nome){
  carrinho[nome] = (carrinho[nome] || 0) + 1
- salvarCarrinho()
+ salvar()
+}
+
+function remover(nome){
+ delete carrinho[nome]
+ salvar()
+}
+
+function salvar(){
+ localStorage.setItem("carrinho", JSON.stringify(carrinho))
  updateCart()
 }
 
-function salvarCarrinho(){
- localStorage.setItem("carrinho", JSON.stringify(carrinho))
-}
-
 function updateCart(){
- let total = 0
- let html = ""
+ let html=""
+ let total=0
 
  for(let i in carrinho){
-  html += `<p>${i} x${carrinho[i]}</p>`
+  let p = produtos.find(x=>x.nome===i)
+  if(!p) continue
+
+  let preco = p.promocao==="sim" && p.precoPromo>0 ? p.precoPromo : p.preco
+  total += preco * carrinho[i]
+
+  html += `
+  <p>
+    ${i} x${carrinho[i]}
+    <button onclick="remover('${i}')">❌</button>
+  </p>`
  }
 
- document.getElementById("itensCarrinho").innerHTML = html
- document.getElementById("contador").innerText =
- Object.values(carrinho).reduce((a,b)=>a+b,0)
+ itensCarrinho.innerHTML = html
+ totalEl.innerText = "R$ " + total.toFixed(2)
+ contador.innerText = Object.values(carrinho).reduce((a,b)=>a+b,0)
 }
