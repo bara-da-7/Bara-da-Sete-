@@ -1,26 +1,159 @@
-body {
-  margin: 0;
-  font-family: Inter, sans-serif;
-  background: #0a0000;
-  color: white;
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-gold: hsl(var(--gold));
+  --font-sans: var(--app-font-sans);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 }
 
-header {
-  background: linear-gradient(#200000, #000);
-  padding: 20px;
-  text-align: center;
+:root {
+  --background: 0 100% 3%;
+  --foreground: 0 0% 98%;
+  --border: 0 60% 15%;
+  --input: 0 50% 12%;
+  --ring: 43 74% 49%;
+  --card: 0 80% 7%;
+  --card-foreground: 0 0% 95%;
+  --popover: 0 80% 7%;
+  --popover-foreground: 0 0% 95%;
+  --primary: 43 74% 49%;
+  --primary-foreground: 0 0% 5%;
+  --secondary: 0 60% 15%;
+  --secondary-foreground: 0 0% 90%;
+  --muted: 0 50% 10%;
+  --muted-foreground: 0 0% 60%;
+  --accent: 0 60% 18%;
+  --accent-foreground: 0 0% 95%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --gold: 43 74% 49%;
+  --app-font-sans: 'Inter', sans-serif;
+  --radius: 0.75rem;
 }
 
-.card {
-  background: #140000;
-  padding: 10px;
-  border-radius: 12px;
+@layer base {
+  * { @apply border-border box-border; }
+  body { @apply bg-background text-foreground font-sans antialiased; }
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: hsl(var(--background)); }
+  ::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 4px; }
 }
 
-button {
-  background: gold;
-  border: none;
-  padding: 10px;
-  border-radius: 8px;
-  cursor: pointer;
+@layer utilities {
+  .gold { color: hsl(var(--gold)); }
+  .bg-gold { background-color: hsl(var(--gold)); }
+  .border-gold { border-color: hsl(var(--gold)); }
+
+  .cart-slide { transform: translateX(100%); transition: transform 0.3s ease; }
+  .cart-slide.open { transform: translateX(0); }
+
+  .overlay-fade { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+  .overlay-fade.open { opacity: 1; pointer-events: all; }
+
+  .modal-scale { transform: scale(0.95); opacity: 0; transition: all 0.25s ease; }
+  .modal-scale.open { transform: scale(1); opacity: 1; }
+
+  .card-hover { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212, 175, 55, 0.15); }
+
+  .btn-gold {
+    background: hsl(var(--gold));
+    color: hsl(0 0% 5%);
+    font-weight: 700;
+    border-radius: var(--radius);
+    transition: filter 0.15s ease, transform 0.1s ease;
+  }
+  .btn-gold:hover { filter: brightness(1.1); }
+  .btn-gold:active { transform: scale(0.98); }
+
+  .skeleton-pulse {
+    background: linear-gradient(90deg, hsl(var(--card)) 25%, hsl(var(--accent)) 50%, hsl(var(--card)) 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.4s infinite;
+  }
+  @keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  .float-cart { animation: float-pulse 2s ease-in-out infinite; }
+  @keyframes float-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  .fly-animation {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: hsl(var(--gold));
+    pointer-events: none;
+    z-index: 9999;
+    animation: fly-to-cart 0.6s ease forwards;
+  }
+  @keyframes fly-to-cart {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.2) translate(var(--tx), var(--ty)); opacity: 0; }
+  }
+
+  .category-chip {
+    white-space: nowrap;
+    padding: 0.4rem 1rem;
+    border-radius: 9999px;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--foreground));
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .category-chip:hover { border-color: hsl(var(--gold)); color: hsl(var(--gold)); }
+  .category-chip.active {
+    background: hsl(var(--gold));
+    border-color: hsl(var(--gold));
+    color: hsl(0 0% 5%);
+    font-weight: 600;
+  }
+
+  .quantity-btn {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--card));
+    color: hsl(var(--foreground));
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+  }
+  .quantity-btn:hover { background: hsl(var(--gold)); border-color: hsl(var(--gold)); color: hsl(0 0% 5%); }
+  .quantity-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .quantity-btn:disabled:hover { background: hsl(var(--card)); border-color: hsl(var(--border)); color: hsl(var(--foreground)); }
 }
