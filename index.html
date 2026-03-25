@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,39 +7,44 @@
 <title>Bará da Sete</title>
 
 <link rel="stylesheet" href="style.css">
-<link rel="icon" href="logo.png">
+<link rel="manifest" href="manifest.json">
+
 </head>
 
 <body>
 
+<!-- HERO -->
 <header class="hero">
-  <img src="logo.png" class="hero-img">
+  <div class="hero-bg"></div>
+
+  <div class="hero-overlay"></div>
+
+  <img src="logo.png" class="hero-logo">
+
+  <div class="hero-buttons">
+    <a href="https://wa.me/5554996169777" class="btn-whatsapp">🟢 WhatsApp</a>
+    <a href="https://www.instagram.com/baradase7e" class="btn-instagram">📸 Instagram</a>
+  </div>
 </header>
 
-<div class="top-actions">
-  <a href="https://wa.me/555496169777" class="btn whatsapp">📲</a>
-  <a href="https://www.instagram.com/baradase7e" class="btn insta">📸</a>
-</div>
+<!-- BUSCA -->
+<input id="busca" placeholder="Buscar produto...">
 
-<input class="search" placeholder="Buscar produto..." oninput="buscar(this.value)">
+<!-- CATEGORIAS -->
+<div id="categorias"></div>
 
-<div id="categorias" class="categorias"></div>
-
-<div id="produtos" class="grid"></div>
-
-<!-- BOTÃO -->
-<div class="cart-btn" onclick="toggleCart()">🛒 <span id="count">0</span></div>
+<!-- PRODUTOS -->
+<div id="produtos"></div>
 
 <!-- CARRINHO -->
-<div id="cart" class="cart">
-  <h3>Seu Pedido</h3>
+<div id="cartDrawer" class="cart">
+  <h2>🛒 Carrinho</h2>
   <div id="cartItems"></div>
-
-  <input placeholder="Seu nome" id="nome">
-  <input placeholder="Endereço" id="endereco">
-
-  <button onclick="finalizar()">Finalizar Pedido</button>
+  <h3 id="total"></h3>
+  <button onclick="irCheckout()">Finalizar</button>
 </div>
+
+<button class="cart-btn" onclick="toggleCart()">🛒 <span id="cartCount">0</span></button>
 
 <script src="script.js"></script>
 
