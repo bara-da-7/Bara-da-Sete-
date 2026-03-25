@@ -7,55 +7,54 @@
 <title>Bará da Sete</title>
 
 <link rel="stylesheet" href="style.css">
-
 <link rel="icon" href="logo.png">
 
 </head>
-
 <body>
 
-<!-- HERO PREMIUM -->
+<!-- HERO -->
 <section class="hero">
 
-    <!-- FUNDO EXPANDIDO -->
-    <div class="hero-bg"></div>
+<div class="hero-bg"></div>
 
-    <!-- IMAGEM CENTRAL -->
-    <img src="logo.png" class="hero-logo" id="logoClick">
+<img src="logo.png" class="hero-logo" id="logoClick">
 
-    <!-- OVERLAY -->
-    <div class="hero-overlay"></div>
+<div class="hero-overlay"></div>
 
-    <!-- BOTÕES -->
-    <div class="hero-buttons">
+<div class="hero-buttons">
 
-        <a href="https://wa.me/5554996169777" class="btn whatsapp">
-            🟢 WhatsApp
-        </a>
+<a href="https://wa.me/5554996169777" class="btn whatsapp">
+<svg viewBox="0 0 32 32"><path fill="white" d="M16 3C9 3 3 9 3 16c0 2.8.9 5.3 2.4 7.4L3 29l5.8-2.3C10.8 28.2 13.3 29 16 29c7 0 13-6 13-13S23 3 16 3z"/></svg>
+WhatsApp
+</a>
 
-        <a href="https://www.instagram.com/baradase7e" class="btn instagram">
-            📸 Instagram
-        </a>
+<a href="https://www.instagram.com/baradase7e" class="btn instagram">
+<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="6" fill="white"/></svg>
+Instagram
+</a>
 
-    </div>
+</div>
 
 </section>
 
-<!-- BUSCA -->
-<div class="search-box">
-    <input type="text" id="search" placeholder="Buscar produto...">
-</div>
+<input type="text" id="search" placeholder="Buscar produto...">
 
-<!-- CATEGORIAS -->
 <div id="categorias"></div>
 
-<!-- PRODUTOS -->
 <div id="produtos"></div>
 
 <!-- CARRINHO -->
 <div id="cartIcon">🛒 <span id="cartCount">0</span></div>
 
-<script src="script.js"></script>
+<!-- DRAWER -->
+<div id="drawer">
+<div class="drawer-content" id="cartItems"></div>
+<div class="drawer-footer">
+<span id="total"></span>
+<button onclick="irCheckout()">Finalizar</button>
+</div>
+</div>
 
+<script src="script.js"></script>
 </body>
 </html>
