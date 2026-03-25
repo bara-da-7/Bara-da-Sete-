@@ -1,51 +1,65 @@
-let carrinho = JSON.parse(localStorage.getItem("carrinho")) || {}
+const CART_KEY = "bara-cart";
 
-function add(nome){
- carrinho[nome] = (carrinho[nome] || 0) + 1
- salvar()
+function getCart() {
+  return JSON.parse(localStorage.getItem(CART_KEY)) || {};
 }
 
-function remover(nome){
- delete carrinho[nome]
- salvar()
+function saveCart(cart) {
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
 }
 
-function salvar(){
- localStorage.setItem("carrinho", JSON.stringify(carrinho))
- updateCart()
+function addItem(produto) {
+  const cart = getCart();
+
+  if (!cart[produto.nome]) {
+    cart[produto.nome] = { produto, quantidade: 1 };
+  } else {
+    if (cart[produto.nome].quantidade < produto.estoque) {
+      cart[produto.nome].quantidade++;
+    }
+  }
+
+  saveCart(cart);
+  renderCart();
 }
 
-function updateCart(){
- let html=""
- let total=0
+function decreaseItem(nome) {
+  const cart = getCart();
 
- for(let i in carrinho){
-  let p = produtos.find(x=>x.nome===i)
-  if(!p) continue
+  if (!cart[nome]) return;
 
-  let preco = p.promocao==="sim" && p.precoPromo>0 ? p.precoPromo : p.preco
-  total += preco * carrinho[i]
+  if (cart[nome].quantidade <= 1) {
+    delete cart[nome];
+  } else {
+    cart[nome].quantidade--;
+  }
 
-  html += `
-  <p>
-    ${i} x${carrinho[i]}
-    <button onclick="remover('${i}')">❌</button>
-  </p>`
- }
-
- itensCarrinho.innerHTML = html
- totalEl.innerText = "R$ " + total.toFixed(2)
- contador.innerText = Object.values(carrinho).reduce((a,b)=>a+b,0)
+  saveCart(cart);
+  renderCart();
 }
 
-function diminuir(nome){
- if(!carrinho[nome]) return
+function removeItem(nome) {
+  const cart = getCart();
+  delete cart[nome];
+  saveCart(cart);
+  renderCart();
+}
 
- carrinho[nome]--
+function clearCart() {
+  localStorage.removeItem(CART_KEY);
+  renderCart();
+}
 
- if(carrinho[nome] <= 0){
-  delete carrinho[nome]
- }
+function totalPreco() {
+  const cart = getCart();
 
- salvar()
+  return Object.values(cart).reduce((acc, i) => {
+    const preco = parseFloat(i.produto.preco);
+    return acc + preco * i.quantidade;
+  }, 0);
+}
+
+function totalQuantidade() {
+  const cart = getCart();
+  return Object.values(cart).reduce((acc, i) => acc + i.quantidade, 0);
 }
