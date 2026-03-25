@@ -1,31 +1,45 @@
-window.ui = {
+window.ui={
 
-  produtoCard(p) {
-    const qtd = cart.items[p.nome]?.qtd || 0;
+card(p){
+let q=cart.items[p.nome]?.q||0;
 
-    return `
-    <div class="card">
-      <img src="${p.imagem || ''}" style="width:100%;height:140px;object-fit:cover">
-      <div style="padding:10px">
-        <h4>${p.nome}</h4>
-        <p>R$ ${Number(p.preco).toFixed(2)}</p>
+return `
+<div class="card">
+<img src="${p.imagem||''}" style="height:140px;width:100%;object-fit:cover">
 
-        ${
-          qtd === 0
-          ? `<button onclick="actions.add('${p.nome}')" class="btn-gold">Adicionar</button>`
-          : `
-          <div>
-            <button onclick="actions.dec('${p.nome}')">-</button>
-            ${qtd}
-            <button onclick="actions.add('${p.nome}')">+</button>
-          </div>`
-        }
-      </div>
-    </div>`;
-  },
+<div style="padding:10px">
+<h4>${p.nome}</h4>
+<p>R$ ${parseFloat(p.preco).toFixed(2)}</p>
 
-  renderProdutos(lista) {
-    document.getElementById("produtos").innerHTML =
-      lista.map(p=>ui.produtoCard(p)).join('');
-  }
+${q==0
+? `<button class="btn" onclick="app.add('${p.nome}',event)">Adicionar</button>`
+: `<div>
+<button onclick="app.dec('${p.nome}')">-</button>
+${q}
+<button onclick="app.add('${p.nome}',event)">+</button>
+</div>`
+}
+</div>
+</div>`;
+},
+
+render(list){
+document.getElementById("produtos").innerHTML=
+list.map(ui.card).join('');
+},
+
+cart(){
+let html=Object.values(cart.items).map(i=>{
+return `<div>
+${i.produto.nome} x${i.q}
+<button onclick="app.dec('${i.produto.nome}')">-</button>
+<button onclick="app.add('${i.produto.nome}')">+</button>
+<button onclick="app.remove('${i.produto.nome}')">x</button>
+</div>`;
+}).join('');
+
+document.getElementById("cartBody").innerHTML=html;
+document.getElementById("cartTotal").innerText=
+"R$ "+cart.price().toFixed(2);
+}
 };
