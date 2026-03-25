@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Bará da Sete</title>
 
 <link rel="stylesheet" href="style.css">
@@ -12,12 +13,12 @@
 
 <body>
 
+<!-- TOPO -->
 <header class="topo">
+  <div class="bg"></div>
 
-  <div class="hero-logo-bg"></div>
-
-  <div class="hero-content">
-    <img src="logo.png" class="logo-topo">
+  <div class="conteudo">
+    <img src="logo.png" class="logo">
 
     <h1>Bará da Sete</h1>
     <p>Artigos Religiosos</p>
@@ -34,20 +35,26 @@
       </a>
     </div>
   </div>
-
 </header>
 
-<div class="search-box">
+<!-- BUSCA -->
+<div class="search">
   <input id="busca" placeholder="Buscar produto...">
 </div>
 
+<!-- CATEGORIAS -->
 <div id="categorias"></div>
+
+<!-- PRODUTOS -->
 <div id="produtos"></div>
 
+<!-- BOTÃO CARRINHO -->
 <div id="carrinhoBtn">🛒 <span id="contador">0</span></div>
 
+<!-- CARRINHO -->
 <div id="carrinho">
   <h2>Seu Carrinho</h2>
+
   <div id="itensCarrinho"></div>
   <h3 id="total"></h3>
 
@@ -58,15 +65,7 @@
 </div>
 
 <script src="api.js"></script>
-<script src="cart.js"></script>
-<script src="ui.js"></script>
 <script src="script.js"></script>
-
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js')
-}
-</script>
 
 </body>
 </html>
