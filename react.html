@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bará React</title>
+
+  <!-- React CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+  <!-- Babel (permite JSX no navegador) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    const { useState, useEffect } = React
+
+    function App() {
+      const [produtos, setProdutos] = useState([])
+      const [cart, setCart] = useState([])
+
+      useEffect(() => {
+        fetch("SUA_URL_SHEETS_AQUI")
+          .then(r => r.json())
+          .then(setProdutos)
+      }, [])
+
+      function add(produto) {
+        setCart(prev => [...prev, produto])
+      }
+
+      return (
+        <>
+          <header className="hero">
+            <div className="hero-bg"></div>
+            <div className="hero-inner">
+              <h1 className="store-title">Bará da Sete</h1>
+            </div>
+          </header>
+
+          <main className="main">
+            <div className="product-grid">
+              {produtos.map(p => (
+                <div className="product-card" key={p.nome}>
+                  <div className="product-img-wrap">
+                    <img src={p.imagem} />
+                  </div>
+
+                  <div className="product-info">
+                    <h3 className="product-name">{p.nome}</h3>
+
+                    <span className="product-price">
+                      R$ {p.preco}
+                    </span>
+
+                    <button className="btn-add" onClick={() => add(p)}>
+                      🛒 Adicionar
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </main>
+
+          <div className="cart-sidebar open">
+            <h2 style={{padding:"10px"}}>Carrinho</h2>
+
+            {cart.map((item, i) => (
+              <div key={i} style={{padding:"10px"}}>
+                {item.nome}
+              </div>
+            ))}
+          </div>
+        </>
+      )
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />)
+
+  </script>
+</body>
+</html>
