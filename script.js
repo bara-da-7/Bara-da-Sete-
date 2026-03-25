@@ -11,10 +11,11 @@ document.getElementById("carrinhoBtn").onclick = ()=>{
 async function init(){
  produtos = await getProdutos()
  render(produtos)
- gerarCategorias()
+ categorias()
  updateCart()
 }
 
+/* RENDER */
 function render(lista){
  produtosDiv.innerHTML=""
 
@@ -41,21 +42,24 @@ function render(lista){
  })
 }
 
-/* 🔥 CORREÇÃO DO CONTADOR */
+/* CONTADOR CORRETO */
 function updateCart(){
- let totalItens = 0
+ let total = 0
+ let html = ""
 
  for(let i in carrinho){
-  totalItens += carrinho[i]
+  total += carrinho[i]
+  html += `<p>${i} x${carrinho[i]}</p>`
  }
 
- contador.innerText = totalItens
+ document.getElementById("itensCarrinho").innerHTML = html
+ contador.innerText = total
 }
 
-/* 🔥 CONTROLE COM ESTOQUE */
+/* CONTROLE COM ESTOQUE */
 function mais(nome, estoque){
  if((carrinho[nome]||0) >= estoque){
-  alert("Estoque máximo atingido")
+  alert("Estoque máximo")
   return
  }
 
@@ -75,10 +79,11 @@ function menos(nome){
 function salvar(){
  localStorage.setItem("carrinho", JSON.stringify(carrinho))
  updateCart()
+ render(produtos)
 }
 
-/* FILTRO */
-function gerarCategorias(){
+/* CATEGORIAS */
+function categorias(){
  let cats = ["Todos", ...new Set(produtos.map(p=>p.categoria))]
  let div = document.getElementById("categorias")
 
