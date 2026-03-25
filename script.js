@@ -16,13 +16,23 @@ async function init(){
 }
 
 function gerarCategorias(){
- let cats = [...new Set(produtos.map(p=>p.categoria))]
-
+ let cats = ["Todos", ...new Set(produtos.map(p=>p.categoria))]
  categorias.innerHTML=""
 
  cats.forEach(c=>{
-  categorias.innerHTML += `<button onclick="filtrar('${c}')">${c}</button>`
+  categorias.innerHTML += `
+  <button onclick="filtrar('${c}', this)">${c}</button>`
  })
+}
+
+function filtrar(cat, el){
+ let lista = cat==="Todos" ? produtos : produtos.filter(p=>p.categoria===cat)
+ render(lista)
+
+ document.querySelectorAll("#categorias button")
+ .forEach(b=>b.classList.remove("active"))
+
+ el.classList.add("active")
 }
 
 function filtrar(cat){
