@@ -1,30 +1,71 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bará da Sete</title>
-
-<link rel="stylesheet" href="style.css">
-<link rel="manifest" href="manifest.json">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+  <meta name="theme-color" content="#8b0000" />
+  <meta name="description" content="Bará da Sete - Produtos selecionados com qualidade" />
+  <title>Bará da Sete</title>
+  <link rel="icon" type="image/svg+xml" href="logo.png" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<div id="app"></div>
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+      <h1 class="store-title">Bará da Sete</h1>
+      <p class="store-sub">Produtos selecionados com qualidade</p>
+    </div>
+  </header>
 
-<script src="api.js"></script>
-<script src="cart.js"></script>
-<script src="ui.js"></script>
-<script src="checkout.js"></script>
-<script src="script.js"></script>
+  <div class="sticky-bar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="search" id="searchInput" placeholder="Buscar produto..." autocomplete="off" />
+      <button id="searchClear" style="display:none">✕</button>
+    </div>
+  </div>
 
-<script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js");
-}
-</script>
+  <div id="categoriesWrap" class="categories-wrap" style="display:none">
+    <div id="categoriesContainer" class="categories"></div>
+  </div>
 
+  <main id="mainContent" class="main">
+    <p id="produtoCount" class="produto-count"></p>
+    <div id="productGrid" class="product-grid"></div>
+  </main>
+
+  <button id="cartBtn" class="float-cart">
+    🛒 <span id="cartQtyLabel" style="display:none"></span>
+  </button>
+
+  <div id="cartOverlay" class="cart-overlay"></div>
+  <div id="cartSidebar" class="cart-sidebar">
+    <div class="cart-header">
+      <div class="cart-title">
+        🛍️ <strong>Seu Carrinho</strong>
+        <span id="cartBadge" class="cart-badge" style="display:none"></span>
+      </div>
+      <button id="cartClose" class="btn-icon">✕</button>
+    </div>
+    <div id="cartItems" class="cart-items"></div>
+    <div id="cartFooter" class="cart-footer" style="display:none">
+      <div class="cart-total-row">
+        <span>Total</span>
+        <strong id="cartTotal" class="gold"></strong>
+      </div>
+      <a href="checkout.html" class="btn-gold btn-full">Finalizar Pedido 🚀</a>
+    </div>
+  </div>
+
+  <script src="api.js"></script>
+  <script src="cart.js"></script>
+  <script src="ui.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
