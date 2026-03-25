@@ -1,14 +1,8 @@
 const API = "https://script.google.com/macros/s/AKfycbzZ6BsrhgLa1f6nAWTWlWCS5j_cq0xhos5pjHhSgRLUVxJPYIqoeoL-Gy6mCukzCxgz/exec"
 
 async function getProdutos(){
- try{
-  const r = await fetch(API)
-  if(!r.ok) throw new Error("Erro API")
-  return await r.json()
- }catch(e){
-  console.error(e)
-  return []
- }
+ const r = await fetch(API)
+ return await r.json()
 }
 
 async function enviarPedido(dados){
