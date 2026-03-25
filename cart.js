@@ -1,32 +1,48 @@
-window.cart={
-items:JSON.parse(localStorage.getItem("cart")||"{}"),
+const CART_KEY = 'bara-da-sete-cart';
 
-save(){localStorage.setItem("cart",JSON.stringify(this.items))},
-
-add(p){
-if(!this.items[p.nome]) this.items[p.nome]={produto:p,q:0};
-if(this.items[p.nome].q>=p.estoque) return;
-this.items[p.nome].q++;
-this.save();
-},
-
-dec(n){
-if(!this.items[n])return;
-this.items[n].q--;
-if(this.items[n].q<=0) delete this.items[n];
-this.save();
-},
-
-remove(n){
-delete this.items[n];
-this.save();
-},
-
-total(){
-return Object.values(this.items).reduce((a,i)=>a+i.q,0)
-},
-
-price(){
-return Object.values(this.items).reduce((a,i)=>a+i.q*parseFloat(i.produto.preco),0)
-}
-}
+const Cart = {
+  _load() {
+    try { return JSON.parse(localStorage.getItem(CART_KEY)) || {}; } catch { return {}; }
+  },
+  _save(items) {
+    localStorage.setItem(CART_KEY, JSON.stringify(items));
+  },
+  add(produto) {
+    const items = this._load();
+    const preco = typeof produto.preco === 'string'
+      ? parseFloat(produto.preco.replace(',', '.')) : Number(produto.preco);
+    const p = { ...produto, preco };
+    if (items[p.nome]) {
+      if (items[p.nome].quantidade >= p.estoque) return false;
+      items[p.nome].quantidade++;
+    } else {
+      items[p.nome] = { produto: p, quantidade: 1 };
+    }
+    this._save(items);
+    return true;
+  },
+  decrease(nome) {
+    const items = this._load();
+    if (!items[nome]) return;
+    items[nome].quantidade <= 1 ? delete items[nome] : items[nome].quantidade--;
+    this._save(items);
+  },
+  remove(nome) {
+    const items = this._load();
+    delete items[nome];
+    this._save(items);
+  },
+  clear() { localStorage.removeItem(CART_KEY); },
+  items() { return this._load(); },
+  count(nome) { return this._load()[nome]?.quantidade || 0; },
+  totalQty() {
+    return Object.values(this._load()).reduce((s, i) => s + i.quantidade, 0);
+  },
+  totalPrice() {
+    return Object.values(this._load()).reduce((s, i) => {
+      const p = typeof i.produto.preco === 'number'
+        ? i.produto.preco : parseFloat(String(i.produto.preco).replace(',', '.'));
+      return s + p * i.quantidade;
+    }, 0);
+  },
+};
