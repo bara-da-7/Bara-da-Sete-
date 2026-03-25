@@ -1,25 +1,28 @@
+/* BASE */
 body{
 margin:0;
 font-family:Arial;
-background:#f2f2f2;
+
+/* 🔥 FUNDO PREMIUM */
+background:linear-gradient(#1a0000,#0b0000);
+color:#fff;
 }
 
-/* HERO PERFEITO */
+/* HERO */
 .hero{
 width:100%;
-height:220px;
-overflow:hidden;
+display:flex;
+justify-content:center;
 background:#000;
 }
 
-/* IMAGEM AJUSTADA */
 .hero-img{
 width:100%;
-height:100%;
-object-fit:cover;
+max-width:1200px;
+display:block;
 
-/* 🔥 CONTROLE DO CORTE */
-object-position:center 40%;
+/* 🔥 visual premium */
+box-shadow:0 10px 40px rgba(0,0,0,0.6);
 }
 
 /* BUSCA */
@@ -29,9 +32,14 @@ padding:15px;
 
 .search input{
 width:100%;
-padding:15px;
+padding:14px;
 border-radius:30px;
 border:none;
+
+/* 🔥 elegante */
+background:#2a0000;
+color:#fff;
+box-shadow:0 5px 15px rgba(0,0,0,0.5);
 }
 
 /* CATEGORIAS */
@@ -46,11 +54,15 @@ overflow-x:auto;
 border:none;
 padding:8px 15px;
 border-radius:20px;
-background:#eee;
+
+/* 🔥 tom suave */
+background:#2a0000;
+color:#fff;
 }
 
 #categorias .active{
 background:#D4AF37;
+color:#000;
 }
 
 /* PRODUTOS */
@@ -62,9 +74,12 @@ padding:15px;
 }
 
 .card{
-background:#fff;
+background:#1a0000;
 border-radius:20px;
 padding:10px;
+
+/* 🔥 sombra suave */
+box-shadow:0 10px 20px rgba(0,0,0,0.4);
 }
 
 .card img{
@@ -74,17 +89,28 @@ object-fit:cover;
 border-radius:10px;
 }
 
+/* TEXTO */
+.card h3{
+color:#fff;
+}
+
+.card p{
+color:#bbb;
+}
+
+/* PREÇO */
 .preco{
-color:#5a0000;
+color:#D4AF37;
 font-weight:bold;
 }
 
+/* ESTOQUE */
 .estoque{
 font-size:12px;
-color:#777;
+color:#888;
 }
 
-/* CONTROLES */
+/* BOTÕES */
 .controls{
 display:flex;
 justify-content:space-between;
@@ -96,9 +122,11 @@ margin-top:10px;
 width:35px;
 height:35px;
 border-radius:50%;
-background:#5a0000;
-color:#fff;
 border:none;
+
+/* 🔥 cor da marca */
+background:#8b0000;
+color:#fff;
 }
 
 /* CARRINHO */
@@ -106,19 +134,29 @@ border:none;
 position:fixed;
 bottom:20px;
 right:20px;
+
+/* 🔥 destaque */
 background:#D4AF37;
-padding:15px;
+color:#000;
+padding:15px 20px;
 border-radius:30px;
 font-weight:bold;
+
+box-shadow:0 5px 20px rgba(0,0,0,0.5);
 }
 
+/* PAINEL */
 #carrinho{
 position:fixed;
 right:-320px;
 top:0;
 width:300px;
 height:100%;
-background:#fff;
+
+/* 🔥 fundo consistente */
+background:#1a0000;
+color:#fff;
+
 transition:.3s;
 padding:10px;
 }
@@ -127,20 +165,28 @@ padding:10px;
 right:0;
 }
 
+/* BOTÃO CHECKOUT */
+#carrinho button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+
+background:#D4AF37;
+color:#000;
+font-weight:bold;
+}
+
 /* RODAPÉ */
 .rodape{
 text-align:center;
 padding:20px;
 background:#000;
-color:#fff;
 }
 
 .rodape a{
-display:block;
 color:#D4AF37;
+display:block;
 margin-top:10px;
 text-decoration:none;
 }
-object-position:center 30%; /* sobe imagem */
-object-position:center 50%; /* central */
-object-position:center 70%; /* desce imagem */
