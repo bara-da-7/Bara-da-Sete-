@@ -163,6 +163,26 @@ cursor:pointer;
 .qtd{
 font-weight:bold;
 }
+#categorias{
+display:flex;
+gap:10px;
+padding:10px;
+overflow-x:auto;
+}
+
+#categorias button{
+border:none;
+background:#eee;
+padding:8px 15px;
+border-radius:20px;
+cursor:pointer;
+white-space:nowrap;
+}
+
+#categorias .active{
+background:#D4AF37;
+color:#000;
+}
 
 /* CARRINHO */
 #carrinhoBtn{
