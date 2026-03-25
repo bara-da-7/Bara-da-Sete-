@@ -1,24 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="admin.css">
+</head>
+
 <body>
+
 <div id="login">
 <input id="user" placeholder="Usuário">
-<input id="senha" placeholder="Senha" type="password">
+<input id="senha" type="password" placeholder="Senha">
 <button onclick="logar()">Entrar</button>
 </div>
 
-<div id="painel" style="display:none">
+<div id="painel" style="display:none;">
+<h2>Painel Admin</h2>
+
 <input id="nome">
 <input id="preco">
 <input id="categoria">
 <input type="file" id="imagem">
+
 <button onclick="salvar()">Salvar</button>
+
 </div>
 
-<script>
-function logar(){
- if(user.value==='adm' && senha.value==='99861309'){
-  login.style.display='none'
-  painel.style.display='block'
- }
-}
-</script>
+<script src="admin.js"></script>
 </body>
+</html>
