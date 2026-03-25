@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Bará da Sete</title>
 
 <link rel="stylesheet" href="style.css">
+<link rel="icon" href="logo.png">
 </head>
 
 <body>
@@ -16,18 +18,19 @@
 
 <div class="top-actions">
   <a href="https://wa.me/555496169777" class="btn whatsapp">📲</a>
-  <a href="https://instagram.com/baradase7e" class="btn insta">📸</a>
+  <a href="https://www.instagram.com/baradase7e" class="btn insta">📸</a>
 </div>
 
-<input class="search" placeholder="Buscar..." oninput="buscar(this.value)">
+<input class="search" placeholder="Buscar produto..." oninput="buscar(this.value)">
 
 <div id="categorias" class="categorias"></div>
 
 <div id="produtos" class="grid"></div>
 
-<!-- CARRINHO LATERAL -->
+<!-- BOTÃO -->
 <div class="cart-btn" onclick="toggleCart()">🛒 <span id="count">0</span></div>
 
+<!-- CARRINHO -->
 <div id="cart" class="cart">
   <h3>Seu Pedido</h3>
   <div id="cartItems"></div>
@@ -35,9 +38,10 @@
   <input placeholder="Seu nome" id="nome">
   <input placeholder="Endereço" id="endereco">
 
-  <button onclick="finalizar()">Finalizar</button>
+  <button onclick="finalizar()">Finalizar Pedido</button>
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
