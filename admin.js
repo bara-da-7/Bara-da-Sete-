@@ -1,6 +1,3 @@
-const CLOUD = "dy61d0gt8"
-const PRESET = "ml_padrao"
-
 function logar(){
  if(user.value==="adm" && senha.value==="99861309"){
   login.style.display="none"
@@ -12,10 +9,10 @@ function salvar(){
  let file = imagem.files[0]
 
  let form = new FormData()
- form.append("file", file)
- form.append("upload_preset", PRESET)
+ form.append("file",file)
+ form.append("upload_preset","ml_padrao")
 
- fetch(`https://api.cloudinary.com/v1_1/${CLOUD}/image/upload`,{
+ fetch("https://api.cloudinary.com/v1_1/dy61d0gt8/image/upload",{
   method:"POST",
   body:form
  })
@@ -24,13 +21,13 @@ function salvar(){
   fetch(API,{
    method:"POST",
    body: JSON.stringify({
+    tipo:"produto",
     nome:nome.value,
     preco:preco.value,
     categoria:categoria.value,
-    imagem:img.secure_url,
-    ativo:"sim"
+    imagem:img.secure_url
    })
   })
-  alert("Produto salvo")
+  alert("Produto salvo!")
  })
 }
