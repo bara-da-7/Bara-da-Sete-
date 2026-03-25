@@ -5,110 +5,126 @@ const CONFIG={
 
 let lista=[];
 let carrinho={};
+let buscaAtual="";
+let categoriaAtual="Todos";
 
-/* =========================
-   PARSER CSV PROFISSIONAL
-========================= */
+/* CSV */
 function parseCSV(text){
- const linhas = text.trim().split("\n");
- const headers = linhas.shift().split(",");
+ const linhas=text.trim().split("\n");
+ const headers=linhas.shift().split(",");
 
- return linhas.map(linha=>{
-   const valores = linha.split(",");
-   let obj={};
-
-   headers.forEach((h,i)=>{
-     obj[h.trim()] = (valores[i] || "").trim();
-   });
-
-   return obj;
+ return linhas.map(l=>{
+  const v=l.split(",");
+  let obj={};
+  headers.forEach((h,i)=>obj[h.trim()]=(v[i]||"").trim());
+  return obj;
  });
 }
 
-/* =========================
-   CARREGAR
-========================= */
+/* CARREGAR */
 async function carregar(){
+ const res=await fetch(CONFIG.sheetCSV);
+ const txt=await res.text();
 
- const el=document.getElementById("produtos");
- el.innerHTML="<p>Carregando...</p>";
+ const dados=parseCSV(txt);
 
- try{
-   const res=await fetch(CONFIG.sheetCSV);
-   const txt=await res.text();
+ lista=dados.map(p=>({
+  nome:p.nome,
+  preco:parseFloat(p.preco)||0,
+  categoria:p.categoria,
+  estoque:parseInt(p.estoque)||0,
+  ativo:(p.ativo||"").toLowerCase(),
+  promocao:(p.promocao||"").toLowerCase(),
+  precoPromo:parseFloat(p.precoPromo)||0,
+  imagem:p.imagem
+ }));
 
-   const dados=parseCSV(txt);
-
-   lista=dados.map(p=>({
-     nome:p.nome,
-     preco:parseFloat(p.preco)||0,
-     categoria:p.categoria,
-     estoque:parseInt(p.estoque)||0,
-     ativo:(p.ativo||"").toLowerCase(),
-     promocao:(p["promocao"]||"").toLowerCase(),
-     precoPromo:parseFloat(p.precoPromo)||0,
-     imagem:p.imagem
-   }));
-
-   render();
-
- }catch(e){
-   el.innerHTML="<p>Erro ao carregar produtos</p>";
-   console.error(e);
- }
+ montarCategorias();
+ render();
 }
 
-/* =========================
-   RENDER
-========================= */
+/* CATEGORIAS */
+function montarCategorias(){
+ let cats=[...new Set(lista.map(p=>p.categoria).filter(Boolean))];
+ cats.sort((a,b)=>a.localeCompare(b));
+ cats.unshift("Todos");
+
+ const el=document.getElementById("categorias");
+ el.innerHTML="";
+
+ cats.forEach(c=>{
+  el.innerHTML+=`<div onclick="filtrar('${c}')" class="${c===categoriaAtual?'ativo':''}">${c}</div>`;
+ });
+}
+
+function filtrar(c){
+ categoriaAtual=c;
+ montarCategorias();
+ render();
+}
+
+/* BUSCA */
+function buscar(v){
+ buscaAtual=v.toLowerCase();
+ render();
+}
+
+/* ESTOQUE COR */
+function estoqueClasse(q){
+ if(q>=25) return "ok";
+ if(q>=20) return "bom";
+ if(q>=15) return "ruim";
+ return "ruim";
+}
+
+/* RENDER */
 function render(){
 
  const el=document.getElementById("produtos");
  el.innerHTML="";
 
- let dados = lista
-  .filter(p=>p.ativo==="sim")
-  .sort((a,b)=>{
-    if(a.promocao==="sim" && b.promocao!=="sim") return -1;
-    if(a.promocao!=="sim" && b.promocao==="sim") return 1;
-    return a.nome.localeCompare(b.nome);
-  });
+ let dados=lista
+ .filter(p=>p.ativo==="sim")
+ .filter(p=>p.nome.toLowerCase().includes(buscaAtual))
+ .filter(p=>categoriaAtual==="Todos"||p.categoria===categoriaAtual)
+ .sort((a,b)=>{
+   if(a.promocao==="sim"&&b.promocao!=="sim") return -1;
+   if(a.promocao!=="sim"&&b.promocao==="sim") return 1;
+   return a.nome.localeCompare(b.nome);
+ });
 
- if(dados.length===0){
-   el.innerHTML="<p>Nenhum produto encontrado</p>";
-   return;
+ if(!dados.length){
+  el.innerHTML="<p style='text-align:center'>Nenhum produto encontrado</p>";
+  return;
  }
 
  dados.forEach((p,i)=>{
 
-   let preco = p.promocao==="sim" && p.precoPromo ? p.precoPromo : p.preco;
+  let preco=(p.promocao==="sim"&&p.precoPromo)?p.precoPromo:p.preco;
 
-   el.innerHTML+=`
-   <div class="card">
+  el.innerHTML+=`
+  <div class="card">
 
-   ${p.promocao==="sim" ? `<div class="desconto">PROMO</div>` : ""}
+  <img src="${p.imagem||'https://via.placeholder.com/300'}">
 
-   <img src="${p.imagem || 'https://via.placeholder.com/300x200'}">
+  <h3>${p.nome}</h3>
 
-   <h3>${p.nome}</h3>
+  ${p.promocao==="sim"?`<div class="preco-antigo">R$ ${p.preco}</div>`:""}
+  <div class="preco-novo">R$ ${preco}</div>
 
-   ${p.promocao==="sim" ? `<div class="preco-antigo">R$ ${p.preco}</div>` : ""}
+  <div class="estoque ${estoqueClasse(p.estoque)}"></div>
 
-   <div class="preco-novo">R$ ${preco}</div>
+  <div class="controle">
+    <button onclick="rem(${i})">-</button>
+    <span>${carrinho[i]||0}</span>
+    <button onclick="add(${i})">+</button>
+  </div>
 
-   <div class="controle">
-     <button onclick="rem(${i})">-</button>
-     <span>${carrinho[i]||0}</span>
-     <button onclick="add(${i})">+</button>
-   </div>
-
-   </div>`;
+  </div>`;
  });
 }
 
-/* =========================
-   CARRINHO
-========================= */
+/* CARRINHO */
 function add(i){
  carrinho[i]=(carrinho[i]||0)+1;
  atualizar(); render();
@@ -121,18 +137,16 @@ function rem(i){
 }
 
 function atualizar(){
- let total=0;
- Object.values(carrinho).forEach(v=>total+=v);
- document.getElementById("totalItens").innerText=total;
+ let t=0;
+ Object.values(carrinho).forEach(v=>t+=v);
+ document.getElementById("totalItens").innerText=t;
 }
 
 function finalizar(){
  let msg="Pedido:%0A";
-
  Object.keys(carrinho).forEach(i=>{
-   msg+=`${lista[i].nome} x${carrinho[i]}%0A`;
+  msg+=`${lista[i].nome} x${carrinho[i]}%0A`;
  });
-
  window.open(`https://wa.me/${CONFIG.whatsapp}?text=${msg}`);
 }
 
