@@ -6,91 +6,131 @@ const CONFIG={
 let lista=[];
 let carrinho={};
 
-async function carregar(){
+/* =========================
+   PARSER CSV PROFISSIONAL
+========================= */
+function parseCSV(text){
+ const linhas = text.trim().split("\n");
+ const headers = linhas.shift().split(",");
 
- const res=await fetch(CONFIG.sheetCSV);
- const txt=await res.text();
+ return linhas.map(linha=>{
+   const valores = linha.split(",");
+   let obj={};
 
- const linhas=txt.split('\n').slice(1);
+   headers.forEach((h,i)=>{
+     obj[h.trim()] = (valores[i] || "").trim();
+   });
 
- lista=linhas.map(l=>{
-  const c=l.split(',');
-  return{
-    nome:c[0],
-    preco:parseFloat(c[1])||0,
-    categoria:c[2],
-    estoque:parseInt(c[3])||0,
-    ativo:c[5],
-    promocao:c[6],
-    precoPromo:parseFloat(c[7])||0,
-    imagem:c[8]
-  }
+   return obj;
  });
-
- render();
 }
 
+/* =========================
+   CARREGAR
+========================= */
+async function carregar(){
+
+ const el=document.getElementById("produtos");
+ el.innerHTML="<p>Carregando...</p>";
+
+ try{
+   const res=await fetch(CONFIG.sheetCSV);
+   const txt=await res.text();
+
+   const dados=parseCSV(txt);
+
+   lista=dados.map(p=>({
+     nome:p.nome,
+     preco:parseFloat(p.preco)||0,
+     categoria:p.categoria,
+     estoque:parseInt(p.estoque)||0,
+     ativo:(p.ativo||"").toLowerCase(),
+     promocao:(p["promocao"]||"").toLowerCase(),
+     precoPromo:parseFloat(p.precoPromo)||0,
+     imagem:p.imagem
+   }));
+
+   render();
+
+ }catch(e){
+   el.innerHTML="<p>Erro ao carregar produtos</p>";
+   console.error(e);
+ }
+}
+
+/* =========================
+   RENDER
+========================= */
 function render(){
 
- const el=document.getElementById('produtos');
- el.innerHTML='';
+ const el=document.getElementById("produtos");
+ el.innerHTML="";
 
- let dados=lista.filter(p=>p.ativo==='sim');
+ let dados = lista
+  .filter(p=>p.ativo==="sim")
+  .sort((a,b)=>{
+    if(a.promocao==="sim" && b.promocao!=="sim") return -1;
+    if(a.promocao!=="sim" && b.promocao==="sim") return 1;
+    return a.nome.localeCompare(b.nome);
+  });
 
- dados.sort((a,b)=>{
-   if(a.promocao==='sim' && b.promocao!=='sim') return -1;
-   if(a.promocao!=='sim' && b.promocao==='sim') return 1;
-   return a.nome.localeCompare(b.nome);
- });
+ if(dados.length===0){
+   el.innerHTML="<p>Nenhum produto encontrado</p>";
+   return;
+ }
 
  dados.forEach((p,i)=>{
 
- let preco = (p.promocao==='sim' && p.precoPromo) ? p.precoPromo : p.preco;
+   let preco = p.promocao==="sim" && p.precoPromo ? p.precoPromo : p.preco;
 
- el.innerHTML+=`
- <div class="card">
+   el.innerHTML+=`
+   <div class="card">
 
- ${p.promocao==='sim'?'<div class="desconto">PROMO</div>':''}
+   ${p.promocao==="sim" ? `<div class="desconto">PROMO</div>` : ""}
 
- <img src="${p.imagem || 'https://via.placeholder.com/300'}">
+   <img src="${p.imagem || 'https://via.placeholder.com/300x200'}">
 
- <h3>${p.nome}</h3>
+   <h3>${p.nome}</h3>
 
- ${p.promocao==='sim'?`<div class="preco-antigo">R$ ${p.preco}</div>`:''}
- <div class="preco-novo">R$ ${preco}</div>
+   ${p.promocao==="sim" ? `<div class="preco-antigo">R$ ${p.preco}</div>` : ""}
 
- <div class="controle">
-  <button onclick="rem(${i})">-</button>
-  <span>${carrinho[i]||0}</span>
-  <button onclick="add(${i})">+</button>
- </div>
+   <div class="preco-novo">R$ ${preco}</div>
 
- </div>`;
+   <div class="controle">
+     <button onclick="rem(${i})">-</button>
+     <span>${carrinho[i]||0}</span>
+     <button onclick="add(${i})">+</button>
+   </div>
+
+   </div>`;
  });
 }
 
+/* =========================
+   CARRINHO
+========================= */
 function add(i){
  carrinho[i]=(carrinho[i]||0)+1;
- atualizar();render();
+ atualizar(); render();
 }
 
 function rem(i){
  carrinho[i]=(carrinho[i]||0)-1;
  if(carrinho[i]<=0) delete carrinho[i];
- atualizar();render();
+ atualizar(); render();
 }
 
 function atualizar(){
- let t=0;
- Object.values(carrinho).forEach(v=>t+=v);
- document.getElementById('totalItens').innerText=t;
+ let total=0;
+ Object.values(carrinho).forEach(v=>total+=v);
+ document.getElementById("totalItens").innerText=total;
 }
 
 function finalizar(){
- let msg='Pedido:%0A';
+ let msg="Pedido:%0A";
 
  Object.keys(carrinho).forEach(i=>{
-  msg+=`${lista[i].nome} x${carrinho[i]}%0A`;
+   msg+=`${lista[i].nome} x${carrinho[i]}%0A`;
  });
 
  window.open(`https://wa.me/${CONFIG.whatsapp}?text=${msg}`);
