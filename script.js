@@ -107,18 +107,42 @@ function toggleCart(){
 }
 
 /* FINALIZAR */
-function finalizar(){
+async function finalizar(){
 
- let nome=document.getElementById("nome").value;
- let end=document.getElementById("endereco").value;
+ let nome = document.getElementById("nome").value;
+ let telefone = document.getElementById("telefone").value;
 
- let msg="Pedido:%0A";
+ let itens = [];
 
  Object.keys(carrinho).forEach(i=>{
-  msg+=`${lista[i].nome} x${carrinho[i]}%0A`;
+   itens.push({
+     nome: produtos[i].nome,
+     qtd: carrinho[i]
+   });
+ });
+
+ /* ENVIA PARA PLANILHA (BAIXA ESTOQUE) */
+ await fetch(CONFIG.API,{
+   method:"POST",
+   body:JSON.stringify({
+     tipo:"pedido",
+     nomeCliente:nome,
+     telefone:telefone,
+     itens:itens
+   })
+ });
+
+ /* WHATSAPP */
+ let msg="🛒 *Novo Pedido - Bará da Sete*%0A%0A";
+
+ itens.forEach(i=>{
+   msg+=`• ${i.nome} x${i.qtd}%0A`;
  });
 
  window.open(`https://wa.me/${CONFIG.WHATS}?text=${msg}`);
-}
 
-carregar();
+ /* LIMPA CARRINHO */
+ carrinho={};
+ salvar();
+ render();
+}
