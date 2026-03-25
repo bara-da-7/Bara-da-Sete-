@@ -51,20 +51,42 @@ carrinhoBtn.onclick = ()=>{
 }
 
 async function checkout(){
- let nome = nomeCliente.value
- let endereco = endereco.value
 
- let res = await enviarPedido({nome,endereco,carrinho})
- let r = await res.json()
+ let nome = document.getElementById("nomeCliente").value
+ let endereco = document.getElementById("endereco").value
 
- if(r.erro){
-  alert(r.erro)
- }else{
-  alert("Pedido enviado com sucesso!")
-  localStorage.clear()
-  carrinho={}
-  updateCart()
+ if(!nome || !endereco){
+  alert("Preencha nome e endereço")
+  return
+ }
+
+ if(Object.keys(carrinho).length === 0){
+  alert("Carrinho vazio")
+  return
+ }
+
+ try{
+
+  let res = await enviarPedido({
+    nome,
+    endereco,
+    carrinho
+  })
+
+  let r = await res.json()
+
+  if(r.erro){
+    alert(r.erro)
+  }else{
+    alert("Pedido enviado com sucesso!")
+
+    carrinho = {}
+    localStorage.removeItem("carrinho")
+    updateCart()
+  }
+
+ }catch(e){
+  alert("Erro ao enviar pedido")
+  console.error(e)
  }
 }
-
-init()
