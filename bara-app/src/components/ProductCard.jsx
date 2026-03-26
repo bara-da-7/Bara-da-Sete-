@@ -1,33 +1,40 @@
 import { cartStore } from "../store/cartStore";
 import { formatPrice } from "../utils/format";
 
-export default function ProductCard({ produto, onAdd }) {
+export default function ProductCard({ produto, refresh }) {
   const cart = cartStore.get();
   const qtd = cart[produto.nome]?.quantidade || 0;
 
   return (
     <div className="product-card">
-      <img src={produto.imagem} />
+      <img src={produto.imagem} width="100%" />
 
       <h3>{produto.nome}</h3>
-
       <p>{produto.descricao}</p>
 
       <strong>R$ {formatPrice(produto.preco)}</strong>
 
       {qtd === 0 ? (
-        <button onClick={onAdd}>Adicionar</button>
+        <button onClick={() => {
+          cartStore.add(produto);
+          refresh();
+        }}>
+          Adicionar
+        </button>
       ) : (
-        <div>
+        <>
           <button onClick={() => {
             cartStore.decrease(produto.nome);
-            onAdd();
+            refresh();
           }}>-</button>
 
-          <span>{qtd}</span>
+          {qtd}
 
-          <button onClick={onAdd}>+</button>
-        </div>
+          <button onClick={() => {
+            cartStore.add(produto);
+            refresh();
+          }}>+</button>
+        </>
       )}
     </div>
   );
