@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { getProdutos } from "../services/api";
-import { cartStore } from "../store/cartStore";
 import ProductCard from "../components/ProductCard";
+import CartSidebar from "../components/CartSidebar";
 
-export default function Home() {
+export default function Home({ goCheckout }) {
   const [produtos, setProdutos] = useState([]);
-  const [busca, setBusca] = useState("");
 
   useEffect(() => {
     load();
@@ -16,41 +15,21 @@ export default function Home() {
     setProdutos(data);
   }
 
-  const filtrados = produtos.filter(p =>
-    p.nome.toLowerCase().includes(busca.toLowerCase()) &&
-    p.ativo
-  );
-
   return (
     <div>
-      {/* HEADER */}
-      <header className="hero">
-        <h1>Bará da Sete</h1>
-        <p>Produtos selecionados com qualidade</p>
-      </header>
+      <h1>Bará da Sete</h1>
 
-      {/* SEARCH */}
-      <div className="sticky-bar">
-        <input
-          placeholder="Buscar produto..."
-          value={busca}
-          onChange={(e) => setBusca(e.target.value)}
-        />
-      </div>
-
-      {/* GRID */}
       <div className="grid">
-        {filtrados.map(produto => (
+        {produtos.map(p => (
           <ProductCard
-            key={produto.nome}
-            produto={produto}
-            onAdd={() => {
-              cartStore.add(produto);
-              setProdutos([...produtos]); // força re-render
-            }}
+            key={p.nome}
+            produto={p}
+            refresh={() => setProdutos([...produtos])}
           />
         ))}
       </div>
+
+      <CartSidebar goCheckout={goCheckout} />
     </div>
   );
 }
