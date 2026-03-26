@@ -1,9 +1,3 @@
-export function formatPrice(valor) {
-  const n = typeof valor === "string"
-    ? parseFloat(valor.replace(",", "."))
-    : Number(valor);
-
-  if (isNaN(n)) return valor;
-
-  return n.toFixed(2).replace(".", ",");
+export function formatPrice(v) {
+  return Number(v).toFixed(2).replace(".", ",");
 }
