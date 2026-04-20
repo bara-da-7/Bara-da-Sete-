@@ -1,22 +1,42 @@
-<!DOCTYPE html>
-<html>
-<body>
+const CLOUD = {
+  cloudName: "dy61d0gt8",
+  preset: "ml_padrao"
+};
 
-<h2>Admin</h2>
+const drop = document.getElementById("drop");
 
-<input id="name" placeholder="Nome">
-<input id="price" placeholder="Preço">
-<input id="stock" placeholder="Estoque">
+drop.ondragover = e => e.preventDefault();
 
-<input type="file" id="file">
+drop.ondrop = async e => {
+  e.preventDefault();
 
-<button onclick="addProduct()">Salvar</button>
+  const file = e.dataTransfer.files[0];
+  const id = document.getElementById("id").value;
 
-<button onclick="window.location.href='../admin/dashboard.html'">
-Dashboard
-</button>
+  if(!file || !id){
+    alert("Informe ID e imagem");
+    return;
+  }
 
-<script src="admin.js"></script>
+  const form = new FormData();
+  form.append("file", file);
+  form.append("upload_preset", CLOUD.preset);
 
-</body>
-</html>
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD.cloudName}/image/upload`,{
+    method:"POST",
+    body:form
+  });
+
+  const data = await res.json();
+
+  await fetch("SUA_API_AQUI",{
+    method:"POST",
+    body: JSON.stringify({
+      action:"updateImage",
+      id,
+      img:data.secure_url
+    })
+  });
+
+  alert("Imagem enviada!");
+};
