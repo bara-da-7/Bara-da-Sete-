@@ -2,9 +2,7 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - Bará da Sete</title>
-
+<title>Admin</title>
 <link rel="stylesheet" href="admin.css">
 </head>
 
@@ -14,34 +12,19 @@
 
 <h1>Painel Admin</h1>
 
-<!-- FORM -->
 <div class="card">
-  <h2>Criar Produto</h2>
-
-  <input id="nome" placeholder="Nome">
-  <input id="preco" placeholder="Preço">
-  <input id="categoria" placeholder="Categoria">
-  <input id="estoque" placeholder="Estoque">
-  <textarea id="descricao" placeholder="Descrição"></textarea>
-
-  <button onclick="criarProduto()">Criar Produto</button>
+  <h2>Produtos</h2>
+  <div id="lista"></div>
 </div>
 
-<!-- UPLOAD -->
 <div class="card">
   <h2>Upload de Imagem</h2>
 
-  <input id="idProduto" placeholder="ID do produto">
+  <p id="status">Nenhum produto selecionado</p>
 
   <div id="drop" class="drop">
     Arraste imagem aqui
   </div>
-</div>
-
-<!-- LISTA -->
-<div class="card">
-  <h2>Produtos</h2>
-  <div id="lista"></div>
 </div>
 
 </div>
