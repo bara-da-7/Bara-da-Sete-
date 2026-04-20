@@ -1,42 +1,37 @@
-const CLOUD = {
-  cloudName: "dy61d0gt8",
-  preset: "ml_padrao"
-};
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin</title>
+<link rel="stylesheet" href="admin.css">
+</head>
 
-const drop = document.getElementById("drop");
+<body>
 
-drop.ondragover = e => e.preventDefault();
+<h1>Painel Admin</h1>
 
-drop.ondrop = async e => {
-  e.preventDefault();
+<div class="form">
+  <input id="nome" placeholder="Nome">
+  <input id="preco" placeholder="Preço">
+  <input id="categoria" placeholder="Categoria">
+  <input id="estoque" placeholder="Estoque">
+  <textarea id="descricao" placeholder="Descrição"></textarea>
 
-  const file = e.dataTransfer.files[0];
-  const id = document.getElementById("id").value;
+  <button onclick="criarProduto()">Criar Produto</button>
+</div>
 
-  if(!file || !id){
-    alert("Informe ID e imagem");
-    return;
-  }
+<h2>Upload de Imagem</h2>
 
-  const form = new FormData();
-  form.append("file", file);
-  form.append("upload_preset", CLOUD.preset);
+<input id="idProduto" placeholder="ID do produto">
 
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD.cloudName}/image/upload`,{
-    method:"POST",
-    body:form
-  });
+<div id="drop" class="drop">
+  Arraste imagem aqui
+</div>
 
-  const data = await res.json();
+<h2>Produtos</h2>
+<div id="lista"></div>
 
-  await fetch("SUA_API_AQUI",{
-    method:"POST",
-    body: JSON.stringify({
-      action:"updateImage",
-      id,
-      img:data.secure_url
-    })
-  });
+<script src="admin.js"></script>
 
-  alert("Imagem enviada!");
-};
+</body>
+</html>
