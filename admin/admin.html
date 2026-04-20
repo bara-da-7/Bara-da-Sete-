@@ -2,31 +2,55 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Bará da Sete</title>
 <link rel="stylesheet" href="admin.css">
 </head>
-
 <body>
 
 <div class="container">
 
-<h1>Painel Admin</h1>
+  <h1>Painel Admin</h1>
 
-<div class="card">
-  <h2>Produtos</h2>
-  <div id="lista"></div>
-</div>
-
-<div class="card">
-  <h2>Upload de Imagem</h2>
-
-  <p id="status">Nenhum produto selecionado</p>
-
-  <div id="drop" class="drop">
-    Arraste imagem aqui
+  <div class="toolbar">
+    <button onclick="novoProduto()">+ Novo Produto</button>
   </div>
+
+  <div id="lista" class="grid"></div>
+
 </div>
 
+<!-- MODAL -->
+<div id="modal" class="modal hidden">
+  <div class="modal-card">
+
+    <h2 id="modal-title">Editar Produto</h2>
+
+    <input id="f_nome" placeholder="Nome">
+    <input id="f_preco" placeholder="Preço">
+    <input id="f_categoria" placeholder="Categoria">
+    <input id="f_estoque" placeholder="Estoque">
+    <textarea id="f_descricao" placeholder="Descrição"></textarea>
+
+    <div class="row">
+      <label><input type="checkbox" id="f_promocao"> Em promoção</label>
+      <input id="f_precoPromo" placeholder="Preço promocional">
+    </div>
+
+    <!-- UPLOAD -->
+    <div class="upload">
+      <p id="status">Arraste imagem ou clique abaixo</p>
+      <div id="drop" class="drop">Arraste aqui</div>
+      <input type="file" id="fileInput" accept="image/*">
+      <div id="preview" class="preview"></div>
+    </div>
+
+    <div class="actions">
+      <button onclick="salvar()">Salvar</button>
+      <button onclick="fechar()">Cancelar</button>
+    </div>
+
+  </div>
 </div>
 
 <script src="admin.js"></script>
