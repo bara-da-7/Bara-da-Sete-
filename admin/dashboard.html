@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Dashboard</h2>
+
+<p id="pedidos"></p>
+<p id="faturamento"></p>
+
+<script>
+fetch("https://script.google.com/macros/s/AKfycbxGgjW2-E0wwkcNhRdxk8PtelGe3OXmMRM9USaraHtMGRCyn5niukym3Qr5zbHAFAZ5/exec?action=getDashboard")
+.then(r=>r.json())
+.then(data=>{
+  document.getElementById("pedidos").innerText = "Pedidos: " + data.totalPedidos;
+  document.getElementById("faturamento").innerText = "Faturamento: R$ " + data.faturamento;
+});
+</script>
+
+</body>
+</html>
