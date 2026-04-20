@@ -9,7 +9,6 @@ function addToCart(p){
   const item = cart.find(i=>i.id===p.id);
   if(item) item.qtd++;
   else cart.push({...p, qtd:1});
-
   save();
 }
 
@@ -45,7 +44,7 @@ function toggleCart(){
 }
 
 function goCheckout(){
-  window.location.href="../checkout/checkout.html";
+  window.location.href = "checkout/checkout.html"; // CORRIGIDO
 }
 
 renderCart();
