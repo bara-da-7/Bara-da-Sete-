@@ -43,15 +43,16 @@ function getQty(id){
   return item ? item.qtd : 0;
 }
 
-let clicks=0;
+/* ADMIN SECRETO */
+let clicks = 0;
 function adminClick(){
   clicks++;
-  if(clicks>=10){
-    const senha=prompt("Senha:");
-    if(senha==="1069"){
-      window.location.href="../admin/admin.html";
+  if(clicks >= 10){
+    const senha = prompt("Senha:");
+    if(senha === "1069"){
+      window.location.href = "admin/admin.html"; // CORRIGIDO
     }
-    clicks=0;
+    clicks = 0;
   }
 }
 
