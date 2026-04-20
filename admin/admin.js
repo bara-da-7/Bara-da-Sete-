@@ -1,5 +1,4 @@
 const API = "https://script.google.com/macros/s/AKfycbxGgjW2-E0wwkcNhRdxk8PtelGe3OXmMRM9USaraHtMGRCyn5niukym3Qr5zbHAFAZ5/exec";
-const API = "COLE_SUA_URL_AQUI";
 
 let produtos = [];
 let produtoAtual = null;
