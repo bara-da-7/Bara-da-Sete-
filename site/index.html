@@ -9,7 +9,7 @@
 
 <body>
 
-<!-- HEADER -->
+<!-- HERO -->
 <div class="hero">
   <h1>Bará da Sete</h1>
   <p>Artigos Religiosos</p>
@@ -20,25 +20,33 @@
   </div>
 </div>
 
-<!-- BUSCA -->
+<!-- SEARCH -->
 <div class="search-box">
   <input type="text" id="search" placeholder="Buscar produto..." oninput="filterProducts()">
+</div>
+
+<!-- SKELETON -->
+<div id="skeleton" class="products">
+  <div class="card-skeleton"></div>
+  <div class="card-skeleton"></div>
+  <div class="card-skeleton"></div>
+  <div class="card-skeleton"></div>
 </div>
 
 <!-- PRODUTOS -->
 <div id="products" class="products"></div>
 
-<!-- CARRINHO FLOAT -->
+<!-- CART FLOAT -->
 <div class="cart-fab" onclick="toggleCart()">
   🛒 <span id="cart-count">0</span>
 </div>
 
-<!-- CARRINHO -->
+<!-- CART -->
 <div id="cart" class="cart">
   <h3>Seu Carrinho</h3>
   <div id="cart-items"></div>
   <p id="total"></p>
-  <button onclick="goCheckout()">Finalizar</button>
+  <button onclick="goCheckout()">Finalizar Pedido</button>
 </div>
 
 <footer onclick="adminClick()">© Bará da Sete</footer>
