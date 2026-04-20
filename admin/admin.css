@@ -19,54 +19,13 @@ body{
   padding:20px;
 }
 
-h1{
-  text-align:center;
-  color:var(--gold);
-}
-
 .card{
   background:var(--card);
   padding:20px;
   margin:20px 0;
   border-radius:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,.5);
 }
 
-input, textarea{
-  width:100%;
-  padding:12px;
-  margin:8px 0;
-  border-radius:10px;
-  border:none;
-  background:#1f1f1f;
-  color:#fff;
-}
-
-button{
-  background:linear-gradient(45deg,var(--gold),#d4af37);
-  border:none;
-  padding:12px;
-  width:100%;
-  border-radius:12px;
-  color:#000;
-  font-weight:bold;
-  cursor:pointer;
-  transition:.3s;
-}
-
-button:hover{
-  transform:scale(1.03);
-}
-
-.drop{
-  border:2px dashed var(--gold);
-  padding:40px;
-  text-align:center;
-  border-radius:12px;
-  margin-top:10px;
-}
-
-/* PRODUTOS */
 .product{
   background:#1c1c1c;
   padding:15px;
@@ -75,18 +34,22 @@ button:hover{
   border-left:4px solid var(--gold);
 }
 
-.product b{
-  color:var(--gold);
-}
-
-.actions{
-  margin-top:10px;
-  display:flex;
-  gap:10px;
-}
-
-.actions button{
-  flex:1;
+button{
   background:var(--red);
+  border:none;
+  padding:8px;
   color:#fff;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.drop{
+  border:2px dashed var(--gold);
+  padding:40px;
+  text-align:center;
+  border-radius:12px;
+}
+
+#status{
+  color:var(--gold);
 }
