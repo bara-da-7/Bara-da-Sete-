@@ -1,16 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Bará da Sete</title>
+
 <link rel="stylesheet" href="admin.css">
 </head>
 
 <body>
 
+<div class="container">
+
 <h1>Painel Admin</h1>
 
-<div class="form">
+<!-- FORM -->
+<div class="card">
+  <h2>Criar Produto</h2>
+
   <input id="nome" placeholder="Nome">
   <input id="preco" placeholder="Preço">
   <input id="categoria" placeholder="Categoria">
@@ -20,18 +27,25 @@
   <button onclick="criarProduto()">Criar Produto</button>
 </div>
 
-<h2>Upload de Imagem</h2>
+<!-- UPLOAD -->
+<div class="card">
+  <h2>Upload de Imagem</h2>
 
-<input id="idProduto" placeholder="ID do produto">
+  <input id="idProduto" placeholder="ID do produto">
 
-<div id="drop" class="drop">
-  Arraste imagem aqui
+  <div id="drop" class="drop">
+    Arraste imagem aqui
+  </div>
 </div>
 
-<h2>Produtos</h2>
-<div id="lista"></div>
+<!-- LISTA -->
+<div class="card">
+  <h2>Produtos</h2>
+  <div id="lista"></div>
+</div>
+
+</div>
 
 <script src="admin.js"></script>
-
 </body>
 </html>
