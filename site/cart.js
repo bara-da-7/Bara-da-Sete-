@@ -9,6 +9,19 @@ function addToCart(p){
   const item = cart.find(i=>i.id===p.id);
   if(item) item.qtd++;
   else cart.push({...p, qtd:1});
+
+  save();
+}
+
+function removeOne(id){
+  const item = cart.find(i=>i.id===id);
+  if(!item) return;
+
+  item.qtd--;
+  if(item.qtd <= 0){
+    cart = cart.filter(i=>i.id!==id);
+  }
+
   save();
 }
 
@@ -20,7 +33,7 @@ function renderCart(){
 
   cart.forEach(i=>{
     total += i.price * i.qtd;
-    el.innerHTML += `${i.name} x${i.qtd}<br>`;
+    el.innerHTML += `<div>${i.name} x${i.qtd}</div>`;
   });
 
   document.getElementById("total").innerText = "Total: R$ " + total;
@@ -32,7 +45,7 @@ function toggleCart(){
 }
 
 function goCheckout(){
-  window.location.href = "../checkout/checkout.html";
+  window.location.href="../checkout/checkout.html";
 }
 
 renderCart();
