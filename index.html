@@ -4,12 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bará da Sete</title>
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-<!-- HERO -->
 <div class="hero">
   <h1>Bará da Sete</h1>
   <p>Artigos Religiosos</p>
@@ -20,28 +21,21 @@
   </div>
 </div>
 
-<!-- SEARCH -->
 <div class="search-box">
   <input type="text" id="search" placeholder="Buscar produto..." oninput="filterProducts()">
 </div>
 
-<!-- SKELETON -->
 <div id="skeleton" class="products">
-  <div class="card-skeleton"></div>
-  <div class="card-skeleton"></div>
   <div class="card-skeleton"></div>
   <div class="card-skeleton"></div>
 </div>
 
-<!-- PRODUTOS -->
 <div id="products" class="products"></div>
 
-<!-- CART FLOAT -->
 <div class="cart-fab" onclick="toggleCart()">
   🛒 <span id="cart-count">0</span>
 </div>
 
-<!-- CART -->
 <div id="cart" class="cart">
   <h3>Seu Carrinho</h3>
   <div id="cart-items"></div>
