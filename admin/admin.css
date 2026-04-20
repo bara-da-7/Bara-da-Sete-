@@ -14,42 +14,122 @@ body{
 }
 
 .container{
-  max-width:900px;
+  max-width:1000px;
   margin:auto;
   padding:20px;
 }
 
-.card{
-  background:var(--card);
-  padding:20px;
-  margin:20px 0;
-  border-radius:16px;
-}
+h1{ text-align:center; color:var(--gold); }
 
-.product{
-  background:#1c1c1c;
-  padding:15px;
-  margin:10px 0;
-  border-radius:12px;
-  border-left:4px solid var(--gold);
+.toolbar{
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:10px;
 }
 
 button{
-  background:var(--red);
+  background:linear-gradient(45deg,var(--gold),#d4af37);
   border:none;
-  padding:8px;
-  color:#fff;
-  border-radius:8px;
+  padding:10px 14px;
+  border-radius:10px;
+  color:#000;
+  font-weight:600;
   cursor:pointer;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:12px;
+}
+
+.card{
+  background:var(--card);
+  border-radius:14px;
+  padding:12px;
+  border-left:4px solid var(--gold);
+}
+
+.card img{
+  width:100%;
+  height:140px;
+  object-fit:cover;
+  border-radius:10px;
+  margin-bottom:8px;
+}
+
+.card .name{ color:var(--gold); font-weight:700; }
+
+.card .btns{
+  display:flex;
+  gap:8px;
+  margin-top:8px;
+}
+
+.card .btns button{
+  flex:1;
+  background:var(--red);
+  color:#fff;
+}
+
+/* MODAL */
+.modal{
+  position:fixed; inset:0;
+  background:rgba(0,0,0,.7);
+  display:flex; align-items:center; justify-content:center;
+}
+
+.hidden{ display:none; }
+
+.modal-card{
+  width:420px;
+  max-width:95%;
+  background:var(--card);
+  padding:20px;
+  border-radius:16px;
+}
+
+input, textarea{
+  width:100%;
+  margin:6px 0;
+  padding:10px;
+  border-radius:10px;
+  border:none;
+  background:#1f1f1f;
+  color:#fff;
+}
+
+.row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.upload{
+  margin-top:10px;
 }
 
 .drop{
   border:2px dashed var(--gold);
-  padding:40px;
-  text-align:center;
   border-radius:12px;
+  padding:25px;
+  text-align:center;
+  margin:10px 0;
 }
 
-#status{
-  color:var(--gold);
+.preview img{
+  width:100%;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+
+.actions button:last-child{
+  background:#333;
+  color:#fff;
 }
