@@ -21,18 +21,21 @@ async function loadProducts(){
 
 function renderProducts(list){
   const el = document.getElementById("products");
-  if(!el) return;
-
   el.innerHTML = "";
 
   list.forEach(p=>{
-    if(!p || !p.name) return;
+    if(p.ativo !== "sim") return;
 
     el.innerHTML += `
       <div class="product">
-        <img src="${p.img || ''}">
-        <h3>${p.name}</h3>
-        <p>R$ ${p.price || 0}</p>
+        <img src="${p.imagem || ''}">
+        <h3>${p.nome}</h3>
+
+        ${
+          p.promocao === "sim"
+          ? `<p><s>R$ ${p.preco}</s> <b>R$ ${p.precoPromo}</b></p>`
+          : `<p>R$ ${p.preco}</p>`
+        }
 
         <div class="qty">
           <button onclick='addToCart(${JSON.stringify(p)})'>+</button>
