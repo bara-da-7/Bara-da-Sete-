@@ -1,11 +1,12 @@
 const API = "https://script.google.com/macros/s/AKfycbxGgjW2-E0wwkcNhRdxk8PtelGe3OXmMRM9USaraHtMGRCyn5niukym3Qr5zbHAFAZ5/exec";
+const API = "COLE_SUA_URL_AQUI";
 
 let produtos = [];
-let produtoAtual = null;   // estado confiável do item em edição
-let imagemAtual = "";      // URL após upload
+let produtoAtual = null;
+let imagemAtual = "";
 
 // =====================
-// LOAD
+// CARREGAR
 // =====================
 async function carregar(){
   const res = await fetch(API);
@@ -14,7 +15,7 @@ async function carregar(){
 }
 
 // =====================
-// LISTA
+// RENDER
 // =====================
 function render(){
   const el = document.getElementById("lista");
@@ -24,35 +25,39 @@ function render(){
     el.innerHTML += `
       <div class="card">
         ${p.imagem ? `<img src="${p.imagem}">` : ""}
-        <div class="name">${p.nome}</div>
-        <div>R$ ${p.preco}</div>
-        <div>Estoque: ${p.estoque}</div>
-        ${p.promocao === "sim" ? `<div style="color:red">🔥 Promoção</div>` : ""}
+        <b>${p.nome}</b><br>
+        R$ ${p.preco}<br>
+        Estoque: ${p.estoque}<br>
+        ID: ${p.id}<br>
 
-        <div class="btns">
-          <button onclick="abrir(${p.id})">Editar</button>
-        </div>
+        <button onclick="abrir(${p.id})">Editar</button>
       </div>
     `;
   });
 }
 
 // =====================
-// ABRIR MODAL (EDITAR)
+// ABRIR
 // =====================
 function abrir(id){
-  produtoAtual = produtos.find(p=>p.id == id);
+
+  produtoAtual = produtos.find(p => Number(p.id) === Number(id));
+
+  if(!produtoAtual){
+    alert("Erro ao carregar produto");
+    return;
+  }
+
   imagemAtual = produtoAtual.imagem || "";
 
   document.getElementById("modal").classList.remove("hidden");
-  document.getElementById("modal-title").innerText = "Editar Produto";
 
-  // preencher campos
   f_nome.value = produtoAtual.nome;
   f_preco.value = produtoAtual.preco;
   f_categoria.value = produtoAtual.categoria;
   f_estoque.value = produtoAtual.estoque;
   f_descricao.value = produtoAtual.descricao;
+
   f_promocao.checked = produtoAtual.promocao === "sim";
   f_precoPromo.value = produtoAtual.precoPromo || "";
 
@@ -60,16 +65,14 @@ function abrir(id){
 }
 
 // =====================
-// NOVO PRODUTO
+// NOVO
 // =====================
 function novoProduto(){
   produtoAtual = null;
   imagemAtual = "";
 
   document.getElementById("modal").classList.remove("hidden");
-  document.getElementById("modal-title").innerText = "Novo Produto";
 
-  // limpar
   f_nome.value = "";
   f_preco.value = "";
   f_categoria.value = "";
@@ -93,22 +96,30 @@ function fechar(){
 // =====================
 async function salvar(){
 
-  const payload = {
-    tipo: produtoAtual ? undefined : "produto",
-    action: produtoAtual ? "editarProduto" : undefined,
-    id: produtoAtual ? produtoAtual.id : undefined,
-
-    nome: f_nome.value,
-    preco: Number(f_preco.value),
-    categoria: f_categoria.value,
-    estoque: Number(f_estoque.value),
-    descricao: f_descricao.value,
-
-    promocao: f_promocao.checked,
-    precoPromo: Number(f_precoPromo.value),
-
-    imagem: imagemAtual
-  };
+  const payload = produtoAtual
+  ? {
+      action:"editarProduto",
+      id: produtoAtual.id,
+      nome: f_nome.value,
+      preco: Number(f_preco.value),
+      categoria: f_categoria.value,
+      estoque: Number(f_estoque.value),
+      descricao: f_descricao.value,
+      promocao: f_promocao.checked,
+      precoPromo: Number(f_precoPromo.value),
+      imagem: imagemAtual
+    }
+  : {
+      tipo:"produto",
+      nome: f_nome.value,
+      preco: Number(f_preco.value),
+      categoria: f_categoria.value,
+      estoque: Number(f_estoque.value),
+      descricao: f_descricao.value,
+      promocao: f_promocao.checked,
+      precoPromo: Number(f_precoPromo.value),
+      imagem: imagemAtual
+    };
 
   await fetch(API,{
     method:"POST",
@@ -120,10 +131,12 @@ async function salvar(){
 }
 
 // =====================
-// UPLOAD (DRAG OU CLICK)
+// UPLOAD
 // =====================
 const drop = document.getElementById("drop");
 const fileInput = document.getElementById("fileInput");
+
+drop.onclick = () => fileInput.click();
 
 drop.ondragover = e => e.preventDefault();
 
@@ -137,6 +150,7 @@ fileInput.onchange = e=>{
 };
 
 async function upload(file){
+
   if(!file) return;
 
   document.getElementById("status").innerText = "Enviando...";
@@ -155,6 +169,7 @@ async function upload(file){
   imagemAtual = data.secure_url;
 
   previewImagem(imagemAtual);
+
   document.getElementById("status").innerText = "Imagem pronta ✔";
 }
 
@@ -167,4 +182,5 @@ function previewImagem(url){
 }
 
 // =====================
+carregar();
 carregar();
