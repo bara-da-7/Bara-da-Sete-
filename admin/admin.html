@@ -3,20 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - Bará da Sete</title>
+<title>Painel Admin</title>
 <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 
 <div class="container">
 
-  <h1>Painel Admin</h1>
+<h1>Painel Admin</h1>
 
-  <div class="toolbar">
-    <button onclick="novoProduto()">+ Novo Produto</button>
-  </div>
+<button class="novo" onclick="novoProduto()">+ Novo Produto</button>
 
-  <div id="lista" class="grid"></div>
+<div id="lista"></div>
 
 </div>
 
@@ -24,7 +22,7 @@
 <div id="modal" class="modal hidden">
   <div class="modal-card">
 
-    <h2 id="modal-title">Editar Produto</h2>
+    <h2 id="titulo">Produto</h2>
 
     <input id="f_nome" placeholder="Nome">
     <input id="f_preco" placeholder="Preço">
@@ -32,20 +30,20 @@
     <input id="f_estoque" placeholder="Estoque">
     <textarea id="f_descricao" placeholder="Descrição"></textarea>
 
-    <div class="row">
-      <label><input type="checkbox" id="f_promocao"> Em promoção</label>
-      <input id="f_precoPromo" placeholder="Preço promocional">
-    </div>
+    <label>
+      <input type="checkbox" id="f_promocao"> Promoção
+    </label>
 
-    <!-- UPLOAD -->
+    <input id="f_precoPromo" placeholder="Preço promocional">
+
     <div class="upload">
-      <p id="status">Arraste imagem ou clique abaixo</p>
-      <div id="drop" class="drop">Arraste aqui</div>
-      <input type="file" id="fileInput" accept="image/*">
-      <div id="preview" class="preview"></div>
+      <p id="status">Envie imagem</p>
+      <div id="drop">Arraste ou clique</div>
+      <input type="file" id="fileInput">
+      <div id="preview"></div>
     </div>
 
-    <div class="actions">
+    <div class="acoes">
       <button onclick="salvar()">Salvar</button>
       <button onclick="fechar()">Cancelar</button>
     </div>
