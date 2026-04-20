@@ -1,41 +1,42 @@
-const CONFIG = {
-  API_URL: "https://script.google.com/macros/s/AKfycbxGgjW2-E0wwkcNhRdxk8PtelGe3OXmMRM9USaraHtMGRCyn5niukym3Qr5zbHAFAZ5/exec",
-  CLOUDINARY_UPLOAD_URL: "https://api.cloudinary.com/v1_1/dy61d0gt8/upload",
-  CLOUDINARY_PRESET: "ml_padrao"
+const CLOUD = {
+  cloudName: "dy61d0gt8",
+  preset: "ml_padrao"
 };
 
-async function uploadImage(file){
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", CONFIG.CLOUDINARY_PRESET);
+const drop = document.getElementById("drop");
 
-  const res = await fetch(CONFIG.CLOUDINARY_UPLOAD_URL,{
+drop.ondragover = e => e.preventDefault();
+
+drop.ondrop = async e => {
+  e.preventDefault();
+
+  const file = e.dataTransfer.files[0];
+  const id = document.getElementById("id").value;
+
+  if(!file || !id){
+    alert("Informe ID e imagem");
+    return;
+  }
+
+  const form = new FormData();
+  form.append("file", file);
+  form.append("upload_preset", CLOUD.preset);
+
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD.cloudName}/image/upload`,{
     method:"POST",
-    body: formData
+    body:form
   });
 
   const data = await res.json();
-  return data.secure_url;
-}
 
-async function addProduct(){
-  const name = document.getElementById("name").value;
-  const price = document.getElementById("price").value;
-  const stock = document.getElementById("stock").value;
-  const file = document.getElementById("file").files[0];
-
-  const img = await uploadImage(file);
-
-  await fetch(CONFIG.API_URL,{
+  await fetch("SUA_API_AQUI",{
     method:"POST",
     body: JSON.stringify({
-      action:"addProduct",
-      name,
-      price,
-      stock,
-      img
+      action:"updateImage",
+      id,
+      img:data.secure_url
     })
   });
 
-  alert("Produto salvo!");
-}
+  alert("Imagem enviada!");
+};
