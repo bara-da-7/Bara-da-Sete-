@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f8f8f8;
+  background: #f7f7f7;
   color: #111;
 }
 
@@ -11,28 +11,36 @@ body {
   background: white;
 }
 
-.logo {
+.logo-placeholder {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+  background: #8b0000;
+  color: white;
+  font-size: 42px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
 }
 
 .hero h1 {
   font-size: 42px;
-  margin: 15px 0 5px;
   color: #8b0000;
+  margin: 15px 0 5px;
 }
 
 .hero p {
-  font-size: 22px;
-  margin: 0 0 20px;
+  font-size: 20px;
+  margin-bottom: 20px;
 }
 
 .social-buttons {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 20px;
 }
 
 .social-buttons a {
@@ -50,7 +58,6 @@ body {
   padding: 16px;
   border-radius: 16px;
   border: 1px solid #ddd;
-  font-size: 16px;
   box-sizing: border-box;
 }
 
@@ -78,11 +85,11 @@ body {
 
 .produto-card {
   background: white;
-  border-radius: 24px;
+  border-radius: 22px;
   padding: 14px;
+  border: 2px solid #8b0000;
   box-shadow: 0 5px 18px rgba(0,0,0,0.08);
   position: relative;
-  border: 2px solid #8b0000;
 }
 
 .produto-card img {
@@ -96,18 +103,18 @@ body {
 .badge-promocao {
   position: absolute;
   top: 12px;
-  right: -30px;
+  right: -32px;
   transform: rotate(45deg);
   background: #c00000;
   color: white;
-  padding: 6px 35px;
-  font-size: 12px;
+  padding: 6px 36px;
+  font-size: 11px;
   font-weight: bold;
 }
 
 .preco-antigo {
   text-decoration: line-through;
-  color: #888;
+  color: #777;
 }
 
 .preco-promocional {
@@ -121,7 +128,6 @@ body {
   justify-content: center;
   align-items: center;
   gap: 14px;
-  margin-top: 10px;
 }
 
 .controles button {
@@ -132,6 +138,7 @@ body {
   background: #8b0000;
   color: white;
   font-size: 20px;
+  cursor: pointer;
 }
 
 #carrinho-flutuante {
@@ -144,10 +151,11 @@ body {
   border-radius: 40px;
   font-size: 20px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  cursor: pointer;
 }
 
 footer {
   text-align: center;
-  padding: 25px;
-  color: #666;
+  padding: 30px;
+  color: #777;
 }
