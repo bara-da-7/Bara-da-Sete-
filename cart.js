@@ -9,9 +9,7 @@ function removerCarrinho(id) {
   if (carrinho[id]) {
     carrinho[id]--;
 
-    if (carrinho[id] <= 0) {
-      delete carrinho[id];
-    }
+    if (carrinho[id] <= 0) delete carrinho[id];
   }
 
   salvarCarrinho();
@@ -35,8 +33,8 @@ function atualizarCarrinhoVisual() {
   });
 }
 
-function abrirCarrinho() {
-  window.location.href = "Confira/checkout.html";
-}
+window.abrirCarrinho = function () {
+  window.location.href = "checkout/checkout.html";
+};
 
 atualizarCarrinhoVisual();
