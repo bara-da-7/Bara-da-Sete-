@@ -16,9 +16,9 @@ function renderizarProdutos(produtos) {
   container.innerHTML = "";
 
   produtos.filter(p => p.ativo).forEach(produto => {
-    const imagem = produto.imagem || "https://via.placeholder.com/300";
+    const imagem = produto.imagem || "https://placehold.co/300x300";
 
-    const preco = produto.promocao
+    const precoHTML = produto.promocao
       ? `
         <p class="preco-antigo">R$ ${produto.preco}</p>
         <p class="preco-promocional">R$ ${produto.precopromo}</p>
@@ -34,9 +34,10 @@ function renderizarProdutos(produtos) {
 
     card.innerHTML = `
       ${badge}
-      <img src="${imagem}">
+      <img src="${imagem}" alt="${produto.nome}">
       <h3>${produto.nome}</h3>
-      ${preco}
+      <p>${produto.descricao}</p>
+      ${precoHTML}
       <div class="controles">
         <button onclick="removerCarrinho(${produto.id})">-</button>
         <span id="qtd-${produto.id}">0</span>
@@ -46,6 +47,8 @@ function renderizarProdutos(produtos) {
 
     container.appendChild(card);
   });
+
+  atualizarCarrinhoVisual();
 }
 
 function renderizarCategorias() {
@@ -55,9 +58,7 @@ function renderizarCategorias() {
   container.innerHTML = `<button class="categoria-btn" onclick="renderizarProdutos(produtosGlobais)">Todos</button>`;
 
   categorias.forEach(cat => {
-    container.innerHTML += `
-      <button class="categoria-btn" onclick="filtrarCategoria('${cat}')">${cat}</button>
-    `;
+    container.innerHTML += `<button class="categoria-btn" onclick="filtrarCategoria('${cat}')">${cat}</button>`;
   });
 }
 
@@ -68,22 +69,22 @@ function filtrarCategoria(cat) {
 document.getElementById("busca").addEventListener("input", e => {
   const termo = e.target.value.toLowerCase();
 
-  const filtrados = produtosGlobais.filter(p =>
-    p.nome.toLowerCase().includes(termo)
+  renderizarProdutos(
+    produtosGlobais.filter(p =>
+      p.nome.toLowerCase().includes(termo)
+    )
   );
-
-  renderizarProdutos(filtrados);
 });
 
 document.getElementById("footer-admin").addEventListener("click", () => {
   footerClicks++;
 
   if (footerClicks >= 10) {
-    const login = prompt("Login:");
-    const senha = prompt("Senha:");
+    const login = prompt("Login");
+    const senha = prompt("Senha");
 
     if (login === "99861309" && senha === "1069") {
-      window.location.href = "administrador/admin.html";
+      window.location.href = "admin/admin.html";
     } else {
       alert("Acesso negado");
     }
