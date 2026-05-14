@@ -1,83 +1,52 @@
-const CONFIG = {
-  API_URL: "https://script.google.com/macros/s/AKfycbxGgjW2-E0wwkcNhRdxk8PtelGe3OXmMRM9USaraHtMGRCyn5niukym3Qr5zbHAFAZ5/exec"
-};
+const API_URL = "https://script.google.com/macros/s/AKfycbz5uomZ43QCq9qZsr-OyJA-IhfC8zOMquZN5Yy73hBBh84F5kf3ZDr2kLXW7ovGCAh7/exec?action=produtos";
 
-let allProducts = [];
-
-async function loadProducts(){
+async function carregarProdutos() {
   try {
-    const res = await fetch(CONFIG.API_URL + "?action=getProducts");
-    const data = await res.json();
+    const response = await fetch(API_URL);
+    const produtos = await response.json();
 
-    allProducts = Array.isArray(data) ? data : [];
+    const container = document.getElementById("produtos");
+    container.innerHTML = "";
 
-    document.getElementById("skeleton")?.remove();
-    renderProducts(allProducts);
+    produtos
+      .filter(produto => produto.ativo === true)
+      .forEach(produto => {
+        const imagem = produto.imagem || "https://via.placeholder.com/300x220?text=Produto";
 
-  } catch (err) {
-    console.error("Erro ao carregar produtos", err);
-  }
-}
+        let precoHTML = `<p class="preco-normal">R$ ${produto.preco}</p>`;
+        let badge = "";
 
-function renderProducts(list){
-  const el = document.getElementById("products");
-  el.innerHTML = "";
+        if (produto.promocao) {
+          badge = `<span class="badge-promocao">PROMOÇÃO</span>`;
 
-  list.forEach(p=>{
-    if(p.ativo !== "sim") return;
-
-    el.innerHTML += `
-      <div class="product">
-        <img src="${p.imagem || ''}">
-        <h3>${p.nome}</h3>
-
-        ${
-          p.promocao === "sim"
-          ? `<p><s>R$ ${p.preco}</s> <b>R$ ${p.precoPromo}</b></p>`
-          : `<p>R$ ${p.preco}</p>`
+          precoHTML = `
+            <p class="preco-antigo">R$ ${produto.preco}</p>
+            <p class="preco-promocional">R$ ${produto.precopromo}</p>
+          `;
         }
 
-        <div class="qty">
-          <button onclick='addToCart(${JSON.stringify(p)})'>+</button>
-          <span>${getQty(p.id)}</span>
-          <button onclick='removeOne(${p.id})'>-</button>
-        </div>
-      </div>
-    `;
-  });
-}
+        const card = document.createElement("div");
+        card.classList.add("produto-card");
 
-function filterProducts(){
-  const input = document.getElementById("search");
-  if(!input) return;
+        card.innerHTML = `
+          ${badge}
+          <img src="${imagem}" alt="${produto.nome}">
+          <h3>${produto.nome}</h3>
+          <p>${produto.descricao}</p>
+          ${precoHTML}
+          <button onclick="adicionarCarrinho(${produto.id})">Comprar</button>
+        `;
 
-  const term = input.value.toLowerCase();
+        container.appendChild(card);
+      });
 
-  const filtered = allProducts.filter(p =>
-    p && p.name && p.name.toLowerCase().includes(term)
-  );
-
-  renderProducts(filtered);
-}
-
-function getQty(id){
-  if(!Array.isArray(cart)) return 0;
-
-  const item = cart.find(i=>i.id===id);
-  return item ? item.qtd : 0;
-}
-
-/* ADMIN */
-let clicks = 0;
-function adminClick(){
-  clicks++;
-  if(clicks >= 10){
-    const senha = prompt("Senha:");
-    if(senha === "1069"){
-      window.location.href = "admin/admin.html";
-    }
-    clicks = 0;
+  } catch (error) {
+    console.error("Erro ao carregar produtos", error);
   }
 }
 
-loadProducts();
+function adicionarCarrinho(id) {
+  alert("Produto " + id + " adicionado ao carrinho");
+}
+
+carregarProdutos();
