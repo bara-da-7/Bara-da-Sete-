@@ -1,126 +1,153 @@
-:root{
-  --bg:#f5f7fa;
-  --card:#fff;
-  --primary:#0f172a;
-  --accent:#b08d57;
-  --blue:#2563eb;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f8f8f8;
+  color: #111;
 }
 
-body{
-  margin:0;
-  font-family:Inter, sans-serif;
-  background:var(--bg);
+.hero {
+  text-align: center;
+  padding: 30px 20px;
+  background: white;
 }
 
-/* HERO */
-.hero{
-  background:linear-gradient(140deg,#0f172a,#1e293b);
-  color:#fff;
-  text-align:center;
-  padding:40px 20px;
+.logo {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.12);
 }
 
-/* SEARCH */
-.search-box{
-  padding:15px;
-  margin-top:-25px;
-}
-.search-box input{
-  width:100%;
-  padding:14px;
-  border-radius:30px;
-  border:none;
-  box-shadow:0 8px 20px rgba(0,0,0,.08);
+.hero h1 {
+  font-size: 42px;
+  margin: 15px 0 5px;
+  color: #8b0000;
 }
 
-/* GRID */
-.products{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
-  padding:15px;
+.hero p {
+  font-size: 22px;
+  margin: 0 0 20px;
 }
 
-/* CARD */
-.product{
-  background:#fff;
-  border-radius:20px;
-  padding:10px;
-  box-shadow:0 10px 25px rgba(0,0,0,.05);
-  animation:fadeIn .4s ease;
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
 }
 
-.product img{
-  width:100%;
-  height:150px;
-  object-fit:cover;
-  border-radius:15px;
+.social-buttons a {
+  text-decoration: none;
+  color: #111;
+  font-weight: bold;
 }
 
-/* BADGE */
-.badge{
-  position:absolute;
-  background:#2563eb;
-  color:#fff;
-  padding:5px 10px;
-  border-radius:10px;
-  font-size:11px;
+.busca-container {
+  padding: 20px;
 }
 
-/* QTD */
-.qty{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.qty button{
-  width:32px;
-  height:32px;
-  border-radius:50%;
-  border:none;
-  background:var(--blue);
-  color:#fff;
+#busca {
+  width: 100%;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  box-sizing: border-box;
 }
 
-/* CART FAB */
-.cart-fab{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#2563eb;
-  color:#fff;
-  padding:15px;
-  border-radius:50px;
-  box-shadow:0 10px 20px rgba(0,0,0,.2);
+#categorias {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin-top: 12px;
 }
 
-/* CART */
-.cart{
-  position:fixed;
-  right:-100%;
-  top:0;
-  width:320px;
-  height:100%;
-  background:#fff;
-  transition:.4s;
-  padding:20px;
-}
-.cart.active{right:0}
-
-/* SKELETON */
-.card-skeleton{
-  height:200px;
-  background:linear-gradient(90deg,#eee,#ddd,#eee);
-  border-radius:20px;
-  animation:loading 1.2s infinite;
+.categoria-btn {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: #eee;
+  cursor: pointer;
 }
 
-@keyframes loading{
-  0%{background-position:-200px}
-  100%{background-position:200px}
+#produtos {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  padding: 20px;
 }
 
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1}
+.produto-card {
+  background: white;
+  border-radius: 24px;
+  padding: 14px;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+  position: relative;
+  border: 2px solid #8b0000;
+}
+
+.produto-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 14px;
+  background: #eee;
+}
+
+.badge-promocao {
+  position: absolute;
+  top: 12px;
+  right: -30px;
+  transform: rotate(45deg);
+  background: #c00000;
+  color: white;
+  padding: 6px 35px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.preco-antigo {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.preco-promocional {
+  color: #c00000;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.controles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.controles button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #8b0000;
+  color: white;
+  font-size: 20px;
+}
+
+#carrinho-flutuante {
+  position: fixed;
+  bottom: 25px;
+  right: 20px;
+  background: #8b0000;
+  color: white;
+  padding: 18px 22px;
+  border-radius: 40px;
+  font-size: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #666;
 }
